@@ -1,5 +1,5 @@
 import sys
-from Matrix import Matrix
+import Matrix as M
 
 
 def get_size(obj, seen=None):
@@ -24,7 +24,21 @@ def get_size(obj, seen=None):
 
 
 d = [[2, 1], [2, 1]]
+st = [[2, 1], [2, 1], [2, 1]]
 nrow = 2
 ncol = 2
-z = Matrix(nrow=nrow, ncol=ncol, data=d)
-p = Matrix(nrow=nrow, ncol=ncol, data=d)
+z = M.Matrix(nrow=nrow, ncol=ncol, data=d)
+p = M.Matrix(nrow=nrow, ncol=ncol, data=d)
+r = M.Matrix(nrow=3, ncol=2, data=st)
+try:
+    print(z)
+    print(r)
+    z.invertMatrix()
+    print(z)
+    zero = M.identityMatrix(3, 2)
+    print(zero)
+
+except M.incompaitableTypeException as e:
+    print("incorrect dimensions")
+except M.nonInvertibleException as e:
+    print("singular matrix")
