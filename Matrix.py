@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-# -*- coding : UTF-8 -*-
+# -*- coding : UTF-8 -*- 
 """
 ------------------ Brief Documentation --------------------
 Author      : Abhishek Ulayil
 Contents    : 3 Exceptions , 2 classes , 25 methods
 Description : A simple matrix manipulation library  
 Encoding    : UTF-8
-Version     : 0.3.21
+Version     : 0.5.35
 ------------------------------------------------------------
 """
 import sys
@@ -22,24 +22,29 @@ class incompaitableTypeException(Exception):
 
 class nonInvertibleException(Exception):
     pass
+
 class matrixData(object):
     def __init__(self,nrow,ncol,data):
-        self.__dict__['nrow'] = nrow
-        self.__dict__['ncol'] = ncol
-        self.__dict__['dimensions'] = [nrow,ncol]
-        self.__dict__['data'] = data
-        self.__dict__['invertibility'] = None
-        self.__dict__['determinant'] = None
-        self.__dict__['singular'] = None
-        self.__dict__['eigenvals'] = []
-        self.__dict__['eigenvects'] = []
-        self.__dict__['rank'] = None
+        self.nrow = nrow
+        self.ncol = ncol
+        self.dimensions = [nrow,ncol]
+        self.data = data
+        self.invertibility = None
+        self.determinant = None
+        self.singular = None
+        self.eigenvals = []
+        self.eigenvects = []
+        self.rank = None
 
     def __setattr__(self, key, value):
         self.__dict__[key] = value
 
     def __getattr__(self, key):
-        return self.__dict__[key]
+        try:
+            return self.__dict__[key]
+        except KeyError:
+            raise AttributeError(key)
+        
 
     def __delattr__(self, key):
         del self.__dict__[key]
@@ -140,6 +145,7 @@ class Matrix:
                 self.matrix.determinant=0
                 self.matrix.singular=True
                 raise nonInvertibleException
+
     def verify(self, m2):
         matrixs = []
         m1=self.matrix.data
@@ -164,20 +170,60 @@ class Matrix:
         else:
             return False
 
+
+    def row_mult(self,row, num):
+        return [x * num for x in row]
+
+    def row_sub(self,row_left, row_right):
+        return [a - b for (a, b) in zip(row_left, row_right)]
+
     def rowEchleonTransform(self):
-        pass
+        zx = self.copy()
+        temp_mtx= zx.matrix.data
+        def echelonify(rw, col):
+            for i, row in enumerate(temp_mtx[(col+1):]):
+                i += 1
+                if rw[col] == 0: continue
+                temp_mtx[i+col] = self.row_sub(row, self.row_mult(rw, row[col] / rw[col]))      
+        for i in range(len(self.matrix.data)):
+            active_row = temp_mtx[i]
+            echelonify(active_row, i)
+            temp_mtx = [[(0 if (0.0000000001 > x > -0.0000000001) else x) for x in row] for row in temp_mtx]
+        s=Matrix(nrow=self.matrix.nrow,ncol=self.matrix.ncol,data=temp_mtx)
+        return s
 
     def RrowEchleonTransform(self):
         pass
 
     def copy(self):
         return copy.deepcopy(self)
+        
 
     def transposeTransform(self):
-        pass
-
+        c=[]
+        for i in range(self.matrix.ncol):
+            c.append([])
+            for j in range(self.matrix.nrow):
+                c[i].append(self.matrix.data[i][j])
+        s=Matrix(nrow=self.matrix.ncol,ncol=self.matrix.nrow,data=c)
+        return s
+        
     def vectorMultiplication(self, v1):
-        pass
+        if(self.matrix.nrow!=len(v1)):
+            raise incompaitableTypeException
+        else:
+            vector=v1
+            matrix=self.matrix.data
+            c=[]
+            sum=0
+            for i in range(self.matrix.nrow):
+                c.append([])
+                for j in range(self.matrix.ncol):
+                    sum += matrix[j][i]*vector[j]
+                c[i].append(sum)
+                sum=0
+            p=Matrix(ncol=1,nrow=len(v1),data=c)
+            return p
 
     def scaleMatrix(self, scalar):
         for i in range(self.matrix.nrow):

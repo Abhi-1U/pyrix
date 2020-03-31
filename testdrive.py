@@ -23,7 +23,7 @@ def get_size(obj, seen=None):
     return size
 
 
-d = [[2, 1], [2, 1]]
+d = [[2, 3], [2, 11]]
 st = [[2, 1], [2, 1], [2, 1]]
 nrow = 2
 ncol = 2
@@ -33,10 +33,15 @@ r = M.Matrix(nrow=3, ncol=2, data=st)
 try:
     print(z)
     print(r)
-    z.invertMatrix()
-    print(z)
+    v1 = [1, 1]
+    x = z.vectorMultiplication(v1)
+    print(x)
+
+    f = z.rowEchleonTransform()
+    print(f)
     zero = M.identityMatrix(3, 2)
     print(zero)
+
 
 except M.incompaitableTypeException as e:
     print("incorrect dimensions")
