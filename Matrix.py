@@ -204,7 +204,7 @@ class Matrix:
         for i in range(self.matrix.ncol):
             c.append([])
             for j in range(self.matrix.nrow):
-                c[i].append(self.matrix.data[i][j])
+                c[i].append(self.matrix.data[j][i])
         s=Matrix(nrow=self.matrix.ncol,ncol=self.matrix.nrow,data=c)
         return s
         
