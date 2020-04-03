@@ -32,9 +32,9 @@ p = M.Matrix(nrow=nrow, ncol=ncol, data=d)
 r = M.Matrix(nrow=3, ncol=2, data=st)
 try:
     print(z)
-    f = z.transposeTransform()
+    f = z/p
     print(f)
 except M.incompaitableTypeException as e:
-    print("incorrect dimensions")
+    print(e)
 except M.nonInvertibleException as e:
-    print("singular matrix")
+    print(e)

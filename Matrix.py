@@ -6,22 +6,41 @@ Author      : Abhishek Ulayil
 Contents    : 3 Exceptions , 2 classes , 25 methods
 Description : A simple matrix manipulation library  
 Encoding    : UTF-8
-Version     : 0.5.35
+Version     : 0.6.75
 ------------------------------------------------------------
 """
 import sys
 import copy
+import functools
+import argparse
+import os
 
+__version__="0.6.55"
 
-class divisionErrorException(Exception):
-    pass
+class ExceptionTemplate(Exception):
+    def __call__(self, *args):
+        return self.__class__(*(self.args + args))
+
+    def __str__(self):
+        return ': '.join(self.args)
+
+class divisionErrorException(ExceptionTemplate):
+    """Can Matrices be Divided ?"""
+    
+        
 
 
 class incompaitableTypeException(Exception):
-    pass
+    """If you come across this Exception then the issue is probably out of these three cases:
+        Case 1: The dimensions of matrices dont match for the operation to happen
+        Case 2: The matrix is not a square matrix
+        Case 3: The matrices do not satisfy the condition for multiplication 
+    """ 
+    
 
 class nonInvertibleException(Exception):
-    pass
+    """Matrix is not invertible due to its singular nature and determinant being zero"""
+    
 
 class matrixData(object):
     def __init__(self,nrow,ncol,data):
@@ -91,7 +110,7 @@ class Matrix:
 
     def __mul__(self, m2):
         if (self.matrix.ncol!=m2.matrix.nrow):
-            raise divisionErrorException
+            raise incompaitableTypeException
         else:
             m3=[[0 for x in range(m2.matrix.ncol)] for y in range(self.matrix.nrow)]
             sum=0
@@ -104,8 +123,8 @@ class Matrix:
         s=Matrix(nrow=self.matrix.nrow,ncol=m2.matrix.ncol,data=m3)
         return s
 
-    def __div__(self, m2):
-        raise divisionErrorException
+    def __truediv__(self, m2):
+        raise divisionErrorException("Can Matrices be divided ?")
 
     def __eq__(self, m2):
         if((self.matrix.dimensions == m2.matrix.dimensions)and(self.matrix.data == m2.matrix.data)):
@@ -240,7 +259,13 @@ class Matrix:
 
     def eigenTerms(self):
         pass
-
+    
+    def dotProduct(self,m2):
+        sum=0
+        for row in range(self.matrix.nrow):
+            for col in range(self.matrix.ncol):
+                 sum+=self.matrix.data[row][col] * m2.matrix.data[row][col]
+        return sum
     __repr__ = __str__
 
 
