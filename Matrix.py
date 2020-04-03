@@ -15,7 +15,7 @@ import functools
 import argparse
 import os
 
-__version__="0.6.55"
+
 
 class ExceptionTemplate(Exception):
     def __call__(self, *args):
