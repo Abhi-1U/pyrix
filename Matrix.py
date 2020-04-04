@@ -6,7 +6,7 @@ Author      : Abhishek Ulayil
 Contents    : 3 Exceptions , 2 classes , 25 methods
 Description : A simple matrix manipulation library  
 Encoding    : UTF-8
-Version     : 0.6.75
+Version     : 0.7.95
 ------------------------------------------------------------
 """
 import sys
@@ -189,12 +189,18 @@ class Matrix:
         else:
             return False
 
-
+    def row_add(self,row_left,row_right):
+        return [a+b for (a,b) in zip(row_left,row_right)]
     def row_mult(self,row, num):
         return [x * num for x in row]
-
     def row_sub(self,row_left, row_right):
         return [a - b for (a, b) in zip(row_left, row_right)]
+
+    def addRow(self,index1,m2,index2):
+        self.row_add(self.matrix.data[index1],m2.matrix.data[index2])
+
+    def subRow(self, index1, m2, index2):
+        self.row_sub(self.matrix.data[index1], m2.matrix.data[index2])
 
     def rowEchleonTransform(self):
         zx = self.copy()
@@ -251,6 +257,7 @@ class Matrix:
 
     def determinantValue(self):
         pass
+
     def matrixRank(self):
         pass
 
