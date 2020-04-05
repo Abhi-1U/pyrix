@@ -6,7 +6,7 @@ Author      : Abhishek Ulayil
 Contents    : 3 Exceptions , 2 classes , 25 methods
 Description : A simple matrix manipulation library  
 Encoding    : UTF-8
-Version     : 0.7.95
+Version     : 0.8.42
 ------------------------------------------------------------
 """
 import sys
@@ -201,6 +201,21 @@ class Matrix:
 
     def subRow(self, index1, m2, index2):
         self.row_sub(self.matrix.data[index1], m2.matrix.data[index2])
+    
+    def getRow(self,index):
+        temp=[[]]
+        for j in range(self.matrix.ncol):
+            temp[0].append(self.matrix.data[index][j])
+        s=Matrix(nrow=1,ncol=self.matrix.ncol,data=temp)
+        return s
+    
+    def getcol(self,index):
+        temp=[]
+        for i in range(self.matrix.nrow):
+            temp.append([])
+            temp[i].append(self.matrix.data[i][index])
+        s=Matrix(nrow=self.matrix.nrow,ncol=1,data=temp)
+        return s
 
     def rowEchleonTransform(self):
         zx = self.copy()
