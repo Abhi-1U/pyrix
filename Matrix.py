@@ -209,7 +209,7 @@ class Matrix:
         s=Matrix(nrow=1,ncol=self.matrix.ncol,data=temp)
         return s
     
-    def getcol(self,index):
+    def getCol(self,index):
         temp=[]
         for i in range(self.matrix.nrow):
             temp.append([])
