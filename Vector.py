@@ -1,3 +1,14 @@
+#!/usr/bin/python3
+# -*- coding : UTF-8 -*-
+"""
+------------------ Brief Documentation --------------------
+Author      : Abhishek Ulayil
+Contents    : 3 Exceptions , 2 classes , 25 methods
+Description : An extension to pyrix for vectors 
+Encoding    : UTF-8
+Version     : 0.0.12
+------------------------------------------------------------
+"""
 from Matrix import incompaitableTypeException, divisionErrorException
 
 
