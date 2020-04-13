@@ -24,15 +24,15 @@ def get_size(obj, seen=None):
 
 
 d = [[2, 3, 9], [2, 11, 5]]
-st = [[2, 1], [2, 1], [2, 1]]
+st = [[2, 4, 2], [2, 1, 1], [2, 1, 4]]
 nrow = 2
 ncol = 3
 z = M.Matrix(nrow=nrow, ncol=ncol, data=d)
 p = M.Matrix(nrow=nrow, ncol=ncol, data=d)
-r = M.Matrix(nrow=3, ncol=2, data=st)
+r = M.Matrix(nrow=3, ncol=3, data=st)
 try:
-    print(z)
-    f = z/p
+    print(r)
+    f = r.determinantValue()
     print(f)
 except M.incompaitableTypeException as e:
     print(e)

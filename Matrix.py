@@ -6,7 +6,7 @@ Author      : Abhishek Ulayil
 Contents    : 3 Exceptions , 2 classes , 25 methods
 Description : A simple matrix manipulation library  
 Encoding    : UTF-8
-Version     : 0.8.42
+Version     : 0.8.62
 ------------------------------------------------------------
 """
 import sys
@@ -64,6 +64,25 @@ class matrixData(object):
 
     def __delattr__(self, key):
         del self.__dict__[key]
+
+
+""" 
+Function List
+1.Initialization Matrix
+2.Add/Subtract/Multiply
+3.Equality Check
+4.Inversion
+5.Add_row,Sub_row,Multiply_row,getrow,getcol
+6.RowEchleonTransform
+7.Copy
+8.Transpose
+9.determinant
+10.Vector Multiplication
+11.scale 
+12.Strassen Multiplication
+13.Identity Matrix
+14.zero Matrix
+"""
 
 
 class Matrix:
@@ -136,6 +155,8 @@ class Matrix:
     def invertMatrix(self):
         if(self.matrix.nrow != self.matrix.ncol):
             raise incompaitableTypeException
+        if(self.matrix.invertibility == False):
+            pass
         else:
             AM = self.matrix.data
             IM = identityMatrix(self.matrix.nrow, self.matrix.ncol).matrix.data
@@ -274,7 +295,16 @@ class Matrix:
                 self.matrix.data[i][j] *= scalar
 
     def determinantValue(self):
-        pass
+        if(self.matrix.determinant == None):
+            determinant = determinantHelper(self.matrix.data)
+            self.matrix.determinant = determinant
+            if(determinant == 0):
+                self.matrix.invertibility = False
+                self.matrix.singular = True
+            return determinant
+        else:
+            pass
+            return self.matrix.determinant
 
     def matrixRank(self):
         pass
@@ -340,3 +370,20 @@ def identityMatrix(nrow, ncol):
         return s
     else:
         raise incompaitableTypeException
+
+
+def determinantHelper(x, sum=0):
+    count = list(range(len(x)))
+    if (len(x) == 2 and len(x[0]) == 2):
+        v = x[0][0]*x[1][1] - x[0][1]*x[1][0]
+        return v
+    for i in count:
+        cp = copy.deepcopy(x)
+        cp = cp[1:]
+        size = len(cp)
+        for h in range(size):
+            cp[h] = cp[h][0:i]+cp[h][i+1:]
+        sign = pow((-1), (i % 2))
+        subdet = determinantHelper(cp)
+        sum += x[0][i]*sign*subdet
+    return sum
