@@ -68,20 +68,22 @@ class matrixData(object):
 
 """ 
 Function List
-1.Initialization Matrix
-2.Add/Subtract/Multiply
-3.Equality Check
-4.Inversion
-5.Add_row,Sub_row,Multiply_row,getrow,getcol
-6.RowEchleonTransform
-7.Copy
-8.Transpose
-9.determinant
-10.Vector Multiplication
-11.scale 
-12.Strassen Multiplication
-13.Identity Matrix
-14.zero Matrix
+1. Initialization Matrix
+2. Add/Subtract/Multiply
+3. Equality Check
+4. Inversion
+5. Add_row,Sub_row,Multiply_row,getrow,getcol
+6. RowEchleonTransform
+7. Copy
+8. Transpose
+9. determinant
+10. Vector Multiplication
+11. scale 
+12. Strassen Multiplication
+13. Identity Matrix
+14. zero Matrix
+15. isSquareMatrix
+16. isInvertible
 """
 
 
@@ -151,6 +153,24 @@ class Matrix:
 
     def __floordiv__(self, m2):
         raise divisionErrorException
+
+    def isSquareMatrix(self):
+        if(self.matrix.nrow == self.matrix.ncol):
+            return True
+        else:
+            return False
+
+    def isInvertible(self):
+        if(self.matrix.singular == True and self.matrix.invertibility == False):
+            return False
+        if(not self.isSquareMatrix()):
+            return False
+        else:
+            self.determinantValue()
+            if(self.matrix.determinant == 0):
+                return False
+            else:
+                return True
 
     def invertMatrix(self):
         if(self.matrix.nrow != self.matrix.ncol):
