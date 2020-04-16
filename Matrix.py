@@ -258,6 +258,9 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=1, data=temp)
         return s
 
+    def scalarDivideRow(self, row, value):
+        return [(x/value) for x in row]
+
     def rowEchleonTransform(self):
         zx = self.copy()
         temp_mtx = zx.matrix.data
@@ -278,7 +281,21 @@ class Matrix:
         return s
 
     def RrowEchleonTransform(self):
-        pass
+        z = self.rowEchleonTransform().matrix.data
+        for i in range(len(z)):
+            if(z[i][i] != 1):
+                z[i] = self.scalarDivideRow(z[i], z[i][i])
+        if(self.matrix.nrow == self.matrix.ncol):
+            IM = identityMatrix(self.matrix.ncol, self.matrix.nrow)
+            while(z == IM.matrix.data):
+                for j in range(len(z)):
+                    for i in range(len(z[0])):
+                        if(j == i):
+                            continue
+                        if(z[j][i] != 0):
+                            self.row_sub(z[j], self.row_mult(z[i], z[i][j]))
+        s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=z)
+        return s
 
     def copy(self):
         return copy.deepcopy(self)

@@ -28,11 +28,10 @@ st = [[2, 4, 2], [2, 1, 1], [2, 1, 4]]
 nrow = 2
 ncol = 3
 z = M.Matrix(nrow=nrow, ncol=ncol, data=d)
-p = M.Matrix(nrow=nrow, ncol=ncol, data=d)
 r = M.Matrix(nrow=3, ncol=3, data=st)
 try:
     print(r)
-    f = r.determinantValue()
+    f = r.rowEchleonTransform()
     print(f)
 except M.incompaitableTypeException as e:
     print(e)
