@@ -6,7 +6,7 @@ Author      : Abhishek Ulayil
 Contents    : 3 Exceptions , 2 classes , 25 methods
 Description : A simple matrix manipulation library  
 Encoding    : UTF-8
-Version     : 0.8.62
+Version     : 0.8.73
 ------------------------------------------------------------
 """
 import sys
@@ -84,6 +84,8 @@ Function List
 14. zero Matrix
 15. isSquareMatrix
 16. isInvertible
+17. RoundOff
+18. Rank
 """
 
 
@@ -344,7 +346,17 @@ class Matrix:
             return self.matrix.determinant
 
     def matrixRank(self):
-        pass
+        x = self.RrowEchleonTransform()
+        rank = 0
+        for i in range(x.matrix.nrow):
+            for j in range(x.matrix.ncol):
+                if(x.matrix.data[i][j] == 0):
+                    pass
+                if(x.matrix.data[i][j] == 1):
+                    rank += 1
+                    break
+        self.matrix.rank = rank
+        return rank
 
     def strassenMultiplication(self, m1, m2):
         if(self.matrix.nrow != self.matrix.ncol and m2.matrix.nrow != m2.matrix.ncol):
@@ -373,6 +385,11 @@ class Matrix:
         M7 = (t1[0][1]-t1[1][1])*(t2[1][0]+t2[1][1])
         mtx = [[M1+M4-M5+M7, M3+M5], [M2+M4, M1-M2+M3+M6]]
         return mtx
+
+    def RoundOff(self, extent):
+        for i in range(self.matrix.nrow):
+            for j in range(self.matrix.ncol):
+                round(self.matrix.data[i][j], extent)
 
     def dotProduct(self, m2):
         sum = 0
