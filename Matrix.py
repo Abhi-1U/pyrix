@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 # -*- coding : UTF-8 -*-
 """
------------------- Brief Documentation --------------------
+------------------------ Brief Documentation -----------------------
 Author      : Abhishek Ulayil
-Contents    : 3 Exceptions , 2 classes , 25 methods
+Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods
 Description : A simple matrix manipulation library  
 Encoding    : UTF-8
-Version     : 0.8.73
-------------------------------------------------------------
+Version     : 0.8.75
+--------------------------------------------------------------------
 """
 import sys
 import copy
@@ -86,6 +86,7 @@ Function List
 16. isInvertible
 17. RoundOff
 18. Rank
+19. ReducedRowEchleonTransform
 """
 
 
@@ -106,6 +107,10 @@ class Matrix:
             str(self.matrix.dimensions[0])+"x"+str(self.matrix.dimensions[1])
         return stringV
 
+# Basic Operations on Matrices
+# 1. Add Matrix
+# Operator Overloading for adding Matrices
+
     def __add__(self, m2):
         if(self.matrix.dimensions != m2.matrix.dimensions):
             raise incompaitableTypeException
@@ -116,6 +121,9 @@ class Matrix:
                     temp[i][j] += m2.matrix.data[i][j]
             s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
             return s
+
+# 2. Subtract Matrix
+# Operator Overloading for subtracting Matrices
 
     def __sub__(self, m2):
         if(self.matrix.dimensions != m2.matrix.dimensions):
@@ -128,8 +136,11 @@ class Matrix:
             s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
             return s
 
+# 3. Multiply Matrix
+# Operator Overloading for Multiplyinging Matrices
+
     def __mul__(self, m2):
-        if (self.matrix.ncol != m2.matrix.nrow):
+        if (self.matrix.ncol != m2.matrix.nrow):  # checking Parameters
             raise incompaitableTypeException
         else:
             m3 = [[0 for x in range(m2.matrix.ncol)]
@@ -144,8 +155,21 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=m2.matrix.ncol, data=m3)
         return s
 
+# 4. Divide Matrix
+# A method just to avoid division by operator
+
     def __truediv__(self, m2):
         raise divisionErrorException("Can Matrices be divided ?")
+
+# 5. Divide Matrix
+# A method just to avoid floor division by operator
+    def __floordiv__(self, m2):
+        raise divisionErrorException
+
+# Methods for Matrix Analysis
+
+# 6.Equality
+# A method which overrides operator for chechking equality of two matrices
 
     def __eq__(self, m2):
         if((self.matrix.dimensions == m2.matrix.dimensions)and(self.matrix.data == m2.matrix.data)):
@@ -153,14 +177,17 @@ class Matrix:
         else:
             return False
 
-    def __floordiv__(self, m2):
-        raise divisionErrorException
+# 7. isSquareMatrix
+# a method to check if the matrix is square matrix or not
 
     def isSquareMatrix(self):
         if(self.matrix.nrow == self.matrix.ncol):
             return True
         else:
             return False
+
+# 8. isInvertible
+# a method to check if the matrix is invertible matrix or not
 
     def isInvertible(self):
         if(self.matrix.singular == True and self.matrix.invertibility == False):
@@ -173,6 +200,97 @@ class Matrix:
                 return False
             else:
                 return True
+
+# 9. copy
+# returns a deep copy of the matrix object
+
+    def copy(self):
+        return copy.deepcopy(self)
+
+# 10. getRow
+# returns a specified row
+
+    def getRow(self, index):
+        temp = [[]]
+        for j in range(self.matrix.ncol):
+            temp[0].append(self.matrix.data[index][j])
+        s = Matrix(nrow=1, ncol=self.matrix.ncol, data=temp)
+        return s
+
+# 11. getcol
+# returns a specified column
+
+    def getCol(self, index):
+        temp = []
+        for i in range(self.matrix.nrow):
+            temp.append([])
+            temp[i].append(self.matrix.data[i][index])
+        s = Matrix(nrow=self.matrix.nrow, ncol=1, data=temp)
+        return s
+
+# 12. RoundOff
+# rounds off all values to a certain degree
+
+    def RoundOff(self, extent):
+        for i in range(self.matrix.nrow):
+            for j in range(self.matrix.ncol):
+                round(self.matrix.data[i][j], extent)
+
+# 13. ScaleMatrix
+# scales matrix values with a scalar
+
+    def scaleMatrix(self, scalar):
+        for i in range(self.matrix.nrow):
+            for j in range(self.matrix.ncol):
+                self.matrix.data[i][j] *= scalar
+
+# 14. DeterminantValue
+# returns the determinant Value of the matrix
+
+    def determinantValue(self):
+        if(self.matrix.determinant == None):
+            determinant = determinantHelper(self.matrix.data)
+            self.matrix.determinant = determinant
+            if(determinant == 0):
+                self.matrix.invertibility = False
+                self.matrix.singular = True
+            return determinant
+        else:
+            pass
+            return self.matrix.determinant
+
+# 15. matrixRank
+# returns the rank of the matrix
+
+    def matrixRank(self):
+        x = self.RrowEchleonTransform()
+        rank = 0
+        for i in range(x.matrix.nrow):
+            for j in range(x.matrix.ncol):
+                if(x.matrix.data[i][j] == 0):
+                    pass
+                if(x.matrix.data[i][j] == 1):
+                    rank += 1
+                    break
+        self.matrix.rank = rank
+        return rank
+
+# Intermatrix Row and column operations
+
+# 16. addRow
+# adds row of matrix1 to row of matrix 2
+
+    def addRow(self, index1, m2, index2):
+        self.row_add(self.matrix.data[index1], m2.matrix.data[index2])
+
+# 17. subRow
+# subtracts row of matrix1 to row of matrix 2
+
+    def subRow(self, index1, m2, index2):
+        self.row_sub(self.matrix.data[index1], m2.matrix.data[index2])
+
+
+# Transformations on matrices
 
     def invertMatrix(self):
         if(self.matrix.nrow != self.matrix.ncol):
@@ -239,27 +357,6 @@ class Matrix:
     def row_sub(self, row_left, row_right):
         return [a - b for (a, b) in zip(row_left, row_right)]
 
-    def addRow(self, index1, m2, index2):
-        self.row_add(self.matrix.data[index1], m2.matrix.data[index2])
-
-    def subRow(self, index1, m2, index2):
-        self.row_sub(self.matrix.data[index1], m2.matrix.data[index2])
-
-    def getRow(self, index):
-        temp = [[]]
-        for j in range(self.matrix.ncol):
-            temp[0].append(self.matrix.data[index][j])
-        s = Matrix(nrow=1, ncol=self.matrix.ncol, data=temp)
-        return s
-
-    def getCol(self, index):
-        temp = []
-        for i in range(self.matrix.nrow):
-            temp.append([])
-            temp[i].append(self.matrix.data[i][index])
-        s = Matrix(nrow=self.matrix.nrow, ncol=1, data=temp)
-        return s
-
     def scalarDivideRow(self, row, value):
         return [(x/value) for x in row]
 
@@ -299,9 +396,6 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=z)
         return s
 
-    def copy(self):
-        return copy.deepcopy(self)
-
     def transposeTransform(self):
         c = []
         for i in range(self.matrix.ncol):
@@ -310,6 +404,8 @@ class Matrix:
                 c[i].append(self.matrix.data[j][i])
         s = Matrix(nrow=self.matrix.ncol, ncol=self.matrix.nrow, data=c)
         return s
+
+# additional Methods
 
     def vectorMultiplication(self, v1):
         if(self.matrix.nrow != len(v1)):
@@ -327,36 +423,6 @@ class Matrix:
                 sum = 0
             p = Matrix(ncol=1, nrow=len(v1), data=c)
             return p
-
-    def scaleMatrix(self, scalar):
-        for i in range(self.matrix.nrow):
-            for j in range(self.matrix.ncol):
-                self.matrix.data[i][j] *= scalar
-
-    def determinantValue(self):
-        if(self.matrix.determinant == None):
-            determinant = determinantHelper(self.matrix.data)
-            self.matrix.determinant = determinant
-            if(determinant == 0):
-                self.matrix.invertibility = False
-                self.matrix.singular = True
-            return determinant
-        else:
-            pass
-            return self.matrix.determinant
-
-    def matrixRank(self):
-        x = self.RrowEchleonTransform()
-        rank = 0
-        for i in range(x.matrix.nrow):
-            for j in range(x.matrix.ncol):
-                if(x.matrix.data[i][j] == 0):
-                    pass
-                if(x.matrix.data[i][j] == 1):
-                    rank += 1
-                    break
-        self.matrix.rank = rank
-        return rank
 
     def strassenMultiplication(self, m1, m2):
         if(self.matrix.nrow != self.matrix.ncol and m2.matrix.nrow != m2.matrix.ncol):
@@ -386,11 +452,6 @@ class Matrix:
         mtx = [[M1+M4-M5+M7, M3+M5], [M2+M4, M1-M2+M3+M6]]
         return mtx
 
-    def RoundOff(self, extent):
-        for i in range(self.matrix.nrow):
-            for j in range(self.matrix.ncol):
-                round(self.matrix.data[i][j], extent)
-
     def dotProduct(self, m2):
         sum = 0
         for row in range(self.matrix.nrow):
@@ -398,6 +459,10 @@ class Matrix:
                 sum += self.matrix.data[row][col] * m2.matrix.data[row][col]
         return sum
     __repr__ = __str__
+
+# Helper additional Methods
+# zeroMatrix
+# Creates a matrix with zeros of given shape and size
 
 
 def zeroMatrix(nrow, ncol):
@@ -408,6 +473,9 @@ def zeroMatrix(nrow, ncol):
             t[i].append(0)
     s = Matrix(nrow=nrow, ncol=ncol, data=t)
     return s
+
+# identityMatrix
+# Creates a matrix with zeros of given shape and size
 
 
 def identityMatrix(nrow, ncol):
@@ -424,6 +492,9 @@ def identityMatrix(nrow, ncol):
         return s
     else:
         raise incompaitableTypeException
+
+# determinant helper
+# helps with determinant calculations
 
 
 def determinantHelper(x, sum=0):
