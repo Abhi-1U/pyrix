@@ -10,6 +10,8 @@ try:
     print(r)
     f = r.RrowEchleonTransform()
     s = r.matrixRank()
+    f.RoundOff(2)
+    print(r.determinantValue())
     print(f)
     print(s)
 except M.incompaitableTypeException as e:

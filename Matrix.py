@@ -249,7 +249,7 @@ class Matrix:
 
     def determinantValue(self):
         if(self.matrix.determinant == None):
-            determinant = determinantHelper(self.matrix.data)
+            determinant = self.__determinantHelper(self.matrix.data)
             self.matrix.determinant = determinant
             if(determinant == 0):
                 self.matrix.invertibility = False
@@ -258,8 +258,25 @@ class Matrix:
         else:
             pass
             return self.matrix.determinant
+#15. determinant helper
+# helps with determinant calculations
+    def __determinantHelper(self, x, sum=0):
+        count = list(range(len(x)))
+        if (len(x) == 2 and len(x[0]) == 2):
+            v = x[0][0]*x[1][1] - x[0][1]*x[1][0]
+            return v
+        for i in count:
+            cp = copy.deepcopy(x)
+            cp = cp[1:]
+            size = len(cp)
+            for h in range(size):
+                cp[h] = cp[h][0:i]+cp[h][i+1:]
+            sign = pow((-1), (i % 2))
+            subdet = self.__determinantHelper(cp)
+            sum += x[0][i]*sign*subdet
+        return sum
 
-# 15. matrixRank
+# 16. matrixRank
 # returns the rank of the matrix
 
     def matrixRank(self):
@@ -275,22 +292,27 @@ class Matrix:
         self.matrix.rank = rank
         return rank
 
+
 # Intermatrix Row and column operations
 
-# 16. addRow
+# 17. addRow
 # adds row of matrix1 to row of matrix 2
 
-    def addRow(self, index1, m2, index2):
-        self.row_add(self.matrix.data[index1], m2.matrix.data[index2])
 
-# 17. subRow
+    def addRow(self, index1, m2, index2):
+        self.__row_add(self.matrix.data[index1], m2.matrix.data[index2])
+
+# 18. subRow
 # subtracts row of matrix1 to row of matrix 2
 
     def subRow(self, index1, m2, index2):
-        self.row_sub(self.matrix.data[index1], m2.matrix.data[index2])
+        self.__row_sub(self.matrix.data[index1], m2.matrix.data[index2])
 
 
 # Transformations on matrices
+
+# 19. Invert Matrix
+# returns a new object of inverted matrix
 
     def invertMatrix(self):
         if(self.matrix.nrow != self.matrix.ncol):
@@ -313,7 +335,7 @@ class Matrix:
                         AM[i][j] = AM[i][j] - crScaler * AM[fd][j]
                         IM[i][j] = IM[i][j] - crScaler * IM[fd][j]
 
-            if(self.verify(IM)):
+            if(self.__verify(IM)):
                 self.matrix.singular = False
                 for i in range(len(IM[i])):
                     for j in range(len(IM[i])):
@@ -324,7 +346,9 @@ class Matrix:
                 self.matrix.singular = True
                 raise nonInvertibleException
 
-    def verify(self, m2):
+# 20.Helper Method for inversion
+# Verifies the matrix for proper inversion 
+    def __verify(self, m2):
         matrixs = []
         m1 = self.matrix.data
         im = []
@@ -348,17 +372,28 @@ class Matrix:
         else:
             return False
 
-    def row_add(self, row_left, row_right):
+#21. micro method for adding rows
+
+    def __row_add(self, row_left, row_right):
         return [a+b for (a, b) in zip(row_left, row_right)]
 
-    def row_mult(self, row, num):
+#22. micro method for scaling rows
+
+    def __row_mult(self, row, num):
         return [x * num for x in row]
 
-    def row_sub(self, row_left, row_right):
+#23. micro method for subtracting rows
+
+    def __row_sub(self, row_left, row_right):
         return [a - b for (a, b) in zip(row_left, row_right)]
 
-    def scalarDivideRow(self, row, value):
+#24. micro method for dividng row with scalar
+
+    def __scalarDivideRow(self, row, value):
         return [(x/value) for x in row]
+
+#25.RowEchleonTransform
+#returns the rowechleon form of the matrix 
 
     def rowEchleonTransform(self):
         zx = self.copy()
@@ -369,8 +404,8 @@ class Matrix:
                 i += 1
                 if rw[col] == 0:
                     continue
-                temp_mtx[i+col] = self.row_sub(row,
-                                               self.row_mult(rw, row[col] / rw[col]))
+                temp_mtx[i+col] = self.__row_sub(row,
+                                                 self.__row_mult(rw, row[col] / rw[col]))
         for i in range(len(self.matrix.data)):
             active_row = temp_mtx[i]
             echelonify(active_row, i)
@@ -379,11 +414,14 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp_mtx)
         return s
 
+#26.RRowEchleonTransform
+#returns the reduced rowechleon form of the matrix 
+
     def RrowEchleonTransform(self):
         z = self.rowEchleonTransform().matrix.data
         for i in range(len(z)):
             if(z[i][i] != 1):
-                z[i] = self.scalarDivideRow(z[i], z[i][i])
+                z[i] = self.__scalarDivideRow(z[i], z[i][i])
         if(self.matrix.nrow == self.matrix.ncol):
             IM = identityMatrix(self.matrix.ncol, self.matrix.nrow)
             while(z == IM.matrix.data):
@@ -392,9 +430,13 @@ class Matrix:
                         if(j == i):
                             continue
                         if(z[j][i] != 0):
-                            self.row_sub(z[j], self.row_mult(z[i], z[i][j]))
+                            self.__row_sub(
+                                z[j], self.__row_mult(z[i], z[i][j]))
         s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=z)
         return s
+
+#27.transposeTransform
+#returns the transpose of the matrix 
 
     def transposeTransform(self):
         c = []
@@ -406,6 +448,9 @@ class Matrix:
         return s
 
 # additional Methods
+
+#28.vectorMultiplication
+#multiplication of vector as a matrix with another matrix
 
     def vectorMultiplication(self, v1):
         if(self.matrix.nrow != len(v1)):
@@ -424,22 +469,31 @@ class Matrix:
             p = Matrix(ncol=1, nrow=len(v1), data=c)
             return p
 
+#29.StrassenMultiplication
+#returns multiplication of two matrices with strassen method 
+
     def strassenMultiplication(self, m1, m2):
         if(self.matrix.nrow != self.matrix.ncol and m2.matrix.nrow != m2.matrix.ncol):
             raise incompaitableTypeException
         else:
             if self.matrix.nrow == 2:
-                return self.strassen2x2(m1, m2)
+                return self.__strassen2x2(m1, m2)
             else:
                 if(self.matrix.nrow % 2 == 0):
                     m1 = self
                     n = self.matrix.nrow
                     self.strassenMultiplication(m1, m2)
 
+#30.eigenTerms
+#returns the eigenValues and eigenVects of the matrix 
+
     def eigenTerms(self):
         pass
 
-    def strassen2x2(self, m1, m2):
+#25.RowEchleonTransform
+#returns the rowechleon form of the matrix 
+
+    def __strassen2x2(self, m1, m2):
         t1 = m1
         t2 = m2
         M1 = (t1[0][0]+t1[1][1])*(t2[0][0]+t2[1][1])
@@ -452,6 +506,9 @@ class Matrix:
         mtx = [[M1+M4-M5+M7, M3+M5], [M2+M4, M1-M2+M3+M6]]
         return mtx
 
+#25.RowEchleonTransform
+#returns the rowechleon form of the matrix
+
     def dotProduct(self, m2):
         sum = 0
         for row in range(self.matrix.nrow):
@@ -460,7 +517,8 @@ class Matrix:
         return sum
     __repr__ = __str__
 
-# Helper additional Methods
+# Quick Initialization  Methods
+
 # zeroMatrix
 # Creates a matrix with zeros of given shape and size
 
@@ -493,22 +551,3 @@ def identityMatrix(nrow, ncol):
     else:
         raise incompaitableTypeException
 
-# determinant helper
-# helps with determinant calculations
-
-
-def determinantHelper(x, sum=0):
-    count = list(range(len(x)))
-    if (len(x) == 2 and len(x[0]) == 2):
-        v = x[0][0]*x[1][1] - x[0][1]*x[1][0]
-        return v
-    for i in count:
-        cp = copy.deepcopy(x)
-        cp = cp[1:]
-        size = len(cp)
-        for h in range(size):
-            cp[h] = cp[h][0:i]+cp[h][i+1:]
-        sign = pow((-1), (i % 2))
-        subdet = determinantHelper(cp)
-        sum += x[0][i]*sign*subdet
-    return sum
