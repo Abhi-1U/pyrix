@@ -2,11 +2,11 @@
 # -*- coding : UTF-8 -*-
 """
 ------------------------ Brief Documentation -----------------------
-Author      : Abhishek Ulayil
-Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods
-Description : A simple matrix manipulation library  
-Encoding    : UTF-8
-Version     : 0.8.75
+Author      : Abhishek Ulayil\n
+Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
+Description : A simple matrix manipulation library  \n
+Encoding    : UTF-8\n
+Version     : 0.8.76 
 --------------------------------------------------------------------
 """
 import sys
@@ -29,10 +29,11 @@ class divisionErrorException(ExceptionTemplate):
 
 
 class incompaitableTypeException(Exception):
-    """If you come across this Exception then the issue is probably out of these three cases:
-        Case 1: The dimensions of matrices dont match for the operation to happen
-        Case 2: The matrix is not a square matrix
-        Case 3: The matrices do not satisfy the condition for multiplication 
+    """If you come across this Exception then the issue is probably out of these three cases:\n
+        Case 1: The dimensions of matrices dont match for the operation to happen\n
+        Case 2: The matrix is not a square matrix\n
+        Case 3: The matrices do not satisfy the condition for multiplication\n
+        Case 4: The Data of the Matrix is not of the Dimensions Given. 
     """
 
 
@@ -41,6 +42,21 @@ class nonInvertibleException(Exception):
 
 
 class matrixData(object):
+    """ All The Matrix Data is stored here which allows for implementing Dynamic Programming Principles such as Memoization:\n
+        Data List:
+        1.nrow[int]: Number of Rows
+        2.ncol[int]: Number of Columns
+        3.dimensions[list]: list format of nrow,ncol together
+        4.data[list]: All the Matrix Values stored in nested-list format
+        5.invertibility[Boolean]: returns True if matrix is invertible ,default-value=None
+        6.determinant[int]: stores determinant value,default-value=None
+        7.singular[Boolean]: returns False if matrix is invertible ,default-value=None
+        8.eigenvals[list]: list of eigen values
+        9.eigenvects[list]: list of eigen vectors
+        10.rank[int]: stores the rank of the matrix
+        11.triangularity[int]: returns 2 for upperT. ,1 for lowerT.,0 for No Triangularity 
+    """
+
     def __init__(self, nrow, ncol, data):
         self.nrow = nrow
         self.ncol = ncol
@@ -52,6 +68,7 @@ class matrixData(object):
         self.eigenvals = []
         self.eigenvects = []
         self.rank = None
+        self.triangularity = None
 
     def __setattr__(self, key, value):
         self.__dict__[key] = value
@@ -67,7 +84,7 @@ class matrixData(object):
 
 
 """ 
-Function List
+Function List:
 1. Initialization Matrix
 2. Add/Subtract/Multiply
 3. Equality Check
@@ -91,9 +108,18 @@ Function List
 
 
 class Matrix:
+    """ Get Started By Creating a Matrix Object\n
+        ncol=number of cols\n
+        nrow=number of rows\n
+        data=corresponding matrix data of the dimensions as a list\n
+        eg. mat = M.Matrix(nrow=2,ncol=2,data=[[1,1],[1,1]])\n
+    """
 
     def __init__(self, nrow=1, ncol=1, data=[1]):
-        self.matrix = matrixData(nrow=nrow, ncol=ncol, data=data)
+        if(len(data) == nrow, len(data[0] == ncol)):
+            self.matrix = matrixData(nrow=nrow, ncol=ncol, data=data)
+        else:
+            raise incompaitableTypeException
 
     def __repr__(self):
         pass
@@ -258,8 +284,9 @@ class Matrix:
         else:
             pass
             return self.matrix.determinant
-#15. determinant helper
+# 15. determinant helper
 # helps with determinant calculations
+
     def __determinantHelper(self, x, sum=0):
         count = list(range(len(x)))
         if (len(x) == 2 and len(x[0]) == 2):
@@ -292,12 +319,16 @@ class Matrix:
         self.matrix.rank = rank
         return rank
 
+    def isUpperTriangularMaatrix(self):
+        pass
+
+    def isLowerTriangularMatrix(self):
+        pass
 
 # Intermatrix Row and column operations
 
 # 17. addRow
 # adds row of matrix1 to row of matrix 2
-
 
     def addRow(self, index1, m2, index2):
         self.__row_add(self.matrix.data[index1], m2.matrix.data[index2])
@@ -308,11 +339,15 @@ class Matrix:
     def subRow(self, index1, m2, index2):
         self.__row_sub(self.matrix.data[index1], m2.matrix.data[index2])
 
+# IntraMatrix Row and Col Operations
+# Coming soon!
+
 
 # Transformations on matrices
 
 # 19. Invert Matrix
 # returns a new object of inverted matrix
+
 
     def invertMatrix(self):
         if(self.matrix.nrow != self.matrix.ncol):
@@ -347,7 +382,7 @@ class Matrix:
                 raise nonInvertibleException
 
 # 20.Helper Method for inversion
-# Verifies the matrix for proper inversion 
+# Verifies the matrix for proper inversion
     def __verify(self, m2):
         matrixs = []
         m1 = self.matrix.data
@@ -372,28 +407,28 @@ class Matrix:
         else:
             return False
 
-#21. micro method for adding rows
+# 21. micro method for adding rows
 
     def __row_add(self, row_left, row_right):
         return [a+b for (a, b) in zip(row_left, row_right)]
 
-#22. micro method for scaling rows
+# 22. micro method for scaling rows
 
     def __row_mult(self, row, num):
         return [x * num for x in row]
 
-#23. micro method for subtracting rows
+# 23. micro method for subtracting rows
 
     def __row_sub(self, row_left, row_right):
         return [a - b for (a, b) in zip(row_left, row_right)]
 
-#24. micro method for dividng row with scalar
+# 24. micro method for dividng row with scalar
 
     def __scalarDivideRow(self, row, value):
         return [(x/value) for x in row]
 
-#25.RowEchleonTransform
-#returns the rowechleon form of the matrix 
+# 25.RowEchleonTransform
+# returns the rowechleon form of the matrix
 
     def rowEchleonTransform(self):
         zx = self.copy()
@@ -414,8 +449,8 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp_mtx)
         return s
 
-#26.RRowEchleonTransform
-#returns the reduced rowechleon form of the matrix 
+# 26.RRowEchleonTransform
+# returns the reduced rowechleon form of the matrix
 
     def RrowEchleonTransform(self):
         z = self.rowEchleonTransform().matrix.data
@@ -435,8 +470,8 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=z)
         return s
 
-#27.transposeTransform
-#returns the transpose of the matrix 
+# 27.transposeTransform
+# returns the transpose of the matrix
 
     def transposeTransform(self):
         c = []
@@ -449,8 +484,8 @@ class Matrix:
 
 # additional Methods
 
-#28.vectorMultiplication
-#multiplication of vector as a matrix with another matrix
+# 28.vectorMultiplication
+# multiplication of vector as a matrix with another matrix
 
     def vectorMultiplication(self, v1):
         if(self.matrix.nrow != len(v1)):
@@ -469,8 +504,8 @@ class Matrix:
             p = Matrix(ncol=1, nrow=len(v1), data=c)
             return p
 
-#29.StrassenMultiplication
-#returns multiplication of two matrices with strassen method 
+# 29.StrassenMultiplication
+# returns multiplication of two matrices with strassen method
 
     def strassenMultiplication(self, m1, m2):
         if(self.matrix.nrow != self.matrix.ncol and m2.matrix.nrow != m2.matrix.ncol):
@@ -484,14 +519,14 @@ class Matrix:
                     n = self.matrix.nrow
                     self.strassenMultiplication(m1, m2)
 
-#30.eigenTerms
-#returns the eigenValues and eigenVects of the matrix 
+# 30.eigenTerms
+# returns the eigenValues and eigenVects of the matrix
 
     def eigenTerms(self):
         pass
 
-#25.RowEchleonTransform
-#returns the rowechleon form of the matrix 
+# 31.strassen2x2
+# helper method for 2x2matrix multiplications by strassen method
 
     def __strassen2x2(self, m1, m2):
         t1 = m1
@@ -506,8 +541,8 @@ class Matrix:
         mtx = [[M1+M4-M5+M7, M3+M5], [M2+M4, M1-M2+M3+M6]]
         return mtx
 
-#25.RowEchleonTransform
-#returns the rowechleon form of the matrix
+# 32.dotproduct
+# for vectors as matrix
 
     def dotProduct(self, m2):
         sum = 0
@@ -515,7 +550,9 @@ class Matrix:
             for col in range(self.matrix.ncol):
                 sum += self.matrix.data[row][col] * m2.matrix.data[row][col]
         return sum
+
     __repr__ = __str__
+
 
 # Quick Initialization  Methods
 
@@ -550,4 +587,3 @@ def identityMatrix(nrow, ncol):
         return s
     else:
         raise incompaitableTypeException
-
