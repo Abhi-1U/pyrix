@@ -4,7 +4,7 @@
 ------------------ Brief Documentation --------------------
 Author      : Abhishek Ulayil
 Contents    : 3 Exceptions , 2 classes , 25 methods
-Description : An extension to pyrix for vectors 
+Description : An extension to pyrix for vectors
 Encoding    : UTF-8
 Version     : 0.0.12
 ------------------------------------------------------------

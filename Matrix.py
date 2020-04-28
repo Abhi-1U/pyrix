@@ -6,7 +6,7 @@ Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.8.76 
+Version     : 0.8.76
 --------------------------------------------------------------------
 """
 import sys
@@ -29,11 +29,11 @@ class divisionErrorException(ExceptionTemplate):
 
 
 class incompaitableTypeException(Exception):
-    """If you come across this Exception then the issue is probably out of these three cases:\n
+    """If you come across this Exception then the issue is probably out of these four cases:\n
         Case 1: The dimensions of matrices dont match for the operation to happen\n
         Case 2: The matrix is not a square matrix\n
         Case 3: The matrices do not satisfy the condition for multiplication\n
-        Case 4: The Data of the Matrix is not of the Dimensions Given. 
+        Case 4: The Data of the Matrix is not of the Dimensions Given.
     """
 
 
@@ -54,7 +54,7 @@ class matrixData(object):
         8.eigenvals[list]: list of eigen values
         9.eigenvects[list]: list of eigen vectors
         10.rank[int]: stores the rank of the matrix
-        11.triangularity[int]: returns 2 for upperT. ,1 for lowerT.,0 for No Triangularity 
+        11.triangularity[int]: returns 2 for upperT. ,1 for lowerT.,0 for No Triangularity
     """
 
     def __init__(self, nrow, ncol, data):
@@ -83,7 +83,7 @@ class matrixData(object):
         del self.__dict__[key]
 
 
-""" 
+"""
 Function List:
 1. Initialization Matrix
 2. Add/Subtract/Multiply
@@ -95,7 +95,7 @@ Function List:
 8. Transpose
 9. determinant
 10. Vector Multiplication
-11. scale 
+11. scale
 12. Strassen Multiplication
 13. Identity Matrix
 14. zero Matrix
@@ -116,7 +116,7 @@ class Matrix:
     """
 
     def __init__(self, nrow=1, ncol=1, data=[1]):
-        if(len(data) == nrow, len(data[0] == ncol)):
+        if(len(data) == nrow, len(data[0]) == ncol):
             self.matrix = matrixData(nrow=nrow, ncol=ncol, data=data)
         else:
             raise incompaitableTypeException
@@ -145,7 +145,8 @@ class Matrix:
             for i in range(len(m2.matrix.data)):
                 for j in range(len(m2.matrix.data[i])):
                     temp[i][j] += m2.matrix.data[i][j]
-            s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
+            s = Matrix(nrow=self.matrix.nrow,
+                       ncol=self.matrix.ncol, data=temp)
             return s
 
 # 2. Subtract Matrix
@@ -159,7 +160,8 @@ class Matrix:
             for i in range(len(m2.matrix.data)):
                 for j in range(len(m2.matrix.data[i])):
                     temp[i][j] -= m2.matrix.data[i][j]
-            s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
+            s = Matrix(nrow=self.matrix.nrow,
+                       ncol=self.matrix.ncol, data=temp)
             return s
 
 # 3. Multiply Matrix
@@ -207,6 +209,10 @@ class Matrix:
 # a method to check if the matrix is square matrix or not
 
     def isSquareMatrix(self):
+        """ Checks if the Matrix is a square Matrix or not\n
+             A square matrix is a matrix with equal number of rows and cols\n
+             returns a Boolean value
+        """
         if(self.matrix.nrow == self.matrix.ncol):
             return True
         else:
@@ -260,7 +266,7 @@ class Matrix:
     def RoundOff(self, extent):
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
-                round(self.matrix.data[i][j], extent)
+                self.matrix.data[i][j] = round(self.matrix.data[i][j], extent)
 
 # 13. ScaleMatrix
 # scales matrix values with a scalar
@@ -297,7 +303,7 @@ class Matrix:
             cp = cp[1:]
             size = len(cp)
             for h in range(size):
-                cp[h] = cp[h][0:i]+cp[h][i+1:]
+                cp[h] = cp[h][0: i]+cp[h][i+1:]
             sign = pow((-1), (i % 2))
             subdet = self.__determinantHelper(cp)
             sum += x[0][i]*sign*subdet
@@ -364,7 +370,7 @@ class Matrix:
                 for j in range(len(AM)):
                     AM[fd][j] *= fdScaler
                     IM[fd][j] *= fdScaler
-                for i in list(range(len(AM)))[0:fd] + list(range(len(AM)))[fd+1:]:
+                for i in list(range(len(AM)))[0: fd] + list(range(len(AM)))[fd+1:]:
                     crScaler = AM[i][fd]
                     for j in range(len(AM)):
                         AM[i][j] = AM[i][j] - crScaler * AM[fd][j]
@@ -446,7 +452,8 @@ class Matrix:
             echelonify(active_row, i)
             temp_mtx = [[(0 if (0.0000000001 > x > -0.0000000001) else x)
                          for x in row] for row in temp_mtx]
-        s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp_mtx)
+        s = Matrix(nrow=self.matrix.nrow,
+                   ncol=self.matrix.ncol, data=temp_mtx)
         return s
 
 # 26.RRowEchleonTransform
