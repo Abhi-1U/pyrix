@@ -2,6 +2,7 @@
 # -*- coding : UTF-8 -*-
 """
 ------------------------ Brief Documentation -----------------------
+Name        : Pyrix\n
 Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
