@@ -222,6 +222,10 @@ class Matrix:
 # a method to check if the matrix is invertible matrix or not
 
     def isInvertible(self):
+        """ Checks if the Matrix is an Invertible Matrix or not\n
+             An Invertible matrix is a matrix with a non zero determinant \n
+             returns a Boolean value
+        """
         if(self.matrix.singular == True and self.matrix.invertibility == False):
             return False
         if(not self.isSquareMatrix()):
@@ -237,12 +241,18 @@ class Matrix:
 # returns a deep copy of the matrix object
 
     def copy(self):
+        """ Creates a DEEP(HARD) copy of the Matrix object\n
+            Returns a Matrix Object
+        """
         return copy.deepcopy(self)
 
 # 10. getRow
 # returns a specified row
 
     def getRow(self, index):
+        """Selects a Row of the matrix of specified index\n
+            Returns a list of the values
+        """
         temp = [[]]
         for j in range(self.matrix.ncol):
             temp[0].append(self.matrix.data[index][j])
@@ -253,6 +263,9 @@ class Matrix:
 # returns a specified column
 
     def getCol(self, index):
+        """Selects a Column of the matrix of specified index\n
+            Returns a list(or nested list) of the values
+        """
         temp = []
         for i in range(self.matrix.nrow):
             temp.append([])
@@ -264,6 +277,9 @@ class Matrix:
 # rounds off all values to a certain degree
 
     def RoundOff(self, extent):
+        """Rounds off the Value of the data in the matrix object to the given extent\n
+            Returns NoneType and should not be assigned to a variable
+        """
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
                 self.matrix.data[i][j] = round(self.matrix.data[i][j], extent)
@@ -354,7 +370,6 @@ class Matrix:
 # 19. Invert Matrix
 # returns a new object of inverted matrix
 
-
     def invertMatrix(self):
         if(self.matrix.nrow != self.matrix.ncol):
             raise incompaitableTypeException
@@ -440,7 +455,7 @@ class Matrix:
         zx = self.copy()
         temp_mtx = zx.matrix.data
 
-        def echelonify(rw, col):
+        def echleonS(rw, col):
             for i, row in enumerate(temp_mtx[(col+1):]):
                 i += 1
                 if rw[col] == 0:
@@ -449,7 +464,7 @@ class Matrix:
                                                  self.__row_mult(rw, row[col] / rw[col]))
         for i in range(len(self.matrix.data)):
             active_row = temp_mtx[i]
-            echelonify(active_row, i)
+            echleonS(active_row, i)
             temp_mtx = [[(0 if (0.0000000001 > x > -0.0000000001) else x)
                          for x in row] for row in temp_mtx]
         s = Matrix(nrow=self.matrix.nrow,
@@ -568,6 +583,9 @@ class Matrix:
 
 
 def zeroMatrix(nrow, ncol):
+    """Create a zero matrix of the given dimensions\n
+        Retuns a Matrix Object 
+    """
     t = []
     for i in range(nrow):
         t.append([])
@@ -581,6 +599,10 @@ def zeroMatrix(nrow, ncol):
 
 
 def identityMatrix(nrow, ncol):
+    """Create a identity matrix of the given dimensions\n
+        Works for square Matrices\n
+        Retuns a Matrix Object 
+    """
     if(nrow == ncol):
         t = []
         for i in range(nrow):
