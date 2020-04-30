@@ -289,6 +289,9 @@ class Matrix:
 # scales matrix values with a scalar
 
     def scaleMatrix(self, scalar):
+        """Scales the Value of the data in the matrix object by the scalar value\n
+            Returns NoneType and should not be assigned to a variable
+        """
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
                 self.matrix.data[i][j] *= scalar
@@ -297,6 +300,9 @@ class Matrix:
 # returns the determinant Value of the matrix
 
     def determinantValue(self):
+        """Determines the determinant value of the matrix object \n
+            Returns int or float depending on the outcome
+        """
         if(self.matrix.determinant == None):
             determinant = self.__determinantHelper(self.matrix.data)
             self.matrix.determinant = determinant
@@ -330,6 +336,9 @@ class Matrix:
 # returns the rank of the matrix
 
     def matrixRank(self):
+        """Calculates the Rank of the matrix object \n
+            Returns integer value of rank
+        """
         x = self.RrowEchleonTransform()
         rank = 0
         for i in range(x.matrix.nrow):
@@ -354,12 +363,18 @@ class Matrix:
 # adds row of matrix1 to row of matrix 2
 
     def addRow(self, index1, m2, index2):
+        """Adds row values of one matrix to another matrix\n
+            Returns NoneType and should not be assigned to a variable
+        """
         self.__row_add(self.matrix.data[index1], m2.matrix.data[index2])
 
 # 18. subRow
 # subtracts row of matrix1 to row of matrix 2
 
     def subRow(self, index1, m2, index2):
+        """Subtracts row values of one matrix to another matrix\n
+            Returns NoneType and should not be assigned to a variable
+        """
         self.__row_sub(self.matrix.data[index1], m2.matrix.data[index2])
 
 # IntraMatrix Row and Col Operations
