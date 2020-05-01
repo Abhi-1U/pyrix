@@ -10,7 +10,7 @@ try:
     print(r)
     f = r.RrowEchleonTransform()
     s = r.matrixRank()
-
+    r.subRows(1, f, 1)
     f.RoundOff(2)
     print(r.determinantValue())
     print(f)

@@ -7,14 +7,11 @@ Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.8.77
+Version     : 0.8.78
 --------------------------------------------------------------------
 """
-import sys
+
 import copy
-import functools
-import argparse
-import os
 
 
 class ExceptionTemplate(Exception):
@@ -410,7 +407,7 @@ class Matrix:
 # 17. addRow
 # adds row of matrix1 to row of matrix 2
 
-    def addRow(self, index1, m2, index2):
+    def addRows(self, index1, m2, index2):
         """Adds row values of one matrix to another matrix\n
             Returns NoneType and should not be assigned to a variable
         """
@@ -419,7 +416,7 @@ class Matrix:
 # 18. subRow
 # subtracts row of matrix1 to row of matrix 2
 
-    def subRow(self, index1, m2, index2):
+    def subRows(self, index1, m2, index2):
         """Subtracts row values of one matrix to another matrix\n
             Returns NoneType and should not be assigned to a variable
         """
@@ -427,8 +424,17 @@ class Matrix:
 
 # IntraMatrix Row and Col Operations
 # Coming soon!
+    def addRow(self, index1, index2):
+        """Adds row values of one matrix to same matrix\n
+            Returns NoneType and should not be assigned to a variable
+        """
+        self.__row_add(self.matrix.data[index1], self.matrix.data[index2])
 
-
+    def subRow(self, index1, index2):
+        """Subtracts row values of one matrix to same matrix\n
+            Returns NoneType and should not be assigned to a variable
+        """
+        self.__row_sub(self.matrix.data[index1], self.matrix.data[index2])
 # Transformations on matrices
 
 # 19. Invert Matrix
