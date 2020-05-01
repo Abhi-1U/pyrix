@@ -7,7 +7,7 @@ Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.8.76
+Version     : 0.8.77
 --------------------------------------------------------------------
 """
 import sys
@@ -23,6 +23,11 @@ class ExceptionTemplate(Exception):
 
     def __str__(self):
         return ': '.join(self.args)
+
+
+class bitWiseOnMatrix(ExceptionTemplate):
+    """Traditional Bitwise Operators are not allowed to work on matrix objects as of now. Maybe in future we will find a creative use case of them.
+    """
 
 
 class divisionErrorException(ExceptionTemplate):
@@ -70,6 +75,25 @@ class matrixData(object):
         self.eigenvects = []
         self.rank = None
         self.triangularity = None
+
+    def __setattr__(self, key, value):
+        self.__dict__[key] = value
+
+    def __getattr__(self, key):
+        try:
+            return self.__dict__[key]
+        except KeyError:
+            raise AttributeError(key)
+
+    def __delattr__(self, key):
+        del self.__dict__[key]
+
+
+class matrixEquation:
+    def __init__(self, Lhs, Rhs, Nterms):
+        self.lhs = Lhs
+        self.rhs = Rhs
+        self.nterms = Nterms
 
     def __setattr__(self, key, value):
         self.__dict__[key] = value
@@ -184,6 +208,10 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=m2.matrix.ncol, data=m3)
         return s
 
+    def __pow__(self, times):
+        for i in range(times):
+            self *= self
+        return self
 # 4. Divide Matrix
 # A method just to avoid division by operator
 
@@ -195,6 +223,26 @@ class Matrix:
     def __floordiv__(self, m2):
         raise divisionErrorException
 
+    def __mod__(self, m2):
+        raise divisionErrorException
+
+    def __lshift__(self, m2):
+        raise bitWiseOnMatrix
+
+    def __rshift__(self, m2):
+        raise bitWiseOnMatrix
+
+    def __and__(self, m2):
+        raise bitWiseOnMatrix
+
+    def __or__(self, m2):
+        raise bitWiseOnMatrix
+
+    def __xor__(self, m2):
+        raise bitWiseOnMatrix
+
+    def __invert__(self):
+        raise bitWiseOnMatrix
 # Methods for Matrix Analysis
 
 # 6.Equality
@@ -387,6 +435,9 @@ class Matrix:
 # returns a new object of inverted matrix
 
     def invertMatrix(self):
+        """Creates an Inverse Matrix of the given matrix\n
+            Returns a Matrix object 
+        """
         if(self.matrix.nrow != self.matrix.ncol):
             raise incompaitableTypeException
         if(self.matrix.invertibility == False):
@@ -588,7 +639,34 @@ class Matrix:
             for col in range(self.matrix.ncol):
                 sum += self.matrix.data[row][col] * m2.matrix.data[row][col]
         return sum
+# Matrix Equation Methods
 
+    def adjointTransform(self):
+        pass
+
+    def minorSpecific(self, row, column):
+        pass
+
+    def cofactor(self):
+        pass
+
+    def getAllMinors(self):
+        pass
+
+    def getCofactorMatrix(self):
+        pass
+
+    def ALUTransform(self):
+        pass
+
+    def augmentedMatrix(self):
+        pass
+
+    def LUdecomposition(self):
+        pass
+
+    def JordanGuassElimination(self):
+        pass
     __repr__ = __str__
 
 
