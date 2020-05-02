@@ -10,7 +10,7 @@ Encoding    : UTF-8\n
 Version     : 0.8.78
 --------------------------------------------------------------------
 """
-
+import random
 import copy
 
 
@@ -716,3 +716,50 @@ def identityMatrix(nrow, ncol):
         return s
     else:
         raise incompaitableTypeException
+
+# random Matrix
+# generates a randomized matrix depending on the scale and type
+
+
+def randomMatrix(scale, type):
+    if(scale == "small" and type == "int"):
+        nrow = random.randint(1, 10)
+        ncol = random.randint(1, 10)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for j in range(ncol):
+                data.append(random.randint(1, 100))
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        return s
+    if(scale == "large" and type == "int"):
+        nrow = random.randint(10, 100)
+        ncol = random.randint(10, 100)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for j in range(ncol):
+                data.append(random.randint(10, 10000))
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        return s
+
+    if(scale == "small" and type == "float"):
+        nrow = random.randint(1, 10)
+        ncol = random.randint(1, 10)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for j in range(ncol):
+                data.append(random.triangular(low=0.0, high=10.0))
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        return s
+    if(scale == "large" and type == "float"):
+        nrow = random.randint(10, 100)
+        ncol = random.randint(10, 100)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for j in range(ncol):
+                data.append(random.triangular(low=0.0, high=1000.0))
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        return s
