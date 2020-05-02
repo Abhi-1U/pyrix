@@ -2,12 +2,12 @@
 # -*- coding : UTF-8 -*-
 """
 ------------------------ Brief Documentation -----------------------
-Name        : Pyrix\n
+Name        : Pyrix/Matrix\n
 Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.8.80
+Version     : 0.8.82
 --------------------------------------------------------------------
 """
 import random
@@ -24,6 +24,11 @@ class ExceptionTemplate(Exception):
 
 class bitWiseOnMatrix(ExceptionTemplate):
     """Traditional Bitwise Operators are not allowed to work on matrix objects as of now. Maybe in future we will find a creative use case of them.
+    """
+
+
+class binaryMatrixException(ExceptionTemplate):
+    """Not a Binary Matrix
     """
 
 
@@ -72,6 +77,7 @@ class matrixData(object):
         self.eigenvects = []
         self.rank = None
         self.triangularity = None
+        self.binaryMatrix = False
 
     def __setattr__(self, key, value):
         self.__dict__[key] = value
@@ -210,6 +216,9 @@ class Matrix:
         for i in range(times):
             self *= self
         return self
+
+    def __abs__(self):
+        pass
 # 4. Divide Matrix
 # A method just to avoid division by operator
 
@@ -284,6 +293,8 @@ class Matrix:
             else:
                 return True
 
+    def isBinaryMatrix(self):
+        pass
 # 9. copy
 # returns a deep copy of the matrix object
 
@@ -674,6 +685,7 @@ class Matrix:
 
     def JordanGuassElimination(self):
         pass
+
     __repr__ = __str__
 
 
