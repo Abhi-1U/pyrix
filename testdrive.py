@@ -12,9 +12,8 @@ try:
     s = r.matrixRank()
     r.subRows(1, f, 1)
     f.RoundOff(2)
-    print(r.determinantValue())
-    print(f)
-    print(s)
+    mat = M.randomMatrix(scale="large", type="int")
+    print(mat)
 except M.incompaitableTypeException as e:
     print(e)
 except M.nonInvertibleException as e:

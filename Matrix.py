@@ -7,7 +7,7 @@ Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.8.78
+Version     : 0.8.80
 --------------------------------------------------------------------
 """
 import random
@@ -126,6 +126,7 @@ Function List:
 17. RoundOff
 18. Rank
 19. ReducedRowEchleonTransform
+20. Random Matrix
 """
 
 
@@ -729,7 +730,7 @@ def randomMatrix(scale, type):
         for i in range(nrow):
             data.append([])
             for j in range(ncol):
-                data.append(random.randint(1, 100))
+                data[i].append(random.randint(1, 100))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
     if(scale == "large" and type == "int"):
@@ -739,7 +740,7 @@ def randomMatrix(scale, type):
         for i in range(nrow):
             data.append([])
             for j in range(ncol):
-                data.append(random.randint(10, 10000))
+                data[i].append(random.randint(10, 10000))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
 
@@ -750,7 +751,7 @@ def randomMatrix(scale, type):
         for i in range(nrow):
             data.append([])
             for j in range(ncol):
-                data.append(random.triangular(low=0.0, high=10.0))
+                data[i].append(random.triangular(low=0.0, high=10.0))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
     if(scale == "large" and type == "float"):
@@ -760,6 +761,6 @@ def randomMatrix(scale, type):
         for i in range(nrow):
             data.append([])
             for j in range(ncol):
-                data.append(random.triangular(low=0.0, high=1000.0))
+                data[i].append(random.triangular(low=0.0, high=1000.0))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
