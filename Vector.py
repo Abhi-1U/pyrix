@@ -2,11 +2,12 @@
 # -*- coding : UTF-8 -*-
 """
 ------------------ Brief Documentation --------------------
+Name        : Pyrix/Vector\n
 Author      : Abhishek Ulayil
-Contents    : 3 Exceptions , 2 classes , 25 methods
+Contents    : 3 Exceptions , 3 classes , 25 methods
 Description : An extension to pyrix for vectors
 Encoding    : UTF-8
-Version     : 0.0.15
+Version     : 0.0.16
 ------------------------------------------------------------
 """
 from Matrix import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix, matrixEquation
@@ -107,4 +108,8 @@ def unitVector(dims):
 
 
 def zeroVector(dims):
+    pass
+
+
+def randomVector(scale, type):
     pass
