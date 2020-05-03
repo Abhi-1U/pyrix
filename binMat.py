@@ -14,9 +14,9 @@ from Matrix import Matrix, matrixData, incompaitableTypeException, binaryMatrixE
 
 
 class BinaryMatrix(Matrix):
-    """A completely Innovative approach to Matrices with Binary numbers.
-        Full Logic control with Matrix types.
-        Can be used as comparators,Inverters,Bit Data Manipulators as a matrix. 
+    """A completely Innovative approach to Matrices with Binary numbers.\n
+        Full Logic control with Matrix types.\n
+        Can be used as comparators,Inverters,Bit Data Manipulators as a matrix.
     """
     # Binary Matrix Methods
 
@@ -27,12 +27,26 @@ class BinaryMatrix(Matrix):
         else:
             raise incompaitableTypeException
 
+    def __str__(self):
+        stringV = str()
+        stringV = "Binary Matrix:\n"
+        for item in self.matrix.data:
+            stringV += str(item)+"\n"
+        stringV += "Dimensions :" + \
+            str(self.matrix.dimensions[0])+"x"+str(self.matrix.dimensions[1])
+        return stringV
+
     def isBinaryMatrix(self):
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
-                if(self.matrix.data[i][j] != (1 or 0)):
+                if(self.matrix.data[i][j] == 1):
+                    continue
+                if(self.matrix.data[i][j] == 0):
+                    continue
+                else:
                     self.matrix.binaryMatrix = False
                     raise binaryMatrixException
+        self.matrix.binaryMatrix = True
         return self.matrix.binaryMatrix
 
     def __and__(self, m2):
@@ -45,7 +59,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            AndS(self.matrix.data[i][j], self.matrix.data[i][j]))
+                            AndS(self.matrix.data[i][j], m2.matrix.data[i][j]))
                 return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
             else:
                 raise incompaitableTypeException
@@ -62,7 +76,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            Or(self.matrix.data[i][j], self.matrix.data[i][j]))
+                            Or(self.matrix.data[i][j], m2.matrix.data[i][j]))
                 return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
             else:
                 raise incompaitableTypeException
@@ -79,10 +93,24 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            Exor(self.matrix.data[i][j], self.matrix.data[i][j]))
+                            Exor(self.matrix.data[i][j], m2.matrix.data[i][j]))
                 return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
             else:
                 raise incompaitableTypeException
+        else:
+            raise binaryMatrixException
+
+    def __invert__(self):
+        self.isBinaryMatrix()
+
+        if(self.matrix.binaryMatrix == True):
+            data = []
+            for i in range(self.matrix.nrow):
+                data.append([])
+                for j in range(self.matrix.ncol):
+                    data[i].append(
+                        Not(self.matrix.data[i][j]))
+            return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
         else:
             raise binaryMatrixException
 

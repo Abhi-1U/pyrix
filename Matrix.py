@@ -92,23 +92,6 @@ class matrixData(object):
         del self.__dict__[key]
 
 
-class matrixEquation:
-    def __init__(self, Lhs, Rhs, Nterms):
-        self.lhs = Lhs
-        self.rhs = Rhs
-        self.nterms = Nterms
-
-    def __setattr__(self, key, value):
-        self.__dict__[key] = value
-
-    def __getattr__(self, key):
-        try:
-            return self.__dict__[key]
-        except KeyError:
-            raise AttributeError(key)
-
-    def __delattr__(self, key):
-        del self.__dict__[key]
 
 
 """
