@@ -10,12 +10,9 @@ Encoding    : UTF-8
 Version     : 0.0.16
 ------------------------------------------------------------
 """
-from Matrix import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix, matrixEquation
+from Matrix import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix
+
 import copy
-
-
-class vectorEquation(matrixEquation):
-    pass
 
 
 class vectorData:
