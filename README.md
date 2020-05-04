@@ -10,3 +10,17 @@ With pyrix being Open-Source One can easily view the source code , understand ho
 For others who want to use all the features of pyrix in their programs , just install and import the package in your code. Documentation is thoroughly provided here. 
 
 ### Getting Started with Pyrix
+
+For Python3 enviornment one can install the package with pip  
+```
+$ pip install pyrix
+```  
+\* some operating systems see pip for python2 and pip3 for python3 ,in that case  
+```
+$ pip3 install pyrix
+```  
+
+
+As for the support for IDE's most of my time was spent of VS-Code so most of the Method highlights and code suggestions should work in VS-Code   
+![VS-Code ](img/Screenshot from 2020-05-04 19-20-47.png)  
+
