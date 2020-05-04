@@ -22,5 +22,5 @@ $ pip3 install pyrix
 
 
 As for the support for IDE's most of my time was spent of VS-Code so most of the Method highlights and code suggestions should work in VS-Code   
-![VS-Code ](img/Screenshot from 2020-05-04 19-20-47.png)  
+![VS-Code ](/img/Screenshot from 2020-05-04 19-20-47.png)  
 
