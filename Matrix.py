@@ -7,7 +7,7 @@ Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.8.82
+Version     : 0.8.83
 --------------------------------------------------------------------
 """
 import random
@@ -76,6 +76,7 @@ class matrixData(object):
         self.eigenvals = []
         self.eigenvects = []
         self.rank = None
+        self.trace = None
         self.triangularity = None
         self.binaryMatrix = False
 
@@ -115,6 +116,7 @@ Function List:
 19. ReducedRowEchleonTransform
 20. Random Matrix
 21. Unit Matrix
+22. matrixTrace
 """
 
 
@@ -200,7 +202,10 @@ class Matrix:
         return self
 
     def __abs__(self):
-        pass
+        if(self.matrix.determinant == None):
+            return self.determinantValue()
+        else:
+            return self.matrix.determinant
 # 4. Divide Matrix
 # A method just to avoid division by operator
 
@@ -389,6 +394,14 @@ class Matrix:
                     break
         self.matrix.rank = rank
         return rank
+
+    def matrixTrace(self):
+        trace = 0
+        if(self.isSquareMatrix()):
+            for i in range(self.matrix.nrow):
+                trace += self.matrix.data[i][i]
+        self.matrix.trace = trace
+        return trace
 
     def isUpperTriangularMaatrix(self):
         pass

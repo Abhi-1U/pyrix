@@ -14,7 +14,7 @@ r = M.Matrix(nrow=3, ncol=3, data=st)
 try:
     print(r)
     print(b)
-    print(b.isBinaryMatrix())
+    print(b.isSquareMatrix())
     sdsa = b*ads
     print(sdsa)
     f = r.RrowEchleonTransform()
