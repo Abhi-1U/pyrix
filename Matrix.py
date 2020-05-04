@@ -92,8 +92,6 @@ class matrixData(object):
         del self.__dict__[key]
 
 
-
-
 """
 Function List:
 1. Initialization Matrix
@@ -116,6 +114,7 @@ Function List:
 18. Rank
 19. ReducedRowEchleonTransform
 20. Random Matrix
+21. Unit Matrix
 """
 
 
@@ -406,7 +405,8 @@ class Matrix:
         """Adds row values of one matrix to another matrix\n
             Returns NoneType and should not be assigned to a variable
         """
-        self.__row_add(self.matrix.data[index1], m2.matrix.data[index2])
+        self.matrix.data[index1] = self.__row_add(
+            self.matrix.data[index1], m2.matrix.data[index2])
 
 # 18. subRow
 # subtracts row of matrix1 to row of matrix 2
@@ -415,7 +415,8 @@ class Matrix:
         """Subtracts row values of one matrix to another matrix\n
             Returns NoneType and should not be assigned to a variable
         """
-        self.__row_sub(self.matrix.data[index1], m2.matrix.data[index2])
+        self.matrix.data[index1] = self.__row_sub(
+            self.matrix.data[index1], m2.matrix.data[index2])
 
 # IntraMatrix Row and Col Operations
 # Coming soon!
@@ -423,13 +424,15 @@ class Matrix:
         """Adds row values of one matrix to same matrix\n
             Returns NoneType and should not be assigned to a variable
         """
-        self.__row_add(self.matrix.data[index1], self.matrix.data[index2])
+        self.matrix.data[index1] = self.__row_add(
+            self.matrix.data[index1], self.matrix.data[index2])
 
     def subRow(self, index1, index2):
         """Subtracts row values of one matrix to same matrix\n
             Returns NoneType and should not be assigned to a variable
         """
-        self.__row_sub(self.matrix.data[index1], self.matrix.data[index2])
+        self.matrix.data[index1] = self.__row_sub(
+            self.matrix.data[index1], self.matrix.data[index2])
 # Transformations on matrices
 
 # 19. Invert Matrix
@@ -521,22 +524,22 @@ class Matrix:
 
     def rowEchleonTransform(self):
         zx = self.copy()
-        temp_mtx = zx.matrix.data
+        temp = zx.matrix.data
 
         def echleonS(rw, col):
-            for i, row in enumerate(temp_mtx[(col+1):]):
+            for i, row in enumerate(temp[(col+1):]):
                 i += 1
                 if rw[col] == 0:
                     continue
-                temp_mtx[i+col] = self.__row_sub(row,
-                                                 self.__row_mult(rw, row[col] / rw[col]))
+                temp[i+col] = self.__row_sub(row,
+                                             self.__row_mult(rw, row[col] / rw[col]))
         for i in range(len(self.matrix.data)):
-            active_row = temp_mtx[i]
-            echleonS(active_row, i)
-            temp_mtx = [[(0 if (0.0000000001 > x > -0.0000000001) else x)
-                         for x in row] for row in temp_mtx]
+            current_row = temp[i]
+            echleonS(current_row, i)
+            temp = [[(0 if (0.0000000001 > x > -0.0000000001) else x)
+                     for x in row] for row in temp]
         s = Matrix(nrow=self.matrix.nrow,
-                   ncol=self.matrix.ncol, data=temp_mtx)
+                   ncol=self.matrix.ncol, data=temp)
         return s
 
 # 26.RRowEchleonTransform
@@ -690,6 +693,21 @@ def zeroMatrix(nrow, ncol):
     s = Matrix(nrow=nrow, ncol=ncol, data=t)
     return s
 
+# unit Matrix
+# Creates a Matrix with ones of given size and shape
+
+
+def unitMatrix(nrow, ncol):
+    """Create a unit matrix of the given dimensions\n
+        Retuns a Matrix Object 
+    """
+    t = []
+    for i in range(nrow):
+        t.append([])
+        for j in range(ncol):
+            t[i].append(1)
+    s = Matrix(nrow=nrow, ncol=ncol, data=t)
+    return s
 # identityMatrix
 # Creates a matrix with zeros of given shape and size
 
