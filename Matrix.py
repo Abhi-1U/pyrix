@@ -79,6 +79,8 @@ class matrixData(object):
         self.trace = None
         self.triangularity = None
         self.binaryMatrix = False
+        self.singularvalue = None
+        self.orthogonalMatrix = False
 
     def __setattr__(self, key, value):
         self.__dict__[key] = value
@@ -197,9 +199,12 @@ class Matrix:
         return s
 
     def __pow__(self, times):
-        for i in range(times):
-            self *= self
-        return self
+        if(self.isSquareMatrix()):
+            for i in range(times):
+                self *= self
+            return self
+        else:
+            raise incompaitableTypeException
 
     def __abs__(self):
         if(self.matrix.determinant == None):
@@ -348,12 +353,15 @@ class Matrix:
             Returns int or float depending on the outcome
         """
         if(self.matrix.determinant == None):
-            determinant = self.__determinantHelper(self.matrix.data)
-            self.matrix.determinant = determinant
-            if(determinant == 0):
-                self.matrix.invertibility = False
-                self.matrix.singular = True
-            return determinant
+            if(self.isSquareMatrix()):
+                determinant = self.__determinantHelper(self.matrix.data)
+                self.matrix.determinant = determinant
+                if(determinant == 0):
+                    self.matrix.invertibility = False
+                    self.matrix.singular = True
+                return determinant
+            else:
+                raise incompaitableTypeException
         else:
             pass
             return self.matrix.determinant

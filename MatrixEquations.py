@@ -7,10 +7,11 @@ Author      : Abhishek Ulayil\n
 Contents    : 2 Exceptions Classes , 1 Function classes , 10 methods\n
 Description : Am extension for matrix Based Equations \n
 Encoding    : UTF-8\n
-Version     : 0.0.1
+Version     : 0.0.2
 --------------------------------------------------------------------
 """
 from Matrix import Matrix, matrixData
+from binMat import BinaryMatrix
 
 
 class matrixEquation:
@@ -32,14 +33,35 @@ class matrixEquation:
         del self.__dict__[key]
 
 
-class MEquation(Matrix):
+class MEquation(BinaryMatrix):
+    def isSymmnetricMatrix(self, side, terms):
+        pass
+
+    def isOrthogonalMatrix(self, side, terms):
+        pass
+
+    def ACRTransform(self):
+        pass
+
     def ALUTransform(self):
+        pass
+
+    def AQRTransform(self):
         pass
 
     def augmentedMatrix(self):
         pass
 
+    def singularValue(self):
+        pass
+
     def LUdecomposition(self):
+        pass
+
+    def eigenTerms(self):
+        pass
+
+    def orthogonaleigenVectors(self):
         pass
 
     def JordanGuassElimination(self):
