@@ -7,7 +7,7 @@ Author      : Abhishek Ulayil\n
 Contents    : 2 Exceptions Classes , 1 Function classes , 10 methods\n
 Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.0.3
+Version     : 0.0.9
 --------------------------------------------------------------------
 """
 from Matrix import Matrix, matrixData, incompaitableTypeException, binaryMatrixException
@@ -141,3 +141,54 @@ def Not(t1):
         return 0
     else:
         return 1
+
+
+def zeroBinaryMatrix(nrow, ncol):
+    """Create a zero Binary matrix of the given dimensions\n
+        Retuns a BinaryMatrix Object 
+    """
+    t = []
+    for i in range(nrow):
+        t.append([])
+        for j in range(ncol):
+            t[i].append(0)
+    s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
+    return s
+
+# unitBinaryMatrix
+# Creates a Binary Matrix with ones of given size and shape
+
+
+def unitBinaryMatrix(nrow, ncol):
+    """Create a Unit Binary matrix of the given dimensions\n
+        Retuns a BinaryMatrix Object 
+    """
+    t = []
+    for i in range(nrow):
+        t.append([])
+        for j in range(ncol):
+            t[i].append(1)
+    s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
+    return s
+# identityBinaryMatrix
+# Creates a Binarymatrix with zeros of given shape and size
+
+
+def identityBinaryMatrix(nrow, ncol):
+    """Create a identity Binary matrix of the given dimensions\n
+        Works for square Matrices\n
+        Retuns a BinaryMatrix Object 
+    """
+    if(nrow == ncol):
+        t = []
+        for i in range(nrow):
+            t.append([])
+            for j in range(ncol):
+                if(i == j):
+                    t[i].append(1)
+                else:
+                    t[i].append(0)
+        s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
+        return s
+    else:
+        raise incompaitableTypeException
