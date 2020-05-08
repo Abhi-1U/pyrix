@@ -64,6 +64,10 @@ class matrixData(object):
         9.eigenvects[list]: list of eigen vectors
         10.rank[int]: stores the rank of the matrix
         11.triangularity[int]: returns 2 for upperT. ,1 for lowerT.,0 for No Triangularity
+        12.binaryMatrix[Boolean]: returns True if binary matrix//reserved for binary matrix class
+        13.singularvalue[int/float]:returns singular value,None By default
+        14.orthogonalMatrix[Boolean]:returns True if matrix is orthogonal in nature
+        15.minor[list]: contains minor values,By default None 
     """
 
     def __init__(self, nrow, ncol, data):
