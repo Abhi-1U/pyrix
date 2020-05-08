@@ -7,11 +7,12 @@ Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.8.83
+Version     : 0.8.83    
 --------------------------------------------------------------------
 """
 import random
 import copy
+import math
 
 
 class ExceptionTemplate(Exception):
@@ -676,7 +677,16 @@ class Matrix:
         pass
 
     def getAllMinors(self):
-        pass
+        matrixdata = self.matrix.data
+        if(self.isSquareMatrix()):
+            if (self.matrix.dimensions == [2, 2]):
+                allminorslist = self.__minor2x2(matrixdata)
+            else:
+                allminorslist = self.__minor(matrixdata)
+            self.matrix.minors = allminorslist
+            return self.matrix.minors
+        else:
+            raise incompaitableTypeException
 
     def getCofactorMatrix(self):
         pass
@@ -692,6 +702,47 @@ class Matrix:
 
     def JordanGuassElimination(self):
         pass
+
+    def __minor2x2(self, matrixdata):
+        return [[matrixdata[1][1], matrixdata[1][0]], [matrixdata[0][1], matrixdata[0][0]]]
+
+    def __cofactor2x2(self, minorlist):
+        cofactors = []
+        for i in range(2):
+            cofactors.append([])
+            for j in range(2):
+                cofactors[i] = minorlist[i][j]*pow(-1, i+j+2)
+        return cofactors
+
+    def __minor(self, matrixdata):
+        minors = []
+        for i in range(len(matrixdata)):
+            minors.append([])
+            for j in range(len(matrixdata[0])):
+                minors[i].append(self.__determinantHelper(
+                    self.__matrixsplitter(matrixdata, i, j)))
+        return minors
+
+    def __matrixsplitter(self, matrixdata, exceptionrow, exceptioncol):
+        excludedmatrix = []
+        returnmatrix = []
+        iterator = 0
+        for i in range(len(matrixdata)):
+            for j in range(len(matrixdata[i])):
+                if([i, j] == [exceptionrow, j]):
+                    continue
+                if([i, j] == [i, exceptioncol]):
+                    continue
+                else:
+                    excludedmatrix.append(matrixdata[i][j])
+                    iterator += 1
+        dimensions = math.sqrt(len(excludedmatrix))
+        print(dimensions)
+        for i in range(int(dimensions)):
+            returnmatrix.append([])
+            returnmatrix[i] = excludedmatrix[0:int(dimensions)]
+            del excludedmatrix[0: int(dimensions)]
+        return returnmatrix
 
     __repr__ = __str__
 
