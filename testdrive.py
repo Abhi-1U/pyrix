@@ -17,6 +17,10 @@ try:
 
     l = ss.getAllMinors()
     print(l)
+    m = ss.getAllCofactors()
+    n = ss.adjointTransform()
+    print(m)
+    print(n)
 except M.incompaitableTypeException as e:
     print(e)
 except M.nonInvertibleException as e:

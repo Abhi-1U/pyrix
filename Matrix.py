@@ -7,7 +7,7 @@ Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.8.83    
+Version     : 0.8.95    
 --------------------------------------------------------------------
 """
 import random
@@ -82,6 +82,7 @@ class matrixData(object):
         self.binaryMatrix = False
         self.singularvalue = None
         self.orthogonalMatrix = False
+        self.minor = None
 
     def __setattr__(self, key, value):
         self.__dict__[key] = value
@@ -120,6 +121,9 @@ Function List:
 20. Random Matrix
 21. Unit Matrix
 22. matrixTrace
+23. adjoint
+24. cofactor
+25. minor
 """
 
 
@@ -243,6 +247,30 @@ class Matrix:
 
     def __invert__(self):
         raise bitWiseOnMatrix
+
+    def __trunc__(self):
+        truncMatrix = []
+        for i in range(self.matrix.nrow):
+            truncMatrix.append([])
+            for j in range(self.matrix.ncol):
+                truncMatrix[i].append(math.trunc(self.matrix.data[i][j]))
+        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=truncMatrix)
+
+    def __ceil__(self):
+        ceilMatrix = []
+        for i in range(self.matrix.nrow):
+            ceilMatrix.append([])
+            for j in range(self.matrix.ncol):
+                ceilMatrix[i].append(math.ceil(self.matrix.data[i][j]))
+        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=ceilMatrix)
+
+    def __floor__(self):
+        floorMatrix = []
+        for i in range(self.matrix.nrow):
+            floorMatrix.append([])
+            for j in range(self.matrix.ncol):
+                floorMatrix[i].append(math.floor(self.matrix.data[i][j]))
+        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=floorMatrix)
 # Methods for Matrix Analysis
 
 # 6.Equality
@@ -286,8 +314,6 @@ class Matrix:
             else:
                 return True
 
-    def isBinaryMatrix(self):
-        pass
 # 9. copy
 # returns a deep copy of the matrix object
 
@@ -668,13 +694,18 @@ class Matrix:
 # Matrix Equation Methods
 
     def adjointTransform(self):
-        pass
+        cofactor = self.getAllCofactors()
+        return cofactor.transposeTransform()
 
     def minorSpecific(self, row, column):
-        pass
+        if self.matrix.minor == None:
+            self.getAllMinors()
+        else:
+            pass
+        return self.matrix.minor[row][column]
 
-    def cofactor(self):
-        pass
+    def cofactorSpecific(self, row, column):
+        return self.getAllCofactors().matrix.data[row][column]
 
     def getAllMinors(self):
         matrixdata = self.matrix.data
@@ -683,13 +714,18 @@ class Matrix:
                 allminorslist = self.__minor2x2(matrixdata)
             else:
                 allminorslist = self.__minor(matrixdata)
-            self.matrix.minors = allminorslist
-            return self.matrix.minors
+            self.matrix.minor = allminorslist
+            return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=self.matrix.minor)
         else:
             raise incompaitableTypeException
 
-    def getCofactorMatrix(self):
-        pass
+    def getAllCofactors(self):
+        if(self.matrix.minor == None):
+            self.getAllMinors()
+        else:
+            pass
+        cofactors = self.__cofactor(self.matrix.minor)
+        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=cofactors)
 
     def ALUTransform(self):
         pass
@@ -706,12 +742,12 @@ class Matrix:
     def __minor2x2(self, matrixdata):
         return [[matrixdata[1][1], matrixdata[1][0]], [matrixdata[0][1], matrixdata[0][0]]]
 
-    def __cofactor2x2(self, minorlist):
+    def __cofactor(self, minorlist):
         cofactors = []
-        for i in range(2):
+        for i in range(self.matrix.nrow):
             cofactors.append([])
-            for j in range(2):
-                cofactors[i] = minorlist[i][j]*pow(-1, i+j+2)
+            for j in range(self.matrix.ncol):
+                cofactors[i].append(minorlist[i][j]*pow(-1, i+j+2))
         return cofactors
 
     def __minor(self, matrixdata):
@@ -737,7 +773,6 @@ class Matrix:
                     excludedmatrix.append(matrixdata[i][j])
                     iterator += 1
         dimensions = math.sqrt(len(excludedmatrix))
-        print(dimensions)
         for i in range(int(dimensions)):
             returnmatrix.append([])
             returnmatrix[i] = excludedmatrix[0:int(dimensions)]
