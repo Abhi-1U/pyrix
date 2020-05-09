@@ -15,6 +15,7 @@ import copy
 import math
 import json
 import csv
+from filepath import fileChooserUI, folderChooserUI
 
 
 class ExceptionTemplate(Exception):
@@ -138,7 +139,10 @@ Function List:
 28. listifymatrix
 29. switchAxis
 30. reDimensionalize
-
+31. JSONEncoder
+32. JSONDecoder
+33. JSONExport
+34. JSONImport
 """
 
 
@@ -985,3 +989,39 @@ def JSONExport(Object, filename):
     with open(filename, "w") as outfile:
         json.dump(data, outfile)
     print("Export Of Object Data Successfull!")
+
+
+def JSONDecoder(object):
+    classtype = None
+    nrow = 0
+    ncol = 0
+    data = []
+    for key, item in object.items():
+        if(key == 'classType'):
+            classtype = item
+            continue
+        if(key == 'nrow'):
+            nrow = item
+            continue
+        if(key == 'ncol'):
+            ncol = item
+            continue
+        if(key == 'data'):
+            data = item
+            break
+    if classtype == 'Matrix':
+        returnMatrix = Matrix(nrow=nrow, ncol=ncol, data=data)
+        for key, item in object.items():
+            setattr(returnMatrix.matrix, key, item)
+    return returnMatrix
+
+
+def JSONImport(filename, mode="UI"):
+    if(mode == "UI"):
+        filepath = fileChooserUI()
+    else:
+        filepath = filename
+    with open(filepath, 'r') as openfile:
+        json_object = json.load(openfile)
+        openfile.close()
+    return JSONDecoder(json_object)

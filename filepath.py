@@ -13,13 +13,14 @@ try:
         main.destroy()
         main.mainloop()
         return main.sourceFile
-    
+
     def folderChooserUI():
         main = tkinter.Tk()
         main.withdraw()
         main.sourceFolder = ''
         main.sourceFile = ''
-        main.sourceFolder = filedialog.askdirectory(parent=main_win, initialdir="/", title='Please select a directory')
+        main.sourceFolder = filedialog.askdirectory(
+            parent=main, initialdir="/", title='Please select a directory')
         main.destroy()
         main.mainloop()
         return main.sourceFolder
