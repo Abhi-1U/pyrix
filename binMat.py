@@ -7,10 +7,13 @@ Author      : Abhishek Ulayil\n
 Contents    : 2 Exceptions Classes , 1 Function classes , 10 methods\n
 Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.0.9
+Version     : 0.0.30
 --------------------------------------------------------------------
 """
 from Matrix import Matrix, matrixData, incompaitableTypeException, binaryMatrixException
+import random
+import json
+from filepath import fileChooserUI, folderChooserUI
 
 
 class BinaryMatrix(Matrix):
@@ -23,6 +26,7 @@ class BinaryMatrix(Matrix):
     def __init__(self, nrow=1, ncol=1, data=[1]):
         if(len(data) == nrow, len(data[0]) == ncol):
             self.matrix = matrixData(nrow=nrow, ncol=ncol, data=data)
+            self.matrix.classType = 'BinaryMatrix'
             self.isBinaryMatrix()
         else:
             raise incompaitableTypeException
@@ -32,9 +36,34 @@ class BinaryMatrix(Matrix):
         stringV = "Binary Matrix:\n"
         for item in self.matrix.data:
             stringV += str(item)+"\n"
-        stringV += "Dimensions :" + \
+        stringV += ("Dimensions :") + \
             str(self.matrix.dimensions[0])+"x"+str(self.matrix.dimensions[1])
         return stringV
+
+    def __add__(self, BinaryMat2):
+        carryterm = 0
+        if(not BinaryMat2.isBinaryMatrix()):
+            raise incompaitableTypeException
+        sum = zeroBinaryMatrix(self.matrix.nrow, self.matrix.ncol)
+        for i in range(self.matrix.nrow-1, -1, -1):
+            for j in range(self.matrix.ncol-1, -1, -1):
+                localsum = (
+                    self.matrix.data[i][j]+BinaryMat2.matrix.data[i][j]+carryterm)
+                if(localsum == 0):
+                    sum.matrix.data[i][j] = 0
+                    continue
+                if(localsum == 1):
+                    sum.matrix.data[i][j] = 1
+                    continue
+                if(localsum == 2):
+                    carryterm = 1
+                    sum.matrix.data[i][j] = 0
+                    continue
+                if(localsum == 3):
+                    carryterm = 1
+                    sum.matrix.data[i][j] = 1
+                    continue
+        return sum
 
     def isBinaryMatrix(self):
         for i in range(self.matrix.nrow):
@@ -114,6 +143,9 @@ class BinaryMatrix(Matrix):
         else:
             raise binaryMatrixException
 
+    def onesComplement(self):
+        pass
+
 
 def Exor(t1, t2):
     if(t1 == t2):
@@ -143,9 +175,17 @@ def Not(t1):
         return 1
 
 
+def Nand(t1, t2):
+    pass
+
+
+def Nor(t1, t2):
+    pass
+
+
 def zeroBinaryMatrix(nrow, ncol):
     """Create a zero Binary matrix of the given dimensions\n
-        Retuns a BinaryMatrix Object 
+        Retuns a BinaryMatrix Object
     """
     t = []
     for i in range(nrow):
@@ -161,7 +201,7 @@ def zeroBinaryMatrix(nrow, ncol):
 
 def unitBinaryMatrix(nrow, ncol):
     """Create a Unit Binary matrix of the given dimensions\n
-        Retuns a BinaryMatrix Object 
+        Retuns a BinaryMatrix Object
     """
     t = []
     for i in range(nrow):
@@ -177,7 +217,7 @@ def unitBinaryMatrix(nrow, ncol):
 def identityBinaryMatrix(nrow, ncol):
     """Create a identity Binary matrix of the given dimensions\n
         Works for square Matrices\n
-        Retuns a BinaryMatrix Object 
+        Retuns a BinaryMatrix Object
     """
     if(nrow == ncol):
         t = []
@@ -192,3 +232,105 @@ def identityBinaryMatrix(nrow, ncol):
         return s
     else:
         raise incompaitableTypeException
+
+
+def randomMatrix(scale, type):
+    if(scale == "small" and type == "int"):
+        nrow = random.randint(1, 10)
+        ncol = random.randint(1, 10)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for j in range(ncol):
+                data[i].append(random.randint(0, 1))
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        return s
+    if(scale == "large" and type == "int"):
+        nrow = random.randint(10, 100)
+        ncol = random.randint(10, 100)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for j in range(ncol):
+                data[i].append(random.randint(0, 1))
+        s = BinaryMatrix(nrow=nrow, ncol=ncol, data=data)
+        return s
+
+
+def listifyMatrix(BinaryMatrixObject):
+    matrixdata = BinaryMatrixObject.matrix.data
+    listifiedmatrix = []
+    for i in range(BinaryMatrixObject.matrix.nrow):
+        for j in range(BinaryMatrixObject.matrix.ncol):
+            listifiedmatrix.append(matrixdata[i][j])
+    BinaryMatrixObject.matrix.listifieddata = listifiedmatrix
+    return listifiedmatrix
+
+
+def reDimensionalize(BinaryMatrixObject, nrow, ncol):
+    listifieddata = listifyMatrix(BinaryMatrixObject)
+    matrixdata = []
+    for i in range(nrow):
+        matrixdata.append([])
+        matrixdata[i] = listifieddata[0:ncol]
+        del listifieddata[0:ncol]
+    return BinaryMatrix(nrow=nrow, ncol=ncol, data=matrixdata)
+
+
+def switchAxis(BinaryMatrixObject):
+    newcol = BinaryMatrixObject.matrix.nrow
+    newrow = BinaryMatrixObject.matrix.ncol
+    return reDimensionalize(BinaryMatrixObject, newrow, newcol)
+
+
+def JSONEncoder(object):
+    Object = object
+    return Object.matrix.__dict__
+
+
+def JSONExport(Object, filename):
+    data = JSONEncoder(Object)
+    with open(filename, "w") as outfile:
+        json.dump(data, outfile)
+        outfile.close()
+    print("Export Of Object Data Successfull!")
+
+
+def JSONDecoder(object):
+    classtype = None
+    nrow = 0
+    ncol = 0
+    data = []
+    for key, item in object.items():
+        if(key == 'classType'):
+            classtype = item
+            continue
+        if(key == 'nrow'):
+            nrow = item
+            continue
+        if(key == 'ncol'):
+            ncol = item
+            continue
+        if(key == 'data'):
+            data = item
+            break
+    if classtype == 'BinaryMatrix':
+        returnMatrix = BinaryMatrix(nrow=nrow, ncol=ncol, data=data)
+        for key, item in object.items():
+            setattr(returnMatrix.matrix, key, item)
+    if classtype == 'Matrix':
+        returnMatrix = Matrix(nrow=nrow, ncol=ncol, data=data)
+        for key, item in object.items():
+            setattr(returnMatrix.matrix, key, item)
+    return returnMatrix
+
+
+def JSONImport(filename, mode="UI"):
+    if(mode == "UI"):
+        filepath = fileChooserUI()
+    else:
+        filepath = filename
+    with open(filepath, 'r') as openfile:
+        json_object = json.load(openfile)
+        openfile.close()
+    return JSONDecoder(json_object)

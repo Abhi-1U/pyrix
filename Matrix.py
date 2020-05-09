@@ -7,12 +7,14 @@ Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.8.95    
+Version     : 0.4.08    
 --------------------------------------------------------------------
 """
 import random
 import copy
 import math
+import json
+import csv
 
 
 class ExceptionTemplate(Exception):
@@ -68,9 +70,11 @@ class matrixData(object):
         13.singularvalue[int/float]:returns singular value,None By default
         14.orthogonalMatrix[Boolean]:returns True if matrix is orthogonal in nature
         15.minor[list]: contains minor values,By default None 
+        16.listifieddata[list]: contains all the data values in a flattened list
     """
 
     def __init__(self, nrow, ncol, data):
+        self.classType = 'Matrix'
         self.nrow = nrow
         self.ncol = ncol
         self.dimensions = [nrow, ncol]
@@ -87,6 +91,7 @@ class matrixData(object):
         self.singularvalue = None
         self.orthogonalMatrix = False
         self.minor = None
+        self.listifieddata = []
 
     def __setattr__(self, key, value):
         self.__dict__[key] = value
@@ -128,6 +133,12 @@ Function List:
 23. adjoint
 24. cofactor
 25. minor
+26. isUpperTriangular
+27. isLowerTriangular
+28. listifymatrix
+29. switchAxis
+30. reDimensionalize
+
 """
 
 
@@ -280,19 +291,25 @@ class Matrix:
 # 6.Equality
 # A method which overrides operator for chechking equality of two matrices
 
-    def __eq__(self, m2):
-        if((self.matrix.dimensions == m2.matrix.dimensions)and(self.matrix.data == m2.matrix.data)):
+    def __eq__(self, matrix2):
+        return self.equals(matrix2)
+
+    def equals(self, matrix2):
+        """Checks for equality of the two matrices\n
+            based on dimensions and the data inside.
+            Returns a Boolean Value
+        """
+        if((self.matrix.dimensions == matrix2.matrix.dimensions)and(self.matrix.data == matrix2.matrix.data)):
             return True
         else:
             return False
-
 # 7. isSquareMatrix
 # a method to check if the matrix is square matrix or not
 
     def isSquareMatrix(self):
         """ Checks if the Matrix is a square Matrix or not\n
              A square matrix is a matrix with equal number of rows and cols\n
-             returns a Boolean value
+             Returns a Boolean value
         """
         if(self.matrix.nrow == self.matrix.ncol):
             return True
@@ -305,7 +322,7 @@ class Matrix:
     def isInvertible(self):
         """ Checks if the Matrix is an Invertible Matrix or not\n
              An Invertible matrix is a matrix with a non zero determinant \n
-             returns a Boolean value
+             Returns a Boolean value
         """
         if(self.matrix.singular == True and self.matrix.invertibility == False):
             return False
@@ -442,11 +459,35 @@ class Matrix:
         self.matrix.trace = trace
         return trace
 
-    def isUpperTriangularMaatrix(self):
-        pass
+    def isUpperTriangularMatrix(self):
+        isUpperTriangularMatrix = True
+        isLowerTriangularMatrix = True
+        for i in range(self.matrix.nrow):
+            for j in range(self.matrix.ncol):
+                if(i < j)and (self.matrix.data[i][j] != 0):
+                    isUpperTriangularMatrix = False
+                if(i > j)and (self.matrix.data[i][j] != 0):
+                    isLowerTriangularMatrix = False
+        if(isUpperTriangularMatrix) and (not isLowerTriangularMatrix):
+            self.matrix.triangularity = 2
+            return True
+        else:
+            return False
 
     def isLowerTriangularMatrix(self):
-        pass
+        isUpperTriangularMatrix = True
+        isLowerTriangularMatrix = True
+        for i in range(self.matrix.nrow):
+            for j in range(self.matrix.ncol):
+                if(i < j)and (self.matrix.data[i][j] != 0):
+                    isUpperTriangularMatrix = False
+                if(i > j)and (self.matrix.data[i][j] != 0):
+                    isLowerTriangularMatrix = False
+        if(isLowerTriangularMatrix)and (not isUpperTriangularMatrix):
+            self.matrix.triangularity = 1
+            return True
+        else:
+            return False
 
 # Intermatrix Row and column operations
 
@@ -888,3 +929,59 @@ def randomMatrix(scale, type):
                 data[i].append(random.triangular(low=0.0, high=1000.0))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
+
+
+def listifyMatrix(MatrixObject):
+    matrixdata = MatrixObject.matrix.data
+    listifiedmatrix = []
+    for i in range(MatrixObject.matrix.nrow):
+        for j in range(MatrixObject.matrix.ncol):
+            listifiedmatrix.append(matrixdata[i][j])
+    MatrixObject.matrix.listifieddata = listifiedmatrix
+    return listifiedmatrix
+
+
+def reDimensionalize(MatrixObject, nrow, ncol):
+    listifieddata = listifyMatrix(MatrixObject)
+    matrixdata = []
+    for i in range(nrow):
+        matrixdata.append([])
+        matrixdata[i] = listifieddata[0:ncol]
+        del listifieddata[0:ncol]
+    return Matrix(nrow=nrow, ncol=ncol, data=matrixdata)
+
+
+def switchAxis(MatrixObject):
+    newcol = MatrixObject.matrix.nrow
+    newrow = MatrixObject.matrix.ncol
+    return reDimensionalize(MatrixObject, newrow, newcol)
+
+
+def InterpretMatrix(nrow, ncol, data):
+    if(type(data) == str):
+        pass
+    if(type(data) == list):
+        if(type(data[0]) == list):
+            pass
+        if(type(data[0]) == str):
+            pass
+        if(type(data[0]) == tuple):
+            pass
+        if(type(data[0]) == Matrix):
+            pass
+        if(type(data[0]) == set):
+            pass
+        if(type(data[0]) == int) or (type(data[0]) == float):
+            pass
+
+
+def JSONEncoder(object):
+    Object = object
+    return Object.matrix.__dict__
+
+
+def JSONExport(Object, filename):
+    data = JSONEncoder(Object)
+    with open(filename, "w") as outfile:
+        json.dump(data, outfile)
+    print("Export Of Object Data Successfull!")
