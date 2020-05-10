@@ -7,7 +7,7 @@ Author      : Abhishek Ulayil\n
 Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.4.08    
+Version     : 0.4.10    
 --------------------------------------------------------------------
 """
 import random
@@ -421,6 +421,8 @@ class Matrix:
 # helps with determinant calculations
 
     def __determinantHelper(self, x, sum=0):
+        """This Method specifically helps with recursive implementation of determinant algorithm.
+        """
         count = list(range(len(x)))
         if (len(x) == 2 and len(x[0]) == 2):
             v = x[0][0]*x[1][1] - x[0][1]*x[1][0]
@@ -573,6 +575,8 @@ class Matrix:
 # 20.Helper Method for inversion
 # Verifies the matrix for proper inversion
     def __verify(self, m2):
+        """This method verifies a unverse of the matrix by multiplying it with the orignal input matrix to get identity matrix.
+        """
         matrixs = []
         m1 = self.matrix.data
         im = []
@@ -980,11 +984,15 @@ def InterpretMatrix(nrow, ncol, data):
 
 
 def JSONEncoder(object):
+    """Encodes dictionary data of the Matrix Object into JSON format.
+    """
     Object = object
     return Object.matrix.__dict__
 
 
 def JSONExport(Object, filename):
+    """Exports the Object data as an JSON file to save th eobject permanantely.
+    """
     data = JSONEncoder(Object)
     with open(filename, "w") as outfile:
         json.dump(data, outfile)
@@ -992,6 +1000,9 @@ def JSONExport(Object, filename):
 
 
 def JSONDecoder(object):
+    """Decodes JSON File type\n 
+        returns a Matrix Object.
+    """
     classtype = None
     nrow = 0
     ncol = 0
@@ -1013,10 +1024,15 @@ def JSONDecoder(object):
         returnMatrix = Matrix(nrow=nrow, ncol=ncol, data=data)
         for key, item in object.items():
             setattr(returnMatrix.matrix, key, item)
+    print("JSON Import Successfull !")
     return returnMatrix
 
 
 def JSONImport(filename, mode="UI"):
+    """Allows for JSON files to be read and recreate the objects\n
+        If you have Tkinter installed then the UI mode will trigger the GUI to select file.
+        Returns a Matrix Object.
+    """
     if(mode == "UI"):
         filepath = fileChooserUI()
     else:
@@ -1025,3 +1041,24 @@ def JSONImport(filename, mode="UI"):
         json_object = json.load(openfile)
         openfile.close()
     return JSONDecoder(json_object)
+
+
+def CSVImport(filename, mode="UI"):
+    if(mode == "UI"):
+        filepath = fileChooserUI()
+    else:
+        filepath = filename
+    with open(filepath, 'r') as openfile:
+        csvfile = csv.reader(openfile, delimiter=',')
+        dataoutput = CSVDecoder(csvfile)
+        openfile.close()
+    return dataoutput
+
+
+def CSVDecoder(csvobject):
+    reader = csvobject
+    data = []
+    for row in reader:
+        for items in row:
+            data.append()
+    return data

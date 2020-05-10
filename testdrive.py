@@ -15,7 +15,7 @@ try:
     print(ss)
     print(b)
     print(ss+b)
-    s = B.JSONImport('test.json')
+    s = M.CSVImport('.')
     print(s)
 except M.incompaitableTypeException as e:
     print(e)

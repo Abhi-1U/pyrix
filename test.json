@@ -1,1 +1,32 @@
-{"classType": "BinaryMatrix", "nrow": 2, "ncol": 2, "dimensions": [2, 2], "data": [[1, 1], [1, 1]], "invertibility": null, "determinant": null, "singular": null, "eigenvals": [], "eigenvects": [], "rank": null, "trace": null, "triangularity": null, "binaryMatrix": true, "singularvalue": null, "orthogonalMatrix": false, "minor": null, "listifieddata": []}
+{
+    "classType": "BinaryMatrix",
+    "nrow": 2,
+    "ncol": 2,
+    "dimensions": [
+        2,
+        2
+    ],
+    "data": [
+        [
+            1,
+            1
+        ],
+        [
+            1,
+            1
+        ]
+    ],
+    "invertibility": null,
+    "determinant": null,
+    "singular": null,
+    "eigenvals": [],
+    "eigenvects": [],
+    "rank": null,
+    "trace": null,
+    "triangularity": null,
+    "binaryMatrix": true,
+    "singularvalue": null,
+    "orthogonalMatrix": false,
+    "minor": null,
+    "listifieddata": []
+}
