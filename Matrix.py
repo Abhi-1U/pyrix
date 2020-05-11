@@ -702,17 +702,37 @@ class Matrix:
 # returns multiplication of two matrices with strassen method
 
     def strassenMultiplication(self, m1, m2):
-        if(self.matrix.nrow != self.matrix.ncol and m2.matrix.nrow != m2.matrix.ncol):
+        if(m1.matrix.nrow != m1.matrix.ncol and m2.matrix.nrow != m2.matrix.ncol):
             raise incompaitableTypeException
         else:
-            if self.matrix.nrow == 2:
+            if m1.matrix.nrow == 2:
                 return self.__strassen2x2(m1, m2)
             else:
-                if(self.matrix.nrow % 2 == 0):
-                    m1 = self
-                    n = self.matrix.nrow
-                    self.strassenMultiplication(m1, m2)
+                if(m1.matrix.nrow % 2 == 0):
+                    m11 = self.__partitionmatrix(data=m1.matrix.data,
+                                                 nrow=(self.matrix.nrow/2), ncol=(self.matrix.ncol/2), quadrant=1)
+                    m12 = self.__partitionmatrix(data=m1.matrix.data,
+                                                 nrow=(m1.matrix.nrow/2), ncol=(m1.matrix.ncol/2), quadrant=2)
+                    m13 = self.__partitionmatrix(data=m1.matrix.data,
+                                                 nrow=(m1.matrix.nrow/2), ncol=(m1.matrix.ncol/2), quadrant=3)
+                    m14 = self.__partitionmatrix(data=m1.matrix.data,
+                                                 nrow=(m1.matrix.nrow/2), ncol=(m1.matrix.ncol/2), quadrant=4)
+                    m21 = self.__partitionmatrix(data=m2.matrix.data,
+                                                 nrow=(m2.matrix.nrow/2), ncol=(m2.matrix.ncol/2), quadrant=1)
+                    m22 = self.__partitionmatrix(data=m2.matrix.data,
+                                                 nrow=(m2.matrix.nrow/2), ncol=(m2.matrix.ncol/2), quadrant=2)
+                    m23 = self.__partitionmatrix(data=m2.matrix.data,
+                                                 nrow=(m2.matrix.nrow/2), ncol=(m2.matrix.ncol/2), quadrant=3)
+                    m24 = self.__partitionmatrix(data=m2.matrix.data,
+                                                 nrow=(m2.matrix.nrow/2), ncol=(m2.matrix.ncol/2), quadrant=4)
+                    return self.__combinedata(self.strassenMultiplication(m11, m21), self.strassenMultiplication(
+                        m12, m22), self.strassenMultiplication(m13, m23), self.strassenMultiplication(m14, m24))
 
+    def __partitionmatrix(self, data, nrow, ncol, quadrant):
+        return
+
+    def __combinedata(self, matrix1, matrix2, matrix3, matrix4):
+        return
 # 30.eigenTerms
 # returns the eigenValues and eigenVects of the matrix
 
@@ -947,6 +967,15 @@ def listifyMatrix(MatrixObject):
             listifiedmatrix.append(matrixdata[i][j])
     MatrixObject.matrix.listifieddata = listifiedmatrix
     return listifiedmatrix
+
+
+def nestifyMatrix(listeddata, rowcount, colcount):
+    clist = listeddata
+    nested = []
+    for i in range(rowcount):
+        nested.append(clist[i:colcount])
+        del clist[i:colcount]
+    return nested
 
 
 def reDimensionalize(MatrixObject, nrow, ncol):

@@ -10,7 +10,7 @@ Encoding    : UTF-8\n
 Version     : 0.0.30
 --------------------------------------------------------------------
 """
-from Matrix import Matrix, matrixData, incompaitableTypeException, binaryMatrixException
+from Matrix import Matrix, matrixData, incompaitableTypeException, binaryMatrixException, nestifyMatrix
 import random
 import json
 from filepath import fileChooserUI, folderChooserUI
