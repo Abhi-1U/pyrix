@@ -701,35 +701,38 @@ class Matrix:
 # 29.StrassenMultiplication
 # returns multiplication of two matrices with strassen method
 
-    def strassenMultiplication(self, m1, m2):
-        if(m1.matrix.nrow != m1.matrix.ncol and m2.matrix.nrow != m2.matrix.ncol):
+    def strassenMultiplication(self, m1, m2, nrows, ncols):
+
+        if(nrows[0] != ncols[0] and nrow[1] != ncols[1]):
             raise incompaitableTypeException
         else:
-            if m1.matrix.nrow == 2:
+            if nrows[0] == 2:
                 return self.__strassen2x2(m1, m2)
             else:
-                if(m1.matrix.nrow % 2 == 0):
-                    m11 = self.__partitionmatrix(data=m1.matrix.data,
-                                                 nrow=(self.matrix.nrow/2), ncol=(self.matrix.ncol/2), quadrant=1)
-                    m12 = self.__partitionmatrix(data=m1.matrix.data,
-                                                 nrow=(m1.matrix.nrow/2), ncol=(m1.matrix.ncol/2), quadrant=2)
-                    m13 = self.__partitionmatrix(data=m1.matrix.data,
-                                                 nrow=(m1.matrix.nrow/2), ncol=(m1.matrix.ncol/2), quadrant=3)
-                    m14 = self.__partitionmatrix(data=m1.matrix.data,
-                                                 nrow=(m1.matrix.nrow/2), ncol=(m1.matrix.ncol/2), quadrant=4)
-                    m21 = self.__partitionmatrix(data=m2.matrix.data,
-                                                 nrow=(m2.matrix.nrow/2), ncol=(m2.matrix.ncol/2), quadrant=1)
-                    m22 = self.__partitionmatrix(data=m2.matrix.data,
-                                                 nrow=(m2.matrix.nrow/2), ncol=(m2.matrix.ncol/2), quadrant=2)
-                    m23 = self.__partitionmatrix(data=m2.matrix.data,
-                                                 nrow=(m2.matrix.nrow/2), ncol=(m2.matrix.ncol/2), quadrant=3)
-                    m24 = self.__partitionmatrix(data=m2.matrix.data,
-                                                 nrow=(m2.matrix.nrow/2), ncol=(m2.matrix.ncol/2), quadrant=4)
-                    return self.__combinedata(self.strassenMultiplication(m11, m21), self.strassenMultiplication(
-                        m12, m22), self.strassenMultiplication(m13, m23), self.strassenMultiplication(m14, m24))
-
-    def __partitionmatrix(self, data, nrow, ncol, quadrant):
-        return
+                if(nrows[0] % 2 == 0):
+                    p1 = self.__partitionmatrix(
+                        m1, nrow=nrows[0], ncol=ncols[0])
+                    p1 = self.__partitionmatrix(
+                        m2, nrow=nrows[1], ncol=ncols[1])
+                    newval = nrows[0]/4
+                    returnmatrix=[]
+                    for minimatrix1,minimatrix2 in zip(p1,p2):
+                        returnmatrix.append(self.strassenMultiplication(minimatrix1,minimatrix2,nrows=[newval,newval],ncols=[newval,newval]))
+                    self.__combinedata(returnmatrix)
+                    return returnmatrix
+    def __partitionmatrix(self, data, nrow, ncol):
+        parts = 4
+        newnrow = nrow/parts
+        newncol = ncol/parts
+        quadrant1 = []
+        quadrant2 = []
+        quadrant3 = []
+        quadrant4 = []
+        quadrant2.append(data[0:newnrow][0:newncol])
+        quadrant1.append(data[newnrow:][0:newncol])
+        quadrant3.append(data[0:newnrow][newncol:])
+        quadrant4.append(data[newnrow:][newncol:])
+        return [quadrant2, quadrant1, quadrant3, quadrant4]
 
     def __combinedata(self, matrix1, matrix2, matrix3, matrix4):
         return
