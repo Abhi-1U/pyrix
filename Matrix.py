@@ -700,42 +700,6 @@ class Matrix:
 
 # 29.StrassenMultiplication
 # returns multiplication of two matrices with strassen method
-
-    def strassenMultiplication(self, m1, m2, nrows, ncols):
-
-        if(nrows[0] != ncols[0] and nrow[1] != ncols[1]):
-            raise incompaitableTypeException
-        else:
-            if nrows[0] == 2:
-                return self.__strassen2x2(m1, m2)
-            else:
-                if(nrows[0] % 2 == 0):
-                    p1 = self.__partitionmatrix(
-                        m1, nrow=nrows[0], ncol=ncols[0])
-                    p1 = self.__partitionmatrix(
-                        m2, nrow=nrows[1], ncol=ncols[1])
-                    newval = nrows[0]/4
-                    returnmatrix=[]
-                    for minimatrix1,minimatrix2 in zip(p1,p2):
-                        returnmatrix.append(self.strassenMultiplication(minimatrix1,minimatrix2,nrows=[newval,newval],ncols=[newval,newval]))
-                    self.__combinedata(returnmatrix)
-                    return returnmatrix
-    def __partitionmatrix(self, data, nrow, ncol):
-        parts = 4
-        newnrow = nrow/parts
-        newncol = ncol/parts
-        quadrant1 = []
-        quadrant2 = []
-        quadrant3 = []
-        quadrant4 = []
-        quadrant2.append(data[0:newnrow][0:newncol])
-        quadrant1.append(data[newnrow:][0:newncol])
-        quadrant3.append(data[0:newnrow][newncol:])
-        quadrant4.append(data[newnrow:][newncol:])
-        return [quadrant2, quadrant1, quadrant3, quadrant4]
-
-    def __combinedata(self, matrix1, matrix2, matrix3, matrix4):
-        return
 # 30.eigenTerms
 # returns the eigenValues and eigenVects of the matrix
 
@@ -760,7 +724,6 @@ class Matrix:
 
 # 32.dotproduct
 # for vectors as matrix
-
     def dotProduct(self, m2):
         sum = 0
         for row in range(self.matrix.nrow):
