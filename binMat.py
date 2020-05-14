@@ -14,6 +14,19 @@ from Matrix import Matrix, matrixData, incompaitableTypeException, binaryMatrixE
 import random
 import json
 from filepath import fileChooserUI, folderChooserUI
+"""
+Unique methods List:
+1. binary add
+2. binary subtract
+3. isBinaryMatrix
+4. boolean and
+5. boolean or
+6. boolean invert
+7. boolean xor
+8. bitwise lshift
+9. bitwise rshift
+1
+"""
 
 
 class BinaryMatrix(Matrix):
@@ -64,6 +77,40 @@ class BinaryMatrix(Matrix):
                     sum.matrix.data[i][j] = 1
                     continue
         return sum
+
+    def __sub__(self, BinaryMat2):
+        carryterm = 0
+        if(not BinaryMat2.isBinaryMatrix()):
+            raise incompaitableTypeException
+        sum = zeroBinaryMatrix(self.matrix.nrow, self.matrix.ncol)
+        for i in range(self.matrix.nrow-1, -1, -1):
+            for j in range(self.matrix.ncol-1, -1, -1):
+                localsum = (
+                    self.matrix.data[i][j]-BinaryMat2.matrix.data[i][j]+carryterm)
+                if(localsum == 0):
+                    sum.matrix.data[i][j] = 0
+                    continue
+                if(localsum == 1):
+                    sum.matrix.data[i][j] = 1
+                    continue
+                if(localsum == -1):
+                    carryterm = -1
+                    sum.matrix.data[i][j] = 1
+                    continue
+                if(localsum == -2):
+                    carryterm = 1
+                    sum.matrix.data[i][j] = 0
+                    continue
+        return sum
+
+    def __mul__(self, BinaryMat2):
+        print("Multiplication on binary Matrices will Change the complete structure and make it impossibly wierd to represent.")
+
+    def __lshift__(self, bits):
+        pass
+
+    def __rshift__(self, bits):
+        pass
 
     def isBinaryMatrix(self):
         for i in range(self.matrix.nrow):
