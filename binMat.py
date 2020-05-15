@@ -25,7 +25,19 @@ Unique methods List:
 7. boolean xor
 8. bitwise lshift
 9. bitwise rshift
-1
+10. Nand
+11. Nor
+12. UnitBinaryMatrix
+13. ZeroBinaryMatrix
+14. IdentityBinaryMatrix
+15. RandmBinaryMatrix
+16. listifymatrix
+17. reDimensionalizeMatrix
+18. switchAxis
+19. JSON import/export
+20. onesComplement
+21. twosComplement
+22.
 """
 
 
@@ -191,7 +203,13 @@ class BinaryMatrix(Matrix):
             raise binaryMatrixException
 
     def onesComplement(self):
-        pass
+        return self.__invert__()
+
+    def twoscomplement(self):
+        invertedmatrix = self.onesComplement()
+        invertedmatrix.matrix.data[(
+            self.matrix.nrow)-1][(self.matrix.ncol)-1] += 1
+        return invertedmatrix
 
 
 def Exor(t1, t2):
@@ -281,7 +299,7 @@ def identityBinaryMatrix(nrow, ncol):
         raise incompaitableTypeException
 
 
-def randomMatrix(scale, type):
+def randomBinaryMatrix(scale, type):
     if(scale == "small" and type == "int"):
         nrow = random.randint(1, 10)
         ncol = random.randint(1, 10)

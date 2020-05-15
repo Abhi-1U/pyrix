@@ -72,6 +72,20 @@ def unlistifydata(data, rowcount, colcount):
     return nested
 
 
+def strassenNxN(listedminimatrixm1, listedminimatrixm2):
+    t1 = listedminimatrixm1
+    t2 = listedminimatrixm2
+    M1 = (t1[0][0]+t1[1][1])*(t2[0][0]+t2[1][1])
+    M2 = (t1[1][0]+t1[1][1])*t2[0][0]
+    M3 = t1[0][0]*(t2[0][1]-t2[1][1])
+    M4 = t2[1][1]*(t2[1][0]-t2[0][0])
+    M5 = (t1[0][0]+t1[0][1])*t2[1][1]
+    M6 = (t1[1][0]-t1[0][0])*(t2[0][0]+t2[0][1])
+    M7 = (t1[0][1]-t1[1][1])*(t2[1][0]+t2[1][1])
+    mtx = [[M1+M4-M5+M7, M3+M5], [M2+M4, M1-M2+M3+M6]]
+    return mtx
+
+
 def strassen2x2(m1, m2):
     """strassen multiplication module for 2 (2x2) matrices.\n
         Returns a nested list of matrix data.

@@ -13,7 +13,7 @@ z = M.Matrix(nrow=nrow, ncol=ncol, data=d)
 r = M.Matrix(nrow=3, ncol=3, data=st)
 ss = B.BinaryMatrix(nrow=2, ncol=2, data=da)
 try:
-    print(ss.partitionmatrix(data=ls, nrow=4, ncol=4))
+    pass
 except M.incompaitableTypeException as e:
     print(e)
 except M.nonInvertibleException as e:
