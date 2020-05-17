@@ -466,6 +466,9 @@ class Matrix:
         return trace
 
     def isUpperTriangularMatrix(self):
+        """This method determines whether a Matrix is a Upper Triangular matrix or not\n
+            Returns a Boolean value 
+        """
         isUpperTriangularMatrix = True
         isLowerTriangularMatrix = True
         for i in range(self.matrix.nrow):
@@ -481,6 +484,9 @@ class Matrix:
             return False
 
     def isLowerTriangularMatrix(self):
+        """This method determines whether a Matrix is a Lower Triangular matrix or not\n
+         Returns a Boolean value 
+        """
         isUpperTriangularMatrix = True
         isLowerTriangularMatrix = True
         for i in range(self.matrix.nrow):
@@ -668,6 +674,9 @@ class Matrix:
 # returns the transpose of the matrix
 
     def transposeTransform(self):
+        """Transpose of the original matrix is created.\n
+            Returns a Matrix Object.
+        """
         c = []
         for i in range(self.matrix.ncol):
             c.append([])
@@ -818,6 +827,53 @@ class Matrix:
             del excludedmatrix[0: int(dimensions)]
         return returnmatrix
 
+    def __unlistifydata(self, data, rowcount, colcount):
+        """converts a single listed matrix into nested listed matrix.
+        """
+        clist = self.copy().matrix.data
+        return nestifyMatrix(clist, rowcount, colcount)
+# Statistical Methods
+
+    def globalMean(self):
+        data = self.matrix.data
+        count = 0
+        for i in range(self.matrix.nrow):
+            for j in range(self.matrix.ncol):
+                count += data[i][j]
+        return (count/(self.matrix.nrow*self.matrix.ncol))
+
+    def localRowMean(self, rowindex):
+        data = self.matrix.data
+        count = 0
+        for i in range(self.matrix):
+            count += data[rowindex][i]
+        return (count/self.matrix.nrow)
+
+    def localColumnMean(self, colindex):
+        data = self.matrix.data
+        count = 0
+        for i in range(self.matrix):
+            count += data[i][colindex]
+        return (count/self.matrix.ncol)
+
+    def globalMedian(self):
+        data = self.matrix.data
+        pass
+
+    def localRowMedian(self, rowindex):
+        pass
+
+    def localColumnMedian(self, colindex):
+        pass
+
+    def globalMode(self):
+        pass
+
+    def localRowMode(self, rowindex):
+        pass
+
+    def localColumnMode(self, colindex):
+        pass
     __repr__ = __str__
 
 
@@ -1057,3 +1113,14 @@ def CSVDecoder(csvobject):
         for items in row:
             data.append()
     return data
+
+
+def CSVExport(MatrixObject):
+    data = MatrixObject.matrix.data
+    nrow = MatrixObject.matrix.nrow
+    ncol = MatrixObject.matrix.ncol
+    CSVEncoder(data, nrow, ncol)
+
+
+def CSVEncoder(data, nrow, ncol):
+    pass
