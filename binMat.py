@@ -18,14 +18,14 @@ Unique methods List:
 1. binary add
 2. binary subtract
 3. isBinaryMatrix
-4. boolean and
-5. boolean or
-6. boolean invert
-7. boolean xor
+4. boolean/logical and
+5. boolean/logical or
+6. boolean/logical invert
+7. boolean/logical xor
 8. bitwise lshift
 9. bitwise rshift
-10. Nand
-11. Nor
+10. boolean/logical Nand
+11. boolean/logical Nor
 12. UnitBinaryMatrix
 13. ZeroBinaryMatrix
 14. IdentityBinaryMatrix
@@ -36,7 +36,7 @@ Unique methods List:
 19. JSON import/export
 20. onesComplement
 21. twosComplement
-22.
+22. boolean/logical ExNor
 """
 
 
@@ -205,10 +205,78 @@ class BinaryMatrix(Matrix):
         return self.__invert__()
 
     def twoscomplement(self):
-        invertedmatrix = self.onesComplement()
-        invertedmatrix.matrix.data[(
-            self.matrix.nrow)-1][(self.matrix.ncol)-1] += 1
-        return invertedmatrix
+        binaryinvertedmatrix = self.onesComplement()
+        lastrow = binaryinvertedmatrix.matrix.nrow
+        lastcol = binaryinvertedmatrix.matrix.ncol
+        lastelement = binaryinvertedmatrix.matrix.data[lastrow-1][lastcol-1]
+        if(lastelement == 0):
+            lastelement += 1
+        else:
+            self.forward_one(data=binaryinvertedmatrix.matrix.data,
+                             rowcount=lastrow, colcount=lastcol)
+        return binaryinvertedmatrix
+
+    def forward_one(self, data, rowcount, colcount):
+        for i in range(rowcount-1, 0, -1):
+            for j in range(colcount-1, 0, -1):
+                pass
+
+    def Nand(self, Bmatrix2):
+        self.isBinaryMatrix()
+        Bmatrix2.isBinaryMatrix()
+        if(self.matrix.binaryMatrix == True and Bmatrix2.matrix.binaryMatrix == True):
+            if(self.matrix.dimensions == Bmatrix2.matrix.dimensions):
+                data = []
+                data = []
+                for i in range(self.matrix.nrow):
+                    data.append([])
+                    for j in range(self.matrix.ncol):
+                        data[i].append(
+                            Nand(self.matrix.data[i][j], Bmatrix2.matrix.data[i][j]))
+                return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
+            else:
+                raise incompaitableTypeException
+        else:
+            raise binaryMatrixException
+
+    def Nor(self, Bmatrix2):
+        self.isBinaryMatrix()
+        Bmatrix2.isBinaryMatrix()
+        if(self.matrix.binaryMatrix == True and Bmatrix2.matrix.binaryMatrix == True):
+            if(self.matrix.dimensions == Bmatrix2.matrix.dimensions):
+                data = []
+                data = []
+                for i in range(self.matrix.nrow):
+                    data.append([])
+                    for j in range(self.matrix.ncol):
+                        data[i].append(
+                            Nor(self.matrix.data[i][j], Bmatrix2.matrix.data[i][j]))
+                return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
+            else:
+                raise incompaitableTypeException
+        else:
+            raise binaryMatrixException
+
+    def ExNor(self, Bmatrix2):
+        self.isBinaryMatrix()
+        Bmatrix2.isBinaryMatrix()
+        if(self.matrix.binaryMatrix == True and Bmatrix2.matrix.binaryMatrix == True):
+            if(self.matrix.dimensions == Bmatrix2.matrix.dimensions):
+                data = []
+                data = []
+                for i in range(self.matrix.nrow):
+                    data.append([])
+                    for j in range(self.matrix.ncol):
+                        data[i].append(
+                            EXNor(self.matrix.data[i][j], Bmatrix2.matrix.data[i][j]))
+                return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
+            else:
+                raise incompaitableTypeException
+        else:
+            raise binaryMatrixException
+
+    def logicalshift(self, listeddata, direction):
+        pass
 
 
 def Exor(t1, t2):
@@ -240,11 +308,24 @@ def Not(t1):
 
 
 def Nand(t1, t2):
-    pass
+    if(t1 == t2 == 1):
+        return 0
+    else:
+        return 1
 
 
 def Nor(t1, t2):
-    pass
+    if(t1 == t2 == 0):
+        return 1
+    else:
+        return 0
+
+
+def EXNor(t1, t2):
+    if(t1 == t2):
+        return 1
+    else:
+        return 0
 
 
 def zeroBinaryMatrix(nrow, ncol):
