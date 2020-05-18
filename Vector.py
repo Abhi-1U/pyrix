@@ -3,11 +3,10 @@
 """
 ------------------ Brief Documentation --------------------
 Name        : Pyrix/Vector\n
-Author      : Abhishek Ulayil
-Contents    : 3 Exceptions , 3 classes , 25 methods
-Description : An extension to pyrix for vectors
-Encoding    : UTF-8
-Version     : 0.0.16
+Author      : Abhishek Ulayil\n
+Description : An extension to pyrix for vectors\n
+Encoding    : UTF-8\n
+Version     : 0.0.20
 ------------------------------------------------------------
 """
 from Matrix import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix
@@ -101,11 +100,19 @@ class Vector:
 
 
 def unitVector(dims):
-    pass
+    VectorData = []
+    for i in range(dims):
+        VectorData.append([])
+        VectorData[i].append(1)
+    return Vector(dims=dims, data=VectorData)
 
 
 def zeroVector(dims):
-    pass
+    VectorData = []
+    for i in range(dims):
+        VectorData.append([])
+        VectorData[i].append(0)
+    return Vector(dims=dims, data=VectorData)
 
 
 def randomVector(scale, type):
