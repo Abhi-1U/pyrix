@@ -4,10 +4,9 @@
 ------------------------ Brief Documentation -----------------------
 Name        : Pyrix/Matrix\n
 Author      : Abhishek Ulayil\n
-Contents    : 4 Exceptions Classes , 2 Function classes , 43 methods\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.4.10    
+Version     : 0.4.25
 --------------------------------------------------------------------
 """
 import random
@@ -70,7 +69,7 @@ class matrixData(object):
         12.binaryMatrix[Boolean]: returns True if binary matrix//reserved for binary matrix class
         13.singularvalue[int/float]:returns singular value,None By default
         14.orthogonalMatrix[Boolean]:returns True if matrix is orthogonal in nature
-        15.minor[list]: contains minor values,By default None 
+        15.minor[list]: contains minor values,By default None
         16.listifieddata[list]: contains all the data values in a flattened list
     """
 
@@ -137,7 +136,7 @@ Function List:
 26. isUpperTriangular
 27. isLowerTriangular
 28. listifymatrix
-29. switchAxis
+29. flipDimesnsions
 30. reDimensionalize
 31. JSONEncoder
 32. JSONDecoder
@@ -458,6 +457,9 @@ class Matrix:
         return rank
 
     def matrixTrace(self):
+        """The trace of a square matrix is defined to be the sum of elements on the main diagonal of a Matrix.\n
+            Returns a int/float value
+        """
         trace = 0
         if(self.isSquareMatrix()):
             for i in range(self.matrix.nrow):
@@ -467,7 +469,7 @@ class Matrix:
 
     def isUpperTriangularMatrix(self):
         """This method determines whether a Matrix is a Upper Triangular matrix or not\n
-            Returns a Boolean value 
+            Returns a Boolean value
         """
         isUpperTriangularMatrix = True
         isLowerTriangularMatrix = True
@@ -485,7 +487,7 @@ class Matrix:
 
     def isLowerTriangularMatrix(self):
         """This method determines whether a Matrix is a Lower Triangular matrix or not\n
-         Returns a Boolean value 
+         Returns a Boolean value
         """
         isUpperTriangularMatrix = True
         isLowerTriangularMatrix = True
@@ -545,7 +547,7 @@ class Matrix:
 
     def invertMatrix(self):
         """Creates an Inverse Matrix of the given matrix\n
-            Returns a Matrix object 
+            Returns a Matrix object
         """
         if(self.matrix.nrow != self.matrix.ncol):
             raise incompaitableTypeException
@@ -746,6 +748,9 @@ class Matrix:
         return cofactor.transposeTransform()
 
     def minorSpecific(self, row, column):
+        """Finds a specific minor value for a certain position.\n
+            Returns a Int/Float Value.
+        """
         if self.matrix.minor == None:
             self.getAllMinors()
         else:
@@ -753,9 +758,15 @@ class Matrix:
         return self.matrix.minor[row][column]
 
     def cofactorSpecific(self, row, column):
+        """Finds a specific cofactor Value of a certain position.\n
+            Returns a Int/Float Value.
+        """
         return self.getAllCofactors().matrix.data[row][column]
 
     def getAllMinors(self):
+        """Finds all the minor values of the matrix object.\n
+        Returns a new Matrix Object of minors.
+        """
         matrixdata = self.matrix.data
         if(self.isSquareMatrix()):
             if (self.matrix.dimensions == [2, 2]):
@@ -768,6 +779,9 @@ class Matrix:
             raise incompaitableTypeException
 
     def getAllCofactors(self):
+        """Finds all the cofactor values of the matrix object.\n
+        Returns a new Matrix Object of cofactors.
+        """
         if(self.matrix.minor == None):
             self.getAllMinors()
         else:
@@ -788,9 +802,16 @@ class Matrix:
         pass
 
     def __minor2x2(self, matrixdata):
+        """Finds minor values for 2x2 matrices.\n
+        Private method\n
+        Returns a nested list.
+        """
         return [[matrixdata[1][1], matrixdata[1][0]], [matrixdata[0][1], matrixdata[0][0]]]
 
     def __cofactor(self, minorlist):
+        """Finds cofactor values. A Private method \n
+           Returns a nested list of cofactors.
+        """
         cofactors = []
         for i in range(self.matrix.nrow):
             cofactors.append([])
@@ -799,6 +820,9 @@ class Matrix:
         return cofactors
 
     def __minor(self, matrixdata):
+        """Finds minor values. A Private method \n
+           Returns a nested list of minors.
+        """
         minors = []
         for i in range(len(matrixdata)):
             minors.append([])
@@ -857,8 +881,15 @@ class Matrix:
         return (count/self.matrix.ncol)
 
     def globalMedian(self):
-        data = self.matrix.data
-        pass
+        globalmedian = None
+        serializeddata = listifyMatrix(self)
+        serializeddata.sort()
+        if(len(serializeddata) % 2 != 0):
+            globalmedian = serializeddata[int((-1+len(serializeddata))/2)]
+        else:
+            globalmedian = serializeddata[int(
+                math.ceil(len(serializeddata)/2))]
+        return globalmedian
 
     def localRowMedian(self, rowindex):
         pass
@@ -1010,7 +1041,7 @@ def reDimensionalize(MatrixObject, nrow, ncol):
     return Matrix(nrow=nrow, ncol=ncol, data=matrixdata)
 
 
-def switchAxis(MatrixObject):
+def flipDimensions(MatrixObject):
     newcol = MatrixObject.matrix.nrow
     newrow = MatrixObject.matrix.ncol
     return reDimensionalize(MatrixObject, newrow, newcol)
