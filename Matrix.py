@@ -171,9 +171,9 @@ class Matrix:
             str(self.matrix.dimensions[0])+"x"+str(self.matrix.dimensions[1])
         return stringV
 
-# Basic Operations on Matrices
-# 1. Add Matrix
-# Operator Overloading for adding Matrices
+    # Basic Operations on Matrices
+    # 1. Add Matrix
+    # Operator Overloading for adding Matrices
 
     def __add__(self, m2):
         if(self.matrix.dimensions != m2.matrix.dimensions):
@@ -187,8 +187,8 @@ class Matrix:
                        ncol=self.matrix.ncol, data=temp)
             return s
 
-# 2. Subtract Matrix
-# Operator Overloading for subtracting Matrices
+    # 2. Subtract Matrix
+    # Operator Overloading for subtracting Matrices
 
     def __sub__(self, m2):
         if(self.matrix.dimensions != m2.matrix.dimensions):
@@ -202,8 +202,8 @@ class Matrix:
                        ncol=self.matrix.ncol, data=temp)
             return s
 
-# 3. Multiply Matrix
-# Operator Overloading for Multiplyinging Matrices
+    # 3. Multiply Matrix
+    # Operator Overloading for Multiplyinging Matrices
 
     def __mul__(self, m2):
         if (self.matrix.ncol != m2.matrix.nrow):  # checking Parameters
@@ -234,14 +234,14 @@ class Matrix:
             return self.determinantValue()
         else:
             return self.matrix.determinant
-# 4. Divide Matrix
-# A method just to avoid division by operator
+    # 4. Divide Matrix
+    # A method just to avoid division by operator
 
     def __truediv__(self, m2):
         raise divisionErrorException("Can Matrices be divided ?")
 
-# 5. Divide Matrix
-# A method just to avoid floor division by operator
+    # 5. Divide Matrix
+    # A method just to avoid floor division by operator
     def __floordiv__(self, m2):
         raise divisionErrorException
 
@@ -289,10 +289,10 @@ class Matrix:
             for j in range(self.matrix.ncol):
                 floorMatrix[i].append(math.floor(self.matrix.data[i][j]))
         return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=floorMatrix)
-# Methods for Matrix Analysis
+    # Methods for Matrix Analysis
 
-# 6.Equality
-# A method which overrides operator for chechking equality of two matrices
+    # 6.Equality
+    # A method which overrides operator for chechking equality of two matrices
 
     def __eq__(self, matrix2):
         return self.equals(matrix2)
@@ -306,8 +306,8 @@ class Matrix:
             return True
         else:
             return False
-# 7. isSquareMatrix
-# a method to check if the matrix is square matrix or not
+    # 7. isSquareMatrix
+    # a method to check if the matrix is square matrix or not
 
     def isSquareMatrix(self):
         """ Checks if the Matrix is a square Matrix or not\n
@@ -319,8 +319,8 @@ class Matrix:
         else:
             return False
 
-# 8. isInvertible
-# a method to check if the matrix is invertible matrix or not
+    # 8. isInvertible
+    # a method to check if the matrix is invertible matrix or not
 
     def isInvertible(self):
         """ Checks if the Matrix is an Invertible Matrix or not\n
@@ -338,8 +338,8 @@ class Matrix:
             else:
                 return True
 
-# 9. copy
-# returns a deep copy of the matrix object
+    # 9. copy
+    # returns a deep copy of the matrix object
 
     def copy(self):
         """ Creates a DEEP(HARD) copy of the Matrix object\n
@@ -347,8 +347,8 @@ class Matrix:
         """
         return copy.deepcopy(self)
 
-# 10. getRow
-# returns a specified row
+    # 10. getRow
+    # returns a specified row
 
     def getRow(self, index):
         """Selects a Row of the matrix of specified index\n
@@ -360,8 +360,8 @@ class Matrix:
         s = Matrix(nrow=1, ncol=self.matrix.ncol, data=temp)
         return s
 
-# 11. getcol
-# returns a specified column
+    # 11. getcol
+    # returns a specified column
 
     def getCol(self, index):
         """Selects a Column of the matrix of specified index\n
@@ -374,8 +374,8 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=1, data=temp)
         return s
 
-# 12. RoundOff
-# rounds off all values to a certain degree
+    # 12. RoundOff
+    # rounds off all values to a certain degree
 
     def RoundOff(self, extent):
         """Rounds off the Value of the data in the matrix object to the given extent\n
@@ -385,8 +385,8 @@ class Matrix:
             for j in range(self.matrix.ncol):
                 self.matrix.data[i][j] = round(self.matrix.data[i][j], extent)
 
-# 13. ScaleMatrix
-# scales matrix values with a scalar
+    # 13. ScaleMatrix
+    # scales matrix values with a scalar
 
     def scaleMatrix(self, scalar):
         """Scales the Value of the data in the matrix object by the scalar value\n
@@ -396,8 +396,8 @@ class Matrix:
             for j in range(self.matrix.ncol):
                 self.matrix.data[i][j] *= scalar
 
-# 14. DeterminantValue
-# returns the determinant Value of the matrix
+    # 14. DeterminantValue
+    # returns the determinant Value of the matrix
 
     def determinantValue(self):
         """Determines the determinant value of the matrix object \n
@@ -416,8 +416,8 @@ class Matrix:
         else:
             pass
             return self.matrix.determinant
-# 15. determinant helper
-# helps with determinant calculations
+    # 15. determinant helper
+    # helps with determinant calculations
 
     def __determinantHelper(self, x, sum=0):
         """This Method specifically helps with recursive implementation of determinant algorithm.
@@ -437,8 +437,8 @@ class Matrix:
             sum += x[0][i]*sign*subdet
         return sum
 
-# 16. matrixRank
-# returns the rank of the matrix
+    # 16. matrixRank
+    # returns the rank of the matrix
 
     def matrixRank(self):
         """Calculates the Rank of the matrix object \n
@@ -503,10 +503,10 @@ class Matrix:
         else:
             return False
 
-# Intermatrix Row and column operations
+    # Intermatrix Row and column operations
 
-# 17. addRow
-# adds row of matrix1 to row of matrix 2
+    # 17. addRow
+    # adds row of matrix1 to row of matrix 2
 
     def addRows(self, index1, m2, index2):
         """Adds row values of one matrix to another matrix\n
@@ -515,8 +515,8 @@ class Matrix:
         self.matrix.data[index1] = self.__row_add(
             self.matrix.data[index1], m2.matrix.data[index2])
 
-# 18. subRow
-# subtracts row of matrix1 to row of matrix 2
+    # 18. subRow
+    # subtracts row of matrix1 to row of matrix 2
 
     def subRows(self, index1, m2, index2):
         """Subtracts row values of one matrix to another matrix\n
@@ -525,8 +525,8 @@ class Matrix:
         self.matrix.data[index1] = self.__row_sub(
             self.matrix.data[index1], m2.matrix.data[index2])
 
-# IntraMatrix Row and Col Operations
-# Coming soon!
+    # IntraMatrix Row and Col Operations
+    # Coming soon!
     def addRow(self, index1, index2):
         """Adds row values of one matrix to same matrix\n
             Returns NoneType and should not be assigned to a variable
@@ -540,10 +540,10 @@ class Matrix:
         """
         self.matrix.data[index1] = self.__row_sub(
             self.matrix.data[index1], self.matrix.data[index2])
-# Transformations on matrices
+    # Transformations on matrices
 
-# 19. Invert Matrix
-# returns a new object of inverted matrix
+    # 19. Invert Matrix
+    # returns a new object of inverted matrix
 
     def invertMatrix(self):
         """Creates an Inverse Matrix of the given matrix\n
@@ -580,8 +580,8 @@ class Matrix:
                 self.matrix.singular = True
                 raise nonInvertibleException
 
-# 20.Helper Method for inversion
-# Verifies the matrix for proper inversion
+    # 20.Helper Method for inversion
+    # Verifies the matrix for proper inversion
     def __verify(self, m2):
         """This method verifies a unverse of the matrix by multiplying it with the orignal input matrix to get identity matrix.
         """
@@ -608,28 +608,28 @@ class Matrix:
         else:
             return False
 
-# 21. micro method for adding rows
+    # 21. micro method for adding rows
 
     def __row_add(self, row_left, row_right):
         return [a+b for (a, b) in zip(row_left, row_right)]
 
-# 22. micro method for scaling rows
+    # 22. micro method for scaling rows
 
     def __row_mult(self, row, num):
         return [x * num for x in row]
 
-# 23. micro method for subtracting rows
+    # 23. micro method for subtracting rows
 
     def __row_sub(self, row_left, row_right):
         return [a - b for (a, b) in zip(row_left, row_right)]
 
-# 24. micro method for dividng row with scalar
+    # 24. micro method for dividng row with scalar
 
     def __scalarDivideRow(self, row, value):
         return [(x/value) for x in row]
 
-# 25.RowEchleonTransform
-# returns the rowechleon form of the matrix
+    # 25.RowEchleonTransform
+    # returns the rowechleon form of the matrix
 
     def rowEchleonTransform(self):
         zx = self.copy()
@@ -651,8 +651,8 @@ class Matrix:
                    ncol=self.matrix.ncol, data=temp)
         return s
 
-# 26.RRowEchleonTransform
-# returns the reduced rowechleon form of the matrix
+    # 26.RRowEchleonTransform
+    # returns the reduced rowechleon form of the matrix
 
     def RrowEchleonTransform(self):
         z = self.rowEchleonTransform().matrix.data
@@ -672,8 +672,8 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=z)
         return s
 
-# 27.transposeTransform
-# returns the transpose of the matrix
+    # 27.transposeTransform
+    # returns the transpose of the matrix
 
     def transposeTransform(self):
         """Transpose of the original matrix is created.\n
@@ -687,10 +687,10 @@ class Matrix:
         s = Matrix(nrow=self.matrix.ncol, ncol=self.matrix.nrow, data=c)
         return s
 
-# additional Methods
+    # additional Methods
 
-# 28.vectorMultiplication
-# multiplication of vector as a matrix with another matrix
+    # 28.vectorMultiplication
+    # multiplication of vector as a matrix with another matrix
 
     def vectorMultiplication(self, v1):
         if(self.matrix.nrow != len(v1)):
@@ -709,16 +709,16 @@ class Matrix:
             p = Matrix(ncol=1, nrow=len(v1), data=c)
             return p
 
-# 29.StrassenMultiplication
-# returns multiplication of two matrices with strassen method
-# 30.eigenTerms
-# returns the eigenValues and eigenVects of the matrix
+    # 29.StrassenMultiplication
+    # returns multiplication of two matrices with strassen method
+    # 30.eigenTerms
+    # returns the eigenValues and eigenVects of the matrix
 
     def eigenTerms(self):
         pass
 
-# 31.strassen2x2
-# helper method for 2x2matrix multiplications by strassen method
+    # 31.strassen2x2
+    # helper method for 2x2matrix multiplications by strassen method
 
     def __strassen2x2(self, m1, m2):
         t1 = m1
@@ -733,15 +733,15 @@ class Matrix:
         mtx = [[M1+M4-M5+M7, M3+M5], [M2+M4, M1-M2+M3+M6]]
         return mtx
 
-# 32.dotproduct
-# for vectors as matrix
+    # 32.dotproduct
+    # for vectors as matrix
     def dotProduct(self, m2):
         sum = 0
         for row in range(self.matrix.nrow):
             for col in range(self.matrix.ncol):
                 sum += self.matrix.data[row][col] * m2.matrix.data[row][col]
         return sum
-# Matrix Equation Methods
+    # Matrix Equation Methods
 
     def adjointTransform(self):
         cofactor = self.getAllCofactors()
@@ -856,7 +856,7 @@ class Matrix:
         """
         clist = self.copy().matrix.data
         return nestifyMatrix(clist, rowcount, colcount)
-# Statistical Methods
+    # Statistical Methods
 
     def globalMean(self):
         data = self.matrix.data
