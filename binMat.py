@@ -4,10 +4,9 @@
 ------------------------ Brief Documentation -----------------------
 Name        : Pyrix/BinaryMatrix\n
 Author      : Abhishek Ulayil\n
-Contents    : 2 Exceptions Classes , 1 Function classes , 10 methods\n
 Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.0.30
+Version     : 0.0.34
 --------------------------------------------------------------------
 """
 from Matrix import Matrix, matrixData, incompaitableTypeException, binaryMatrixException, nestifyMatrix
@@ -33,7 +32,7 @@ Unique methods List:
 15. RandmBinaryMatrix
 16. listifymatrix
 17. reDimensionalizeMatrix
-18. switchAxis
+18. flipDimensions
 19. JSON import/export
 20. onesComplement
 21. twosComplement
@@ -342,7 +341,7 @@ def reDimensionalize(BinaryMatrixObject, nrow, ncol):
     return BinaryMatrix(nrow=nrow, ncol=ncol, data=matrixdata)
 
 
-def switchAxis(BinaryMatrixObject):
+def flipDimensions(BinaryMatrixObject):
     newcol = BinaryMatrixObject.matrix.nrow
     newrow = BinaryMatrixObject.matrix.ncol
     return reDimensionalize(BinaryMatrixObject, newrow, newcol)
