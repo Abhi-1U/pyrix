@@ -118,10 +118,10 @@ class BinaryMatrix(Matrix):
         print("Multiplication on binary Matrices will Change the complete structure and make it impossibly wierd to represent.")
 
     def __lshift__(self, bits):
-        pass
+        self.logicalshift(direction="left", bits=bits)
 
     def __rshift__(self, bits):
-        pass
+        self.logicalshift(direction="Right", bits=bits)
 
     def isBinaryMatrix(self):
         for i in range(self.matrix.nrow):
@@ -217,8 +217,8 @@ class BinaryMatrix(Matrix):
         return binaryinvertedmatrix
 
     def forward_one(self, data, rowcount, colcount):
-        for i in range(rowcount-1, 0, -1):
-            for j in range(colcount-1, 0, -1):
+        for _i in range(rowcount-1, 0, -1):
+            for _j in range(colcount-1, 0, -1):
                 pass
 
     def Nand(self, Bmatrix2):
@@ -275,8 +275,55 @@ class BinaryMatrix(Matrix):
         else:
             raise binaryMatrixException
 
-    def logicalshift(self, listeddata, direction):
-        pass
+    def logicalshift(self, direction, bits):
+        dataArray = listifyMatrix(self)
+        if (direction == "r") or (direction == "R") or (direction == "right") or (direction == "Right") or (direction == "RIGHT"):
+            for _i in range(bits):
+                dataArray.insert(0, 0)
+                dataArray.pop()
+        if (direction == "l") or (direction == "L") or (direction == "left") or (direction == "Left") or (direction == "LEFT"):
+            for _i in range(bits):
+                dataArray.insert(-1, 0)
+                dataArray.pop(0)
+        setattr(self.matrix, name='data', value=dataArray)
+
+    def circularshift(self, direction, bits):
+        dataArray = listifyMatrix(self)
+        if (direction == "r") or (direction == "R") or (direction == "right") or (direction == "Right") or (direction == "RIGHT"):
+            for _i in range(bits):
+                lastelement = dataArray[-1]
+                dataArray.insert(0, lastelement)
+                dataArray.pop()
+        if (direction == "l") or (direction == "L") or (direction == "left") or (direction == "Left") or (direction == "LEFT"):
+            for _i in range(bits):
+                firstelement = dataArray[0]
+                dataArray.insert(-1, firstelement)
+                dataArray.pop(0)
+        setattr(self.matrix, name='data', value=dataArray)
+
+    def arithmeticshift(self, direction, bits):
+        dataArray = listifyMatrix(self)
+        if (direction == "r") or (direction == "R") or (direction == "right") or (direction == "Right") or (direction == "RIGHT"):
+            for _i in range(bits):
+                MSBvalue = dataArray[0]
+                dataArray.insert(0, MSBvalue)
+                dataArray.pop()
+        if (direction == "l") or (direction == "L") or (direction == "left") or (direction == "Left") or (direction == "LEFT"):
+            for _i in range(bits):
+                LSBvalue = 0
+                dataArray.insert(-1, LSBvalue)
+                dataArray.pop(0)
+        setattr(self.matrix, name='data', value=dataArray)
+
+    def popcount(self):
+        popcount = 0
+        dataArray = listifyMatrix(self)
+        for value in dataArray:
+            if (value != 0):
+                popcount += 1
+            else:
+                continue
+        return popcount
 
 
 def Exor(t1, t2):
@@ -335,7 +382,7 @@ def zeroBinaryMatrix(nrow, ncol):
     t = []
     for i in range(nrow):
         t.append([])
-        for j in range(ncol):
+        for _j in range(ncol):
             t[i].append(0)
     s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
     return s
@@ -351,7 +398,7 @@ def unitBinaryMatrix(nrow, ncol):
     t = []
     for i in range(nrow):
         t.append([])
-        for j in range(ncol):
+        for _j in range(ncol):
             t[i].append(1)
     s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
     return s
@@ -386,7 +433,7 @@ def randomBinaryMatrix(scale, type):
         data = []
         for i in range(nrow):
             data.append([])
-            for j in range(ncol):
+            for _j in range(ncol):
                 data[i].append(random.randint(0, 1))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
@@ -396,7 +443,7 @@ def randomBinaryMatrix(scale, type):
         data = []
         for i in range(nrow):
             data.append([])
-            for j in range(ncol):
+            for _j in range(ncol):
                 data[i].append(random.randint(0, 1))
         s = BinaryMatrix(nrow=nrow, ncol=ncol, data=data)
         return s
