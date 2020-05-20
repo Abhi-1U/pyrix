@@ -1,6 +1,7 @@
 import sys
 import Matrix as M
 import binMat as B
+import Vector as V
 d = [[2, 3, 9], [2, 11, 5]]
 st = [[2, 4, 2], [2, 1, 1], [2, 1, 4]]
 nrow = 2

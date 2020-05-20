@@ -6,7 +6,7 @@ Name        : Pyrix/Matrix\n
 Author      : Abhishek Ulayil\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.4.25
+Version     : 0.4.32
 --------------------------------------------------------------------
 """
 import random
@@ -93,17 +93,17 @@ class matrixData(object):
         self.minor = None
         self.listifieddata = []
 
-    def __setattr__(self, key, value):
-        self.__dict__[key] = value
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
 
-    def __getattr__(self, key):
+    def __getattr__(self, name):
         try:
-            return self.__dict__[key]
+            return self.__dict__[name]
         except KeyError:
-            raise AttributeError(key)
+            raise AttributeError(name)
 
-    def __delattr__(self, key):
-        del self.__dict__[key]
+    def __delattr__(self, name):
+        del self.__dict__[name]
 
 
 """
@@ -223,7 +223,7 @@ class Matrix:
 
     def __pow__(self, times):
         if(self.isSquareMatrix()):
-            for i in range(times):
+            for _i in range(times):
                 self *= self
             return self
         else:
@@ -921,7 +921,7 @@ def zeroMatrix(nrow, ncol):
     t = []
     for i in range(nrow):
         t.append([])
-        for j in range(ncol):
+        for _j in range(ncol):
             t[i].append(0)
     s = Matrix(nrow=nrow, ncol=ncol, data=t)
     return s
@@ -937,7 +937,7 @@ def unitMatrix(nrow, ncol):
     t = []
     for i in range(nrow):
         t.append([])
-        for j in range(ncol):
+        for _j in range(ncol):
             t[i].append(1)
     s = Matrix(nrow=nrow, ncol=ncol, data=t)
     return s
@@ -975,7 +975,7 @@ def randomMatrix(scale, type):
         data = []
         for i in range(nrow):
             data.append([])
-            for j in range(ncol):
+            for _j in range(ncol):
                 data[i].append(random.randint(1, 100))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
@@ -985,7 +985,7 @@ def randomMatrix(scale, type):
         data = []
         for i in range(nrow):
             data.append([])
-            for j in range(ncol):
+            for _j in range(ncol):
                 data[i].append(random.randint(10, 10000))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
@@ -996,7 +996,7 @@ def randomMatrix(scale, type):
         data = []
         for i in range(nrow):
             data.append([])
-            for j in range(ncol):
+            for _j in range(ncol):
                 data[i].append(random.triangular(low=0.0, high=10.0))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
@@ -1006,7 +1006,7 @@ def randomMatrix(scale, type):
         data = []
         for i in range(nrow):
             data.append([])
-            for j in range(ncol):
+            for _j in range(ncol):
                 data[i].append(random.triangular(low=0.0, high=1000.0))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
@@ -1141,7 +1141,7 @@ def CSVDecoder(csvobject):
     reader = csvobject
     data = []
     for row in reader:
-        for items in row:
+        for _items in row:
             data.append()
     return data
 

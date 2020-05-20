@@ -66,7 +66,7 @@ def unlistifydata(data, rowcount, colcount):
     """
     clist = data
     nested = []
-    for i in range(rowcount):
+    for _i in range(rowcount):
         nested.append(clist[0:colcount])
         del clist[0:colcount]
     return nested
