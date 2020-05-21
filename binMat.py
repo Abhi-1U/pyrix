@@ -118,10 +118,10 @@ class BinaryMatrix(Matrix):
         print("Multiplication on binary Matrices will Change the complete structure and make it impossibly wierd to represent.")
 
     def __lshift__(self, bits):
-        self.logicalshift(direction="left", bits=bits)
+        self.logicalShift(direction="left", bits=bits)
 
     def __rshift__(self, bits):
-        self.logicalshift(direction="Right", bits=bits)
+        self.logicalShift(direction="Right", bits=bits)
 
     def isBinaryMatrix(self):
         for i in range(self.matrix.nrow):
@@ -146,7 +146,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            AndS(self.matrix.data[i][j], m2.matrix.data[i][j]))
+                            __AndS(self.matrix.data[i][j], m2.matrix.data[i][j]))
                 return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
             else:
                 raise incompaitableTypeException
@@ -163,7 +163,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            Or(self.matrix.data[i][j], m2.matrix.data[i][j]))
+                            __Or(self.matrix.data[i][j], m2.matrix.data[i][j]))
                 return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
             else:
                 raise incompaitableTypeException
@@ -180,7 +180,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            Exor(self.matrix.data[i][j], m2.matrix.data[i][j]))
+                            __Exor(self.matrix.data[i][j], m2.matrix.data[i][j]))
                 return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
             else:
                 raise incompaitableTypeException
@@ -196,7 +196,7 @@ class BinaryMatrix(Matrix):
                 data.append([])
                 for j in range(self.matrix.ncol):
                     data[i].append(
-                        Not(self.matrix.data[i][j]))
+                        __Not(self.matrix.data[i][j]))
             return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
         else:
             raise binaryMatrixException
@@ -204,7 +204,7 @@ class BinaryMatrix(Matrix):
     def onesComplement(self):
         return self.__invert__()
 
-    def twoscomplement(self):
+    def twosSomplement(self):
         binaryinvertedmatrix = self.onesComplement()
         lastrow = binaryinvertedmatrix.matrix.nrow
         lastcol = binaryinvertedmatrix.matrix.ncol
@@ -212,14 +212,20 @@ class BinaryMatrix(Matrix):
         if(lastelement == 0):
             lastelement += 1
         else:
-            self.forward_one(data=binaryinvertedmatrix.matrix.data,
-                             rowcount=lastrow, colcount=lastcol)
+            data = self.__forward_one(data=binaryinvertedmatrix.matrix.data,
+                                      rowcount=lastrow, colcount=lastcol)
+            binaryinvertedmatrix.matrix.data = data
         return binaryinvertedmatrix
 
-    def forward_one(self, data, rowcount, colcount):
+    def __forward_one(self, data, rowcount, colcount):
         for _i in range(rowcount-1, 0, -1):
             for _j in range(colcount-1, 0, -1):
-                pass
+                if(data[_i][_j] == 1):
+                    data[_i][_j] == 0
+                    continue
+                if(data[_i][_j] == 0):
+                    data[_i][_j] == 1
+        return data
 
     def Nand(self, Bmatrix2):
         self.isBinaryMatrix()
@@ -232,7 +238,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            Nand(self.matrix.data[i][j], Bmatrix2.matrix.data[i][j]))
+                            __Nand(self.matrix.data[i][j], Bmatrix2.matrix.data[i][j]))
                 return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
             else:
                 raise incompaitableTypeException
@@ -250,7 +256,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            Nor(self.matrix.data[i][j], Bmatrix2.matrix.data[i][j]))
+                            __Nor(self.matrix.data[i][j], Bmatrix2.matrix.data[i][j]))
                 return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
             else:
                 raise incompaitableTypeException
@@ -268,14 +274,14 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            EXNor(self.matrix.data[i][j], Bmatrix2.matrix.data[i][j]))
+                            __EXNor(self.matrix.data[i][j], Bmatrix2.matrix.data[i][j]))
                 return BinaryMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=data)
             else:
                 raise incompaitableTypeException
         else:
             raise binaryMatrixException
 
-    def logicalshift(self, direction, bits):
+    def logicalShift(self, direction, bits):
         dataArray = listifyMatrix(self)
         if (direction == "r") or (direction == "R") or (direction == "right") or (direction == "Right") or (direction == "RIGHT"):
             for _i in range(bits):
@@ -287,7 +293,7 @@ class BinaryMatrix(Matrix):
                 dataArray.pop(0)
         setattr(self.matrix, name='data', value=dataArray)
 
-    def circularshift(self, direction, bits):
+    def circularShift(self, direction, bits):
         dataArray = listifyMatrix(self)
         if (direction == "r") or (direction == "R") or (direction == "right") or (direction == "Right") or (direction == "RIGHT"):
             for _i in range(bits):
@@ -301,7 +307,7 @@ class BinaryMatrix(Matrix):
                 dataArray.pop(0)
         setattr(self.matrix, name='data', value=dataArray)
 
-    def arithmeticshift(self, direction, bits):
+    def arithmeticShift(self, direction, bits):
         dataArray = listifyMatrix(self)
         if (direction == "r") or (direction == "R") or (direction == "right") or (direction == "Right") or (direction == "RIGHT"):
             for _i in range(bits):
@@ -326,49 +332,49 @@ class BinaryMatrix(Matrix):
         return popcount
 
 
-def Exor(t1, t2):
+def __Exor(t1, t2):
     if(t1 == t2):
         return 0
     else:
         return 1
 
 
-def AndS(t1, t2):
+def __AndS(t1, t2):
     if(t1 == t2 == 1):
         return 1
     else:
         return 0
 
 
-def Or(t1, t2):
+def __Or(t1, t2):
     if(t1 == t2 == 0):
         return 0
     else:
         return 1
 
 
-def Not(t1):
+def __Not(t1):
     if(t1 == 1):
         return 0
     else:
         return 1
 
 
-def Nand(t1, t2):
+def __Nand(t1, t2):
     if(t1 == t2 == 1):
         return 0
     else:
         return 1
 
 
-def Nor(t1, t2):
+def __Nor(t1, t2):
     if(t1 == t2 == 0):
         return 1
     else:
         return 0
 
 
-def EXNor(t1, t2):
+def __EXNor(t1, t2):
     if(t1 == t2):
         return 1
     else:
