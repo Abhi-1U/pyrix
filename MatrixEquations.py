@@ -4,14 +4,12 @@
 ------------------------ Brief Documentation -----------------------
 Name        : Pyrix/MatrixEquations\n
 Author      : Abhishek Ulayil\n
-Contents    : 2 Exceptions Classes , 1 Function classes , 10 methods\n
-Description : Am extension for matrix Based Equations \n
+Description : An extension for matrix Based Equations \n
 Encoding    : UTF-8\n
-Version     : 0.0.2
 --------------------------------------------------------------------
 """
-from Matrix import Matrix, matrixData
 from binMat import BinaryMatrix
+from binMat import Matrix
 
 
 class matrixEquation:

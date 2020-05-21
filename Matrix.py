@@ -6,50 +6,11 @@ Name        : Pyrix/Matrix\n
 Author      : Abhishek Ulayil\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.4.32
 --------------------------------------------------------------------
 """
-import random
 import copy
 import math
-import json
-import csv
-from filepath import fileChooserUI, folderChooserUI
-
-
-class ExceptionTemplate(Exception):
-    def __call__(self, *args):
-        return self.__class__(*(self.args + args))
-
-    def __str__(self):
-        return ': '.join(self.args)
-
-
-class bitWiseOnMatrix(ExceptionTemplate):
-    """Traditional Bitwise Operators are not allowed to work on matrix objects as of now. Maybe in future we will find a creative use case of them.
-    """
-
-
-class binaryMatrixException(ExceptionTemplate):
-    """Not a Binary Matrix
-    """
-
-
-class divisionErrorException(ExceptionTemplate):
-    """Can Matrices be Divided ?"""
-
-
-class incompaitableTypeException(Exception):
-    """If you come across this Exception then the issue is probably out of these four cases:\n
-        Case 1: The dimensions of matrices dont match for the operation to happen\n
-        Case 2: The matrix is not a square matrix\n
-        Case 3: The matrices do not satisfy the condition for multiplication\n
-        Case 4: The Data of the Matrix is not of the Dimensions Given.
-    """
-
-
-class nonInvertibleException(Exception):
-    """Matrix is not invertible due to its singular nature and determinant being zero"""
+from PyrixExceptions import bitWiseOnMatrix, divisionErrorException, incompaitableTypeException, nonInvertibleException
 
 
 class matrixData(object):
@@ -555,7 +516,8 @@ class Matrix:
             pass
         else:
             AM = self.matrix.data
-            IM = identityMatrix(self.matrix.nrow, self.matrix.ncol).matrix.data
+            IM = __identityMatrix(
+                self.matrix.nrow, self.matrix.ncol).matrix.data
             for fd in range(len(AM)):
                 if(AM[fd][fd] == 0):
                     AM[fd][fd] = 0.0000000000001
@@ -660,7 +622,7 @@ class Matrix:
             if(z[i][i] != 1):
                 z[i] = self.__scalarDivideRow(z[i], z[i][i])
         if(self.matrix.nrow == self.matrix.ncol):
-            IM = identityMatrix(self.matrix.ncol, self.matrix.nrow)
+            IM = __identityMatrix(self.matrix.ncol, self.matrix.nrow)
             while(z == IM.matrix.data):
                 for j in range(len(z)):
                     for i in range(len(z[0])):
@@ -855,7 +817,7 @@ class Matrix:
         """converts a single listed matrix into nested listed matrix.
         """
         clist = self.copy().matrix.data
-        return nestifyMatrix(clist, rowcount, colcount)
+        return __nestifyMatrix(clist, rowcount, colcount)
     # Statistical Methods
 
     def globalMean(self):
@@ -882,7 +844,7 @@ class Matrix:
 
     def globalMedian(self):
         globalmedian = None
-        serializeddata = listifyMatrix(self)
+        serializeddata = __listifyMatrix(self)
         serializeddata.sort()
         if(len(serializeddata) % 2 != 0):
             globalmedian = serializeddata[int((-1+len(serializeddata))/2)]
@@ -908,44 +870,26 @@ class Matrix:
     __repr__ = __str__
 
 
-# Quick Initialization  Methods
-
-# zeroMatrix
-# Creates a matrix with zeros of given shape and size
-
-
-def zeroMatrix(nrow, ncol):
-    """Create a zero matrix of the given dimensions\n
-        Retuns a Matrix Object 
-    """
-    t = []
-    for i in range(nrow):
-        t.append([])
-        for _j in range(ncol):
-            t[i].append(0)
-    s = Matrix(nrow=nrow, ncol=ncol, data=t)
-    return s
-
-# unit Matrix
-# Creates a Matrix with ones of given size and shape
+def __listifyMatrix(MatrixObject):
+    matrixdata = MatrixObject.matrix.data
+    listifiedmatrix = []
+    for i in range(MatrixObject.matrix.nrow):
+        for j in range(MatrixObject.matrix.ncol):
+            listifiedmatrix.append(matrixdata[i][j])
+    MatrixObject.matrix.listifieddata = listifiedmatrix
+    return listifiedmatrix
 
 
-def unitMatrix(nrow, ncol):
-    """Create a unit matrix of the given dimensions\n
-        Retuns a Matrix Object 
-    """
-    t = []
-    for i in range(nrow):
-        t.append([])
-        for _j in range(ncol):
-            t[i].append(1)
-    s = Matrix(nrow=nrow, ncol=ncol, data=t)
-    return s
-# identityMatrix
-# Creates a matrix with zeros of given shape and size
+def __nestifyMatrix(listeddata, rowcount, colcount):
+    clist = listeddata
+    nested = []
+    for i in range(rowcount):
+        nested.append(clist[i:colcount])
+        del clist[i:colcount]
+    return nested
 
 
-def identityMatrix(nrow, ncol):
+def __identityMatrix(nrow, ncol):
     """Create a identity matrix of the given dimensions\n
         Works for square Matrices\n
         Retuns a Matrix Object 
@@ -963,195 +907,3 @@ def identityMatrix(nrow, ncol):
         return s
     else:
         raise incompaitableTypeException
-
-# random Matrix
-# generates a randomized matrix depending on the scale and type
-
-
-def randomMatrix(scale, type):
-    if(scale == "small" and type == "int"):
-        nrow = random.randint(1, 10)
-        ncol = random.randint(1, 10)
-        data = []
-        for i in range(nrow):
-            data.append([])
-            for _j in range(ncol):
-                data[i].append(random.randint(1, 100))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
-        return s
-    if(scale == "large" and type == "int"):
-        nrow = random.randint(10, 100)
-        ncol = random.randint(10, 100)
-        data = []
-        for i in range(nrow):
-            data.append([])
-            for _j in range(ncol):
-                data[i].append(random.randint(10, 10000))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
-        return s
-
-    if(scale == "small" and type == "float"):
-        nrow = random.randint(1, 10)
-        ncol = random.randint(1, 10)
-        data = []
-        for i in range(nrow):
-            data.append([])
-            for _j in range(ncol):
-                data[i].append(random.triangular(low=0.0, high=10.0))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
-        return s
-    if(scale == "large" and type == "float"):
-        nrow = random.randint(10, 100)
-        ncol = random.randint(10, 100)
-        data = []
-        for i in range(nrow):
-            data.append([])
-            for _j in range(ncol):
-                data[i].append(random.triangular(low=0.0, high=1000.0))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
-        return s
-
-
-def listifyMatrix(MatrixObject):
-    matrixdata = MatrixObject.matrix.data
-    listifiedmatrix = []
-    for i in range(MatrixObject.matrix.nrow):
-        for j in range(MatrixObject.matrix.ncol):
-            listifiedmatrix.append(matrixdata[i][j])
-    MatrixObject.matrix.listifieddata = listifiedmatrix
-    return listifiedmatrix
-
-
-def nestifyMatrix(listeddata, rowcount, colcount):
-    clist = listeddata
-    nested = []
-    for i in range(rowcount):
-        nested.append(clist[i:colcount])
-        del clist[i:colcount]
-    return nested
-
-
-def reDimensionalize(MatrixObject, nrow, ncol):
-    listifieddata = listifyMatrix(MatrixObject)
-    matrixdata = []
-    for i in range(nrow):
-        matrixdata.append([])
-        matrixdata[i] = listifieddata[0:ncol]
-        del listifieddata[0:ncol]
-    return Matrix(nrow=nrow, ncol=ncol, data=matrixdata)
-
-
-def flipDimensions(MatrixObject):
-    newcol = MatrixObject.matrix.nrow
-    newrow = MatrixObject.matrix.ncol
-    return reDimensionalize(MatrixObject, newrow, newcol)
-
-
-def InterpretMatrix(nrow, ncol, data):
-    if(type(data) == str):
-        pass
-    if(type(data) == list):
-        if(type(data[0]) == list):
-            pass
-        if(type(data[0]) == str):
-            pass
-        if(type(data[0]) == tuple):
-            pass
-        if(type(data[0]) == Matrix):
-            pass
-        if(type(data[0]) == set):
-            pass
-        if(type(data[0]) == int) or (type(data[0]) == float):
-            pass
-
-
-def JSONEncoder(object):
-    """Encodes dictionary data of the Matrix Object into JSON format.
-    """
-    Object = object
-    return Object.matrix.__dict__
-
-
-def JSONExport(Object, filename):
-    """Exports the Object data as an JSON file to save th eobject permanantely.
-    """
-    data = JSONEncoder(Object)
-    with open(filename, "w") as outfile:
-        json.dump(data, outfile)
-    print("Export Of Object Data Successfull!")
-
-
-def JSONDecoder(object):
-    """Decodes JSON File type\n 
-        returns a Matrix Object.
-    """
-    classtype = None
-    nrow = 0
-    ncol = 0
-    data = []
-    for key, item in object.items():
-        if(key == 'classType'):
-            classtype = item
-            continue
-        if(key == 'nrow'):
-            nrow = item
-            continue
-        if(key == 'ncol'):
-            ncol = item
-            continue
-        if(key == 'data'):
-            data = item
-            break
-    if classtype == 'Matrix':
-        returnMatrix = Matrix(nrow=nrow, ncol=ncol, data=data)
-        for key, item in object.items():
-            setattr(returnMatrix.matrix, key, item)
-    print("JSON Import Successfull !")
-    return returnMatrix
-
-
-def JSONImport(filename, mode="UI"):
-    """Allows for JSON files to be read and recreate the objects\n
-        If you have Tkinter installed then the UI mode will trigger the GUI to select file.
-        Returns a Matrix Object.
-    """
-    if(mode == "UI"):
-        filepath = fileChooserUI()
-    else:
-        filepath = filename
-    with open(filepath, 'r') as openfile:
-        json_object = json.load(openfile)
-        openfile.close()
-    return JSONDecoder(json_object)
-
-
-def CSVImport(filename, mode="UI"):
-    if(mode == "UI"):
-        filepath = fileChooserUI()
-    else:
-        filepath = filename
-    with open(filepath, 'r') as openfile:
-        csvfile = csv.reader(openfile, delimiter=',')
-        dataoutput = CSVDecoder(csvfile)
-        openfile.close()
-    return dataoutput
-
-
-def CSVDecoder(csvobject):
-    reader = csvobject
-    data = []
-    for row in reader:
-        for _items in row:
-            data.append()
-    return data
-
-
-def CSVExport(MatrixObject):
-    data = MatrixObject.matrix.data
-    nrow = MatrixObject.matrix.nrow
-    ncol = MatrixObject.matrix.ncol
-    CSVEncoder(data, nrow, ncol)
-
-
-def CSVEncoder(data, nrow, ncol):
-    pass
