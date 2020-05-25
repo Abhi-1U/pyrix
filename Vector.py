@@ -5,12 +5,11 @@
 Name        : Pyrix/Vector\n
 Author      : Abhishek Ulayil\n
 Description : An extension to pyrix for vectors\n
-Encoding    : UTF-8\n
-Version     : 0.0.20
+Encoding    : UTF-8
 ------------------------------------------------------------
 """
-from Matrix import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix
-
+from PyrixExceptions import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix
+import math
 import copy
 
 
@@ -87,7 +86,22 @@ class Vector:
         pass
 
     def dotProduct(self, v2):
-        raise NotImplementedError
+        assert self.vector.dimensions == v2.vector.dimensions, "incompaitableTypeException"
+        dotproduct = 0
+        for i in range(self.vector.dimensions):
+            dotproduct += (self.vector.data[i])*(v2.vector.data[i])
+        return dotproduct
+
+    def vectorNorm(self):
+        norm = math.sqrt(self.dotProduct(v2=self))
+        return norm
+
+    def vectorNormalize(self):
+        normValue = self.vectorNorm()
+        assert (normValue != 0), "Vector normal value 0"
+        for i in range(self.vector.dimensions):
+            self.vector.data[i] /= normValue
+        return self
 
     def crossProduct(self, v2):
         raise NotImplementedError
