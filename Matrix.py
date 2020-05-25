@@ -5,7 +5,7 @@
 Name        : Pyrix/Matrix\n
 Author      : Abhishek Ulayil\n
 Description : A simple matrix manipulation library  \n
-Encoding    : UTF-8\n
+Encoding    : UTF-8
 --------------------------------------------------------------------
 """
 import copy
@@ -677,8 +677,24 @@ class Matrix:
     # returns the eigenValues and eigenVects of the matrix
 
     def eigenTerms(self):
-        pass
+        if(not self.isSquareMatrix()):
+            raise incompaitableTypeException
+        else:
+            eigen_values = self.eigenValues()
+            vector = self.eigenVector()
+        return eigen_values, vector
+    # grahm schmidt algorithm to find QR decomposition of a matrix
 
+    def QRDecomposition(self):
+        q_matrix = __zeroMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol)
+        r_matrix = __zeroMatrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol)
+        Curr_col = []
+        Curr_Vec = []
+        norm = None
+        for i in range(self.matrix.ncol):
+            Curr_col = self.matrix.data[i]
+            for j in range(i):
+                Curr_Vec = __listifyMatrix(self.getCol(j))
     # 31.strassen2x2
     # helper method for 2x2matrix multiplications by strassen method
 
@@ -907,3 +923,18 @@ def __identityMatrix(nrow, ncol):
         return s
     else:
         raise incompaitableTypeException
+# zeroMatrix
+# Creates a matrix with zeros of given shape and size
+
+
+def __zeroMatrix(nrow, ncol):
+    """Create a zero matrix of the given dimensions\n
+        Retuns a Matrix Object 
+    """
+    t = []
+    for i in range(nrow):
+        t.append([])
+        for _j in range(ncol):
+            t[i].append(0)
+    s = Matrix(nrow=nrow, ncol=ncol, data=t)
+    return s
