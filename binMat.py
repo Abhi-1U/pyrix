@@ -8,7 +8,7 @@ Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
 --------------------------------------------------------------------
 """
-from Matrix import Matrix, matrixData, incompaitableTypeException
+from Matrix import Matrix, matrixData, incompaitableTypeException, random
 from PyrixExceptions import binaryMatrixException
 """
 Unique methods List:
@@ -65,7 +65,7 @@ class BinaryMatrix(Matrix):
         carryterm = 0
         if(not BinaryMat2.isBinaryMatrix()):
             raise incompaitableTypeException
-        sum = __zeroBinaryMatrix(self.matrix.nrow, self.matrix.ncol)
+        sum = zeroBinaryMatrix(self.matrix.nrow, self.matrix.ncol)
         for i in range(self.matrix.nrow-1, -1, -1):
             for j in range(self.matrix.ncol-1, -1, -1):
                 localsum = (
@@ -90,7 +90,7 @@ class BinaryMatrix(Matrix):
         carryterm = 0
         if(not BinaryMat2.isBinaryMatrix()):
             raise incompaitableTypeException
-        sum = __zeroBinaryMatrix(self.matrix.nrow, self.matrix.ncol)
+        sum = zeroBinaryMatrix(self.matrix.nrow, self.matrix.ncol)
         for i in range(self.matrix.nrow-1, -1, -1):
             for j in range(self.matrix.ncol-1, -1, -1):
                 localsum = (
@@ -388,7 +388,7 @@ def __listifyMatrix(BinaryMatrixObject):
     return listifiedmatrix
 
 
-def __zeroBinaryMatrix(nrow, ncol):
+def zeroBinaryMatrix(nrow, ncol):
     """Create a zero Binary matrix of the given dimensions\n
         Retuns a BinaryMatrix Object
     """
@@ -399,3 +399,64 @@ def __zeroBinaryMatrix(nrow, ncol):
             t[i].append(0)
     s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
     return s
+
+# unitBinaryMatrix
+# Creates a Binary Matrix with ones of given size and shape
+
+
+def unitBinaryMatrix(nrow, ncol):
+    """Create a Unit Binary matrix of the given dimensions\n
+        Retuns a BinaryMatrix Object
+    """
+    t = []
+    for i in range(nrow):
+        t.append([])
+        for _j in range(ncol):
+            t[i].append(1)
+    s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
+    return s
+# identityBinaryMatrix
+# Creates a Binarymatrix with zeros of given shape and size
+
+
+def identityBinaryMatrix(nrow, ncol):
+    """Create a identity Binary matrix of the given dimensions\n
+        Works for square Matrices\n
+        Retuns a BinaryMatrix Object
+    """
+    if(nrow == ncol):
+        t = []
+        for i in range(nrow):
+            t.append([])
+            for j in range(ncol):
+                if(i == j):
+                    t[i].append(1)
+                else:
+                    t[i].append(0)
+        s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
+        return s
+    else:
+        raise incompaitableTypeException
+
+
+def randomBinaryMatrix(scale, type):
+    if(scale == "small" and type == "int"):
+        nrow = random.randint(1, 10)
+        ncol = random.randint(1, 10)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for _j in range(ncol):
+                data[i].append(random.randint(0, 1))
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        return s
+    if(scale == "large" and type == "int"):
+        nrow = random.randint(10, 100)
+        ncol = random.randint(10, 100)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for _j in range(ncol):
+                data[i].append(random.randint(0, 1))
+        s = BinaryMatrix(nrow=nrow, ncol=ncol, data=data)
+        return s
