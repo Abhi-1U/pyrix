@@ -854,19 +854,57 @@ class Matrix:
         return globalmedian
 
     def localRowMedian(self, rowindex):
-        pass
+        localmedian = None
+        localrow = self.matrix.data[rowindex]
+        localrow.sort()
+        if(len(localrow) % 2 != 0):
+            localmedian = localrow[int((-1+len(localrow))/2)]
+        else:
+            localmedian = localrow[int(
+                math.ceil(len(localrow)/2))]
+        return localmedian
 
     def localColumnMedian(self, colindex):
-        pass
+        localmedian = None
+        localcol = [z[colindex] for z in self.matrix.data]
+        localcol.sort()
+        if(len(localcol) % 2 != 0):
+            localmedian = localcol[int((-1+len(localcol))/2)]
+        else:
+            localmedian = localcol[int(
+                math.ceil(len(localcol)/2))]
+        return localmedian
 
     def globalMode(self):
-        pass
+        globalcount = dict()
+        for i in range(self.matrix.nrow):
+            for j in range(self.matrix.ncol):
+                currentVal = self.matrix.data[i][j]
+                if currentVal not in globalcount:
+                    globalcount[currentVal] = 1
+                else:
+                    globalcount[currentVal] += 1
+        return max(globalcount, key=globalcount.get)
 
     def localRowMode(self, rowindex):
-        pass
+        localcount = dict()
+        for i in range(self.matrix.ncol):
+            currentVal = self.matrix.data[rowindex][i]
+            if currentVal not in localcount:
+                localcount[currentVal] = 1
+            else:
+                localcount[currentVal] += 1
+        return max(localcount, key=localcount.get)
 
     def localColumnMode(self, colindex):
-        pass
+        localcount = dict()
+        for i in range(self.matrix.nrow):
+            currentVal = self.matrix.data[i][colindex]
+            if currentVal not in localcount:
+                localcount[currentVal] = 1
+            else:
+                localcount[currentVal] += 1
+        return max(localcount, key=localcount.get)
     __repr__ = __str__
 
 
