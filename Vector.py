@@ -84,7 +84,7 @@ class Vector:
         raise bitWiseOnMatrix
 
     def copy(self):
-        pass
+        return copy.deepcopy(self)
 
     def dotProduct(self, v2):
         raise NotImplementedError
