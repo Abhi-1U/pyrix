@@ -5,7 +5,7 @@
 Name        : Pyrix/Matrix\n
 Author      : Abhishek Ulayil\n
 Description : A simple matrix manipulation library  \n
-Encoding    : UTF-8\n
+Encoding    : UTF-8
 --------------------------------------------------------------------
 """
 import copy
