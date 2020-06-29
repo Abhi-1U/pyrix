@@ -11,7 +11,7 @@ Encoding    : UTF-8
 from PyrixExceptions import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix
 import math
 import copy
-
+import random
 # Vector is treated like a List
 # Unlike Matrix which is Nested List
 
@@ -22,6 +22,7 @@ class vectorData:
         self.dimensions = dims
         self.directionVectorSet = None
         self.ncol = dims
+        self.type = "Vector"
 
     def __setattr__(self, key, value):
         self.__dict__[key] = value
@@ -37,6 +38,12 @@ class vectorData:
 
 
 class Vector:
+    """
+    Get Started By Creating a Vector Object\n
+        dims=number of dimensions\n
+        data=corresponding vector data of the dimensions as a list\n
+        eg. Vect = Vector(dims=2,data=[1,1])\n 
+    """
     def __init__(self, dims, data):
         self.vector = vectorData(dims, data)
 
@@ -71,7 +78,7 @@ class Vector:
             raise incompaitableTypeException
 
     def __mul__(self, *args):
-        pass
+        print("Depending on the application use other methods like:\n1. dotProduct\n2. crossProduct(Under-Development)")
 
     def __truediv__(self, m2):
         raise divisionErrorException
@@ -140,10 +147,16 @@ class Vector:
         return self
 
     def crossProduct(self, v2):
-        raise NotImplementedError
+        assert self.vector.dimensions == v2.vector.dimensions, "incompaitableTypeException"
+        dims=self.vector.dimensions
+        data=[]
+        vector1data=self.vector.data
+        vector2data=v2.vector.data
+        print("Work under Progress :( ")
 
     def orthogonalityVector(self):
         raise NotImplementedError
+    __repr__==__str__
 
 
 def unitVector(dims):
@@ -161,7 +174,35 @@ def zeroVector(dims):
 
 
 def randomVector(scale, type):
-    pass
+    if(scale == "small" and type == "int"):
+        dims = random.randint(1, 10)
+        data = []
+        for i in range(dims):
+            data[i].append(random.randint(1, 100))
+        s = Vector(dims=dims, data=data)
+        return s
+    if(scale == "large" and type == "int"):
+        dims = random.randint(10, 100)
+        data = []
+        for i in range(dims):
+            data[i].append(random.randint(10, 10000))
+        s = Vector(dims=dims, data=data)
+        return s
+
+    if(scale == "small" and type == "float"):
+        dims = random.randint(1, 10)
+        data = []
+        for i in range(dims):
+            data[i].append(random.triangular(low=0.0, high=10.0))
+        s = Vector(dims=dims, data=data)
+        return s
+    if(scale == "large" and type == "float"):
+        dims = random.randint(10, 100)
+        data = []
+        for i in range(dims):
+            data[i].append(random.triangular(low=0.0, high=1000.0))
+        s = Vector(dims=dims, data=data)
+        return s
 
 
 def linearVector(dims, minVal, maxVal):
