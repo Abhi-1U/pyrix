@@ -5,12 +5,13 @@
 Name        : Pyrix/Matrix\n
 Author      : Abhishek Ulayil\n
 Description : A simple matrix manipulation library  \n
-Encoding    : UTF-8\n
+Encoding    : UTF-8
 --------------------------------------------------------------------
 """
 import copy
 import math
 from PyrixExceptions import bitWiseOnMatrix, divisionErrorException, incompaitableTypeException, nonInvertibleException
+import random
 
 
 class matrixData(object):
@@ -516,7 +517,7 @@ class Matrix:
             pass
         else:
             AM = self.matrix.data
-            IM = __identityMatrix(
+            IM = identityMatrix(
                 self.matrix.nrow, self.matrix.ncol).matrix.data
             for fd in range(len(AM)):
                 if(AM[fd][fd] == 0):
@@ -622,7 +623,7 @@ class Matrix:
             if(z[i][i] != 1):
                 z[i] = self.__scalarDivideRow(z[i], z[i][i])
         if(self.matrix.nrow == self.matrix.ncol):
-            IM = __identityMatrix(self.matrix.ncol, self.matrix.nrow)
+            IM = identityMatrix(self.matrix.ncol, self.matrix.nrow)
             while(z == IM.matrix.data):
                 for j in range(len(z)):
                     for i in range(len(z[0])):
@@ -675,9 +676,6 @@ class Matrix:
     # returns multiplication of two matrices with strassen method
     # 30.eigenTerms
     # returns the eigenValues and eigenVects of the matrix
-
-    def eigenTerms(self):
-        pass
 
     # 31.strassen2x2
     # helper method for 2x2matrix multiplications by strassen method
@@ -750,18 +748,6 @@ class Matrix:
             pass
         cofactors = self.__cofactor(self.matrix.minor)
         return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=cofactors)
-
-    def ALUTransform(self):
-        pass
-
-    def augmentedMatrix(self):
-        pass
-
-    def LUdecomposition(self):
-        pass
-
-    def JordanGuassElimination(self):
-        pass
 
     def __minor2x2(self, matrixdata):
         """Finds minor values for 2x2 matrices.\n
@@ -927,7 +913,44 @@ def __nestifyMatrix(listeddata, rowcount, colcount):
     return nested
 
 
-def __identityMatrix(nrow, ncol):
+# Quick Initialization  Methods
+
+# zeroMatrix
+# Creates a matrix with zeros of given shape and size
+
+
+def zeroMatrix(nrow, ncol):
+    """Create a zero matrix of the given dimensions\n
+        Retuns a Matrix Object 
+    """
+    t = []
+    for i in range(nrow):
+        t.append([])
+        for _j in range(ncol):
+            t[i].append(0)
+    s = Matrix(nrow=nrow, ncol=ncol, data=t)
+    return s
+
+# unit Matrix
+# Creates a Matrix with ones of given size and shape
+
+
+def unitMatrix(nrow, ncol):
+    """Create a unit matrix of the given dimensions\n
+        Retuns a Matrix Object 
+    """
+    t = []
+    for i in range(nrow):
+        t.append([])
+        for _j in range(ncol):
+            t[i].append(1)
+    s = Matrix(nrow=nrow, ncol=ncol, data=t)
+    return s
+# identityMatrix
+# Creates a matrix with zeros of given shape and size
+
+
+def identityMatrix(nrow, ncol):
     """Create a identity matrix of the given dimensions\n
         Works for square Matrices\n
         Retuns a Matrix Object 
@@ -945,3 +968,50 @@ def __identityMatrix(nrow, ncol):
         return s
     else:
         raise incompaitableTypeException
+
+# random Matrix
+# generates a randomized matrix depending on the scale and type
+
+
+def randomMatrix(scale, type):
+    if(scale == "small" and type == "int"):
+        nrow = random.randint(1, 10)
+        ncol = random.randint(1, 10)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for _j in range(ncol):
+                data[i].append(random.randint(1, 100))
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        return s
+    if(scale == "large" and type == "int"):
+        nrow = random.randint(10, 100)
+        ncol = random.randint(10, 100)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for _j in range(ncol):
+                data[i].append(random.randint(10, 10000))
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        return s
+
+    if(scale == "small" and type == "float"):
+        nrow = random.randint(1, 10)
+        ncol = random.randint(1, 10)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for _j in range(ncol):
+                data[i].append(random.triangular(low=0.0, high=10.0))
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        return s
+    if(scale == "large" and type == "float"):
+        nrow = random.randint(10, 100)
+        ncol = random.randint(10, 100)
+        data = []
+        for i in range(nrow):
+            data.append([])
+            for _j in range(ncol):
+                data[i].append(random.triangular(low=0.0, high=1000.0))
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        return s

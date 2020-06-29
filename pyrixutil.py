@@ -13,183 +13,6 @@ import random
 import json
 import csv
 
-# Quick Initialization  Methods
-
-# zeroMatrix
-# Creates a matrix with zeros of given shape and size
-
-
-def zeroMatrix(nrow, ncol):
-    """Create a zero matrix of the given dimensions\n
-        Retuns a Matrix Object 
-    """
-    t = []
-    for i in range(nrow):
-        t.append([])
-        for _j in range(ncol):
-            t[i].append(0)
-    s = Matrix(nrow=nrow, ncol=ncol, data=t)
-    return s
-
-# unit Matrix
-# Creates a Matrix with ones of given size and shape
-
-
-def unitMatrix(nrow, ncol):
-    """Create a unit matrix of the given dimensions\n
-        Retuns a Matrix Object 
-    """
-    t = []
-    for i in range(nrow):
-        t.append([])
-        for _j in range(ncol):
-            t[i].append(1)
-    s = Matrix(nrow=nrow, ncol=ncol, data=t)
-    return s
-# identityMatrix
-# Creates a matrix with zeros of given shape and size
-
-
-def identityMatrix(nrow, ncol):
-    """Create a identity matrix of the given dimensions\n
-        Works for square Matrices\n
-        Retuns a Matrix Object 
-    """
-    if(nrow == ncol):
-        t = []
-        for i in range(nrow):
-            t.append([])
-            for j in range(ncol):
-                if(i == j):
-                    t[i].append(1)
-                else:
-                    t[i].append(0)
-        s = Matrix(nrow=nrow, ncol=ncol, data=t)
-        return s
-    else:
-        raise incompaitableTypeException
-
-# random Matrix
-# generates a randomized matrix depending on the scale and type
-
-
-def randomMatrix(scale, type):
-    if(scale == "small" and type == "int"):
-        nrow = random.randint(1, 10)
-        ncol = random.randint(1, 10)
-        data = []
-        for i in range(nrow):
-            data.append([])
-            for _j in range(ncol):
-                data[i].append(random.randint(1, 100))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
-        return s
-    if(scale == "large" and type == "int"):
-        nrow = random.randint(10, 100)
-        ncol = random.randint(10, 100)
-        data = []
-        for i in range(nrow):
-            data.append([])
-            for _j in range(ncol):
-                data[i].append(random.randint(10, 10000))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
-        return s
-
-    if(scale == "small" and type == "float"):
-        nrow = random.randint(1, 10)
-        ncol = random.randint(1, 10)
-        data = []
-        for i in range(nrow):
-            data.append([])
-            for _j in range(ncol):
-                data[i].append(random.triangular(low=0.0, high=10.0))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
-        return s
-    if(scale == "large" and type == "float"):
-        nrow = random.randint(10, 100)
-        ncol = random.randint(10, 100)
-        data = []
-        for i in range(nrow):
-            data.append([])
-            for _j in range(ncol):
-                data[i].append(random.triangular(low=0.0, high=1000.0))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
-        return s
-
-
-def zeroBinaryMatrix(nrow, ncol):
-    """Create a zero Binary matrix of the given dimensions\n
-        Retuns a BinaryMatrix Object
-    """
-    t = []
-    for i in range(nrow):
-        t.append([])
-        for _j in range(ncol):
-            t[i].append(0)
-    s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
-    return s
-
-# unitBinaryMatrix
-# Creates a Binary Matrix with ones of given size and shape
-
-
-def unitBinaryMatrix(nrow, ncol):
-    """Create a Unit Binary matrix of the given dimensions\n
-        Retuns a BinaryMatrix Object
-    """
-    t = []
-    for i in range(nrow):
-        t.append([])
-        for _j in range(ncol):
-            t[i].append(1)
-    s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
-    return s
-# identityBinaryMatrix
-# Creates a Binarymatrix with zeros of given shape and size
-
-
-def identityBinaryMatrix(nrow, ncol):
-    """Create a identity Binary matrix of the given dimensions\n
-        Works for square Matrices\n
-        Retuns a BinaryMatrix Object
-    """
-    if(nrow == ncol):
-        t = []
-        for i in range(nrow):
-            t.append([])
-            for j in range(ncol):
-                if(i == j):
-                    t[i].append(1)
-                else:
-                    t[i].append(0)
-        s = BinaryMatrix(nrow=nrow, ncol=ncol, data=t)
-        return s
-    else:
-        raise incompaitableTypeException
-
-
-def randomBinaryMatrix(scale, type):
-    if(scale == "small" and type == "int"):
-        nrow = random.randint(1, 10)
-        ncol = random.randint(1, 10)
-        data = []
-        for i in range(nrow):
-            data.append([])
-            for _j in range(ncol):
-                data[i].append(random.randint(0, 1))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
-        return s
-    if(scale == "large" and type == "int"):
-        nrow = random.randint(10, 100)
-        ncol = random.randint(10, 100)
-        data = []
-        for i in range(nrow):
-            data.append([])
-            for _j in range(ncol):
-                data[i].append(random.randint(0, 1))
-        s = BinaryMatrix(nrow=nrow, ncol=ncol, data=data)
-        return s
-
 
 def reDimensionalize(AnyMatrixObject, nrow, ncol):
     listifieddata = __listifyMatrix(AnyMatrixObject)
@@ -344,12 +167,12 @@ def CSVEncoder(data, nrow, ncol):
 
 
 try:
-    import tkinter
     from tkinter import messagebox
     from tkinter import filedialog
+    from tkinter import Tk
 
     def fileChooserUI():
-        main = tkinter.Tk()
+        main = Tk()
         main.withdraw()
         main.sourceFolder = ''
         main.sourceFile = ''
@@ -360,7 +183,7 @@ try:
         return main.sourceFile
 
     def folderChooserUI():
-        main = tkinter.Tk()
+        main = Tk()
         main.withdraw()
         main.sourceFolder = ''
         main.sourceFile = ''
