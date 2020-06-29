@@ -3,15 +3,15 @@
 """
 ------------------------ Brief Documentation -----------------------
 Name        : Pyrix/Utilities\n
-Author      : Abhishek Ulayil\n
+Author      : Abhi-1U<https://github.com/Abhi-1U>\n
 Description : Utility Extention to pyrix  \n
-Encoding    : UTF-8
+Encoding    : UTF-8\n
+Version     : 0.6.10\n
+Build       : 0.6.10/29-06-2020
 --------------------------------------------------------------------
 """
 from binMat import Matrix, BinaryMatrix, binaryMatrixException, incompaitableTypeException
-import random
 import json
-import csv
 
 
 def reDimensionalize(AnyMatrixObject, nrow, ncol):
@@ -114,58 +114,6 @@ def JSONImport(filename, mode="UI"):
         json_object = json.load(openfile)
         openfile.close()
     return JSONDecoder(json_object)
-
-
-def InterpretMatrix(nrow, ncol, data):
-    if(type(data) == str):
-        pass
-    if(type(data) == list):
-        if(type(data[0]) == list):
-            pass
-        if(type(data[0]) == str):
-            pass
-        if(type(data[0]) == tuple):
-            pass
-        if(type(data[0]) == Matrix):
-            pass
-        if(type(data[0]) == set):
-            pass
-        if(type(data[0]) == int) or (type(data[0]) == float):
-            pass
-
-
-def CSVImport(filename, mode="UI"):
-    if(mode == "UI"):
-        filepath = fileChooserUI()
-    else:
-        filepath = filename
-    with open(filepath, 'r') as openfile:
-        csvfile = csv.reader(openfile, delimiter=',')
-        dataoutput = CSVDecoder(csvfile)
-        openfile.close()
-    return dataoutput
-
-
-def CSVDecoder(csvobject):
-    reader = csvobject
-    data = []
-    for row in reader:
-        for _items in row:
-            data.append()
-    return data
-
-
-def CSVExport(MatrixObject):
-    data = MatrixObject.matrix.data
-    nrow = MatrixObject.matrix.nrow
-    ncol = MatrixObject.matrix.ncol
-    CSVEncoder(data, nrow, ncol)
-
-
-def CSVEncoder(data, nrow, ncol):
-    pass
-
-
 try:
     from tkinter import messagebox
     from tkinter import filedialog

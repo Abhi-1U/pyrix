@@ -3,13 +3,16 @@
 """
 ------------------------ Brief Documentation -----------------------
 Name        : Pyrix/BinaryMatrix\n
-Author      : Abhishek Ulayil\n
+Author      : Abhi-1U<https://github.com/Abhi-1U>\n
 Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
+Version     : 0.6.10\n
+Build       : 0.6.10/29-06-2020
 --------------------------------------------------------------------
 """
-from Matrix import Matrix, matrixData, incompaitableTypeException, random
-from PyrixExceptions import binaryMatrixException
+from Matrix import Matrix, matrixData
+from PyrixExceptions import binaryMatrixException,incompaitableTypeException
+import random
 """
 Unique methods List:
 1. binary add
@@ -460,3 +463,22 @@ def randomBinaryMatrix(scale, type):
                 data[i].append(random.randint(0, 1))
         s = BinaryMatrix(nrow=nrow, ncol=ncol, data=data)
         return s
+
+
+def reDimensionalize(AnyMatrixObject, nrow, ncol):
+    listifieddata = __listifyMatrix(AnyMatrixObject)
+    matrixdata = []
+    for i in range(nrow):
+        matrixdata.append([])
+        matrixdata[i] = listifieddata[0:ncol]
+        del listifieddata[0:ncol]
+    if(AnyMatrixObject.matrix.classType == "Matrix"):
+        return Matrix(nrow=nrow, ncol=ncol, data=matrixdata)
+    if(AnyMatrixObject.matrix.classType == "BinaryMatrix"):
+        return BinaryMatrix(nrow=nrow, ncol=ncol, data=matrixdata)
+
+
+def flipDimensions(AnyMatrixObject):
+    newcol = AnyMatrixObject.matrix.nrow
+    newrow = AnyMatrixObject.matrix.ncol
+    return reDimensionalize(AnyMatrixObject, newrow, newcol)

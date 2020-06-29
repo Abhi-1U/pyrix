@@ -3,9 +3,11 @@
 """
 ------------------------ Brief Documentation -----------------------
 Name        : Pyrix/MatrixEquations\n
-Author      : Abhishek Ulayil\n
+Author      : Abhi-1U<https://github.com/Abhi-1U>\n
 Description : An extension for matrix Based Equations \n
-Encoding    : UTF-8
+Encoding    : UTF-8\n
+Version     : 0.6.10\n
+Build       : 0.6.10/29-06-2020
 --------------------------------------------------------------------
 """
 from binMat import BinaryMatrix

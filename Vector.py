@@ -3,26 +3,35 @@
 """
 ------------------ Brief Documentation --------------------
 Name        : Pyrix/Vector\n
-Author      : Abhishek Ulayil\n
+Author      : Abhi-1U<https://github.com/Abhi-1U>\n
 Description : An extension to pyrix for vectors\n
-Encoding    : UTF-8
+Encoding    : UTF-8\n
+Version     : 0.6.10\n
+Build       : 0.6.10/29-06-2020
 ------------------------------------------------------------
 """
-from PyrixExceptions import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix
-import math
-import copy
-import random
+from PyrixExceptions import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix # exceptions required
+import math # for basic math functions
+import copy # for deep copy()
+import random # for random matrix
+
 # Vector is treated like a List
 # Unlike Matrix which is Nested List
-
-
-class vectorData:
+class vectorData(object):
+    """ All The Vector Data is stored here which allows for implementing Dynamic Programming Principles such as Memoization:\n
+        Data List:
+        1.dimensions[int]:The number of dimensions of a vector is represented.
+        2.data[list]: The vector data is stored here.
+        3.ncol[int]: Number of Columns
+        4.directionVectorSet[list]: list of direction Vector Objects (Not Implemented yet)
+        5.classType:defines the type of pyrix/vector implementation(occours in inheriting classes)
+    """
     def __init__(self, dims, data):
         self.data = data
         self.dimensions = dims
         self.directionVectorSet = None
         self.ncol = dims
-        self.type = "Vector"
+        self.classType = "Vector"
 
     def __setattr__(self, key, value):
         self.__dict__[key] = value
@@ -42,7 +51,7 @@ class Vector:
     Get Started By Creating a Vector Object\n
         dims=number of dimensions\n
         data=corresponding vector data of the dimensions as a list\n
-        eg. Vect = Vector(dims=2,data=[1,1])\n 
+        eg. Vect = Vector(dims=2,data=[1,1]) 
     """
     def __init__(self, dims, data):
         self.vector = vectorData(dims, data)
