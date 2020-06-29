@@ -5,7 +5,7 @@
 Name        : Pyrix/MatrixEquations\n
 Author      : Abhishek Ulayil\n
 Description : An extension for matrix Based Equations \n
-Encoding    : UTF-8\n
+Encoding    : UTF-8
 --------------------------------------------------------------------
 """
 from binMat import BinaryMatrix
