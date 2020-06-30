@@ -6,8 +6,8 @@ Name        : Pyrix/Matrix\n
 Author      : Abhi-1U<https://github.com/Abhi-1U>\n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.6.10\n
-Build       : 0.6.10/29-06-2020
+Version     : 0.6.11\n
+Build       : 0.6.11/30-06-2020
 --------------------------------------------------------------------
 """
 import copy
@@ -57,6 +57,7 @@ class matrixData(object):
         self.orthogonalMatrix = False
         self.minor = None
         self.listifieddata = []
+        self.symmetry=None
 
     def __setattr__(self, name, value):
         self.__dict__[name] = value
@@ -107,6 +108,8 @@ Function List:
 32. JSONDecoder
 33. JSONExport
 34. JSONImport
+35. isSymmetricMatrix
+36. isOrthogonalMatrix
 """
 
 
@@ -303,6 +306,34 @@ class Matrix:
             else:
                 return True
 
+    # x. isSymmetricMatrix
+    # Returns a boolean Value based on the symmetry
+    def isSymmetricMatrix(self):
+        """
+            Returns a boolean value based on the matrix symmetry
+        """
+        assert self.isSquareMatrix() ,"A Square Matrix is a Primary Requirement"
+        transposeMarix = self.transposeTransform()
+        transposedata = transposeMarix.matrix.data
+        setattr(self,"transposedata",transposedata)
+        if(transposedata==self.matrix.data):
+            return True
+        else:
+            return False
+    
+    def isOrthogonalMatrix(self):
+        """
+            Returns a boolean value based on the matrix Orthogonality
+        """
+        assert self.isSquareMatrix() ,"A Square Matrix is a Primary Requirement"
+        transposeMarix = self.transposeTransform()
+        transposedata = transposeMarix.matrix.data
+        inverseMatrix = self.invertMatrix()
+        invertdata=inverseMatrix.matrix.data
+        if(transposedata==invertdata):
+            return True
+        else:
+            return False
     # 9. copy
     # returns a deep copy of the matrix object
 
@@ -540,7 +571,8 @@ class Matrix:
                 for i in range(len(IM[i])):
                     for j in range(len(IM[i])):
                         IM[i][j] = round(IM[i][j], 2)
-                self.matrix.data = IM
+                inverteddata = IM
+                return Matrix(nrow=self.matrix.nrow,ncol=self.matrix.ncol,data=inverteddata)
             else:
                 self.matrix.determinant = 0
                 self.matrix.singular = True
