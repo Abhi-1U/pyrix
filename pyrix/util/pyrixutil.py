@@ -1,21 +1,22 @@
 #!/usr/bin/python3
 # -*- coding : UTF-8 -*-
 """
------------------------- Brief Documentation -----------------------
 Name        : Pyrix/Utilities\n
-Author      : Abhi-1U<https://github.com/Abhi-1U>\n
+Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : Utility Extention to pyrix  \n
 Encoding    : UTF-8\n
-Version     : 0.6.11\n
-Build       : 0.6.11/30-06-2020
---------------------------------------------------------------------
+Version     : 0.6.14\n
+Build       : 0.6.14/17-07-2020
 """
-from binMat import Matrix, BinaryMatrix, binaryMatrixException, incompaitableTypeException
+from pyrix.matrix import Matrix
+from pyrix.binarymatrix import BinaryMatrix
+from pyrix.vector import Vector
+from pyrix.exception import  binaryMatrixException, incompaitableTypeException
 import json
-
+import copy
 
 def reDimensionalize(AnyMatrixObject, nrow, ncol):
-    listifieddata = __listifyMatrix(AnyMatrixObject)
+    listifieddata = listifyMatrix(AnyMatrixObject)
     matrixdata = []
     for i in range(nrow):
         matrixdata.append([])
@@ -25,9 +26,10 @@ def reDimensionalize(AnyMatrixObject, nrow, ncol):
         return Matrix(nrow=nrow, ncol=ncol, data=matrixdata)
     if(AnyMatrixObject.matrix.classType == "BinaryMatrix"):
         return BinaryMatrix(nrow=nrow, ncol=ncol, data=matrixdata)
+    if(isinstance(AnyMatrixObject,Vector)):
+        print("reDimensionalize not applicable on Vectors")
 
-
-def __listifyMatrix(MatrixObject):
+def listifyMatrix(MatrixObject):
     matrixdata = MatrixObject.matrix.data
     listifiedmatrix = []
     for i in range(MatrixObject.matrix.nrow):
@@ -37,7 +39,7 @@ def __listifyMatrix(MatrixObject):
     return listifiedmatrix
 
 
-def __nestifyMatrix(listeddata, rowcount, colcount):
+def nestifyMatrix(listeddata, rowcount, colcount):
     clist = listeddata
     nested = []
     for i in range(rowcount):
@@ -51,6 +53,9 @@ def flipDimensions(AnyMatrixObject):
     newrow = AnyMatrixObject.matrix.ncol
     return reDimensionalize(AnyMatrixObject, newrow, newcol)
 
+
+def Copy(AnyObject):
+    return copy.deepcopy(AnyObject)
 
 def JSONEncoder(object):
     """Encodes dictionary data of the Matrix Object into JSON format.

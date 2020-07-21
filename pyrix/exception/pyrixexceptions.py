@@ -1,14 +1,12 @@
 #!/usr/bin/python3
 # -*- coding : UTF-8 -*-
 """
------------------------- Brief Documentation -----------------------
 Name        : Pyrix/Exceptions\n
-Author      : Abhi-1U<https://github.com/Abhi-1U>\n
+Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : Exceptions are implemented here  \n
 Encoding    : UTF-8\n
-Version     : 0.6.11\n
-Build       : 0.6.11/30-06-2020
---------------------------------------------------------------------
+Version     : 0.6.14\n
+Build       : 0.6.14/17-07-2020
 """
 
 class ExceptionTemplate(Exception):
@@ -20,13 +18,15 @@ class ExceptionTemplate(Exception):
 
 
 class bitWiseOnMatrix(ExceptionTemplate):
-    """Traditional Bitwise Operators are not allowed to work on matrix objects as of now.\n
-        Maybe in future we will find a creative use case of them.
+    """
+    Traditional Bitwise Operators are not allowed to work on matrix objects as of now.\n
+    Maybe in future we will find a creative use case of them.
     """
 
 
 class binaryMatrixException(ExceptionTemplate):
-    """Not a Binary Matrix
+    """
+    Not a Binary Matrix
     """
 
 

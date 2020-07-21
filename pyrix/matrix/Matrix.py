@@ -1,21 +1,34 @@
 #!/usr/bin/python3
 # -*- coding : UTF-8 -*-
 """
------------------------- Brief Documentation -----------------------
 Name        : Pyrix/Matrix\n
-Author      : Abhi-1U<https://github.com/Abhi-1U>\n
+Author      : Abhi-1U <https://github.com/Abhi-1U> \n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.6.11\n
-Build       : 0.6.11/30-06-2020
---------------------------------------------------------------------
+Version     : 0.6.14\n
+Build       : 0.6.14/17-07-2020
 """
 import copy
 import math
-from PyrixExceptions import bitWiseOnMatrix, divisionErrorException, incompaitableTypeException, nonInvertibleException
+from pyrix.exception import bitWiseOnMatrix, divisionErrorException, incompaitableTypeException, nonInvertibleException
 import random
 
-
+# *------- matrixData --------------------------------------------------------*
+# * This is the primary data object in pyrix/Matrix and pyrix/BinaryMatrix.
+# * MatrixData includes a ton of meta-Data which allows for enhanced Features,
+# * Performance and Computational Savings.
+# * A Dynamic Memoization Technique is also integrated in performance critical
+# * areas of the library ,however there are at times where the data memoized  
+# * becomes outdated and hence needs to be recalculated to maintain Integrity 
+# * and accuracy of calculations.
+# *
+# * Pyrix(Python Implementation) Balances these two aspects and has been  
+# * implemented from scratch in python V3 only .
+# * With a vision of Python based web Applications in mind dataTypes used
+# * are JSON friendly.
+# * A list of MetaData Stored and descriptions are bundled along with the
+# * docstrings included with the class . 
+# * --------------------------------------------------------------------------*
 class matrixData(object):
     """ All The Matrix Data is stored here which allows for implementing Dynamic Programming Principles such as Memoization:\n
         Data List:
@@ -35,7 +48,8 @@ class matrixData(object):
         14.orthogonalMatrix[Boolean]:returns True if matrix is orthogonal in nature
         15.minor[list]: contains minor values,By default None
         16.listifieddata[list]: contains all the data values in a flattened list
-        17.classtype[str]: defines the type of pyrix/matrix implementation(occours in inheriting classes) 
+        17.classtype[str]: defines the type of pyrix/matrix implementation(occours in inheriting classes)
+        18.symmetry[Boolean]:True for symmetrical,None by default,False otherwise 
     """
 
     def __init__(self, nrow, ncol, data):
@@ -72,46 +86,60 @@ class matrixData(object):
         del self.__dict__[name]
 
 
-"""
-Function List:
-1. Initialization Matrix
-2. Add/Subtract/Multiply
-3. Equality Check
-4. Inversion
-5. Add_row,Sub_row,Multiply_row,getrow,getcol
-6. RowEchleonTransform
-7. Copy
-8. Transpose
-9. determinant
-10. Vector Multiplication
-11. scale
-12. Strassen Multiplication
-13. Identity Matrix
-14. zero Matrix
-15. isSquareMatrix
-16. isInvertible
-17. RoundOff
-18. Rank
-19. ReducedRowEchleonTransform
-20. Random Matrix
-21. Unit Matrix
-22. matrixTrace
-23. adjoint
-24. cofactor
-25. minor
-26. isUpperTriangular
-27. isLowerTriangular
-28. listifymatrix
-29. flipDimesnsions
-30. reDimensionalize
-31. JSONEncoder
-32. JSONDecoder
-33. JSONExport
-34. JSONImport
-35. isSymmetricMatrix
-36. isOrthogonalMatrix
-"""
-
+# *------- Matrix ------------------------------------------------------------*
+# * pyrix/Matrix is the core Module and intuitively places an implementation
+# * of Abstract/Computer Representation of Matrix in general .
+# * The primary reason for such Development was to simplify dependence on C 
+# * based libraries used in backend of many popular python packages.
+# * C based libraries are tried and tested and these python packages refine 
+# * the user experience quite a lot but, as an enthusiast i imagine if python 
+# * was like some other restrictive language which did not allow C API ,there
+# * would surely had been some library built from scratch in python.
+# *
+# * We live in a world of Developers / Coders who rightfully use existing
+# * libraries and do it in a beautiful way of their own,thinking why reinvent 
+# * the wheel when there are bigger problems to tackle. I agree with them 
+# * But as a low level developer i find myself at peace creating my own libs
+# * and utilize them to the fullest in an efficient manner. :)
+# *  
+# * Functions/Methods Covered
+# * 1. Initialization Matrix
+# * 2. Add/Subtract/Multiply
+# * 3. Equality Check
+# * 4. Inversion
+# * 5. Add_row, Sub_row, Multiply_row, getrow, getcol
+# * 6. RowEchleonTransform
+# * 7. Copy
+# * 8. Transpose
+# * 9. determinant
+# * 10. Vector Multiplication
+# * 11. scale
+# * 12. Strassen Multiplication
+# * 13. Identity Matrix
+# * 14. zero Matrix
+# * 15. isSquareMatrix
+# * 16. isInvertible
+# * 17. RoundOff
+# * 18. Rank
+# * 19. ReducedRowEchleonTransform
+# * 20. Random Matrix
+# * 21. Unit Matrix
+# * 22. matrixTrace
+# * 23. adjoint
+# * 24. cofactor
+# * 25. minor
+# * 26. isUpperTriangular
+# * 27. isLowerTriangular
+# * 28. listifymatrix
+# * 29. flipDimesnsions
+# * 30. reDimensionalize
+# * 31. JSONEncoder
+# * 32. JSONDecoder
+# * 33. JSONExport
+# * 34. JSONImport
+# * 35. isSymmetricMatrix
+# * 36. isOrthogonalMatrix
+# *---------------------------------------------------------------------------* 
 
 class Matrix:
     """ Get Started By Creating a Matrix Object\n
@@ -121,7 +149,7 @@ class Matrix:
         eg. mat = M.Matrix(nrow=2,ncol=2,data=[[1,1],[1,1]])\n
     """
 
-    def __init__(self, nrow=1, ncol=1, data=[1]):
+    def __init__(self, nrow=1, ncol=1, data=[[1]]):
         if(len(data) == nrow, len(data[0]) == ncol):
             self.matrix = matrixData(nrow=nrow, ncol=ncol, data=data)
         else:
@@ -139,7 +167,8 @@ class Matrix:
             str(self.matrix.dimensions[0])+"x"+str(self.matrix.dimensions[1])
         return stringV
 
-    # Basic Operations on Matrices
+    # *------- Basic Operations on Matrices ----------------------------------*
+    
     # 1. Add Matrix
     # Operator Overloading for adding Matrices
 
@@ -147,7 +176,7 @@ class Matrix:
         if(self.matrix.dimensions != m2.matrix.dimensions):
             raise incompaitableTypeException
         else:
-            temp = self.matrix.data
+            temp = Copy(self.matrix.data)
             for i in range(len(m2.matrix.data)):
                 for j in range(len(m2.matrix.data[i])):
                     temp[i][j] += m2.matrix.data[i][j]
@@ -162,7 +191,7 @@ class Matrix:
         if(self.matrix.dimensions != m2.matrix.dimensions):
             raise incompaitableTypeException
         else:
-            temp = self.matrix.data
+            temp = Copy(self.matrix.data)
             for i in range(len(m2.matrix.data)):
                 for j in range(len(m2.matrix.data[i])):
                     temp[i][j] -= m2.matrix.data[i][j]
@@ -190,6 +219,7 @@ class Matrix:
         return s
 
     def __pow__(self, times):
+        assert isinstance(times,int),"Float not allowed"
         if(self.isSquareMatrix()):
             for _i in range(times):
                 self *= self
@@ -257,7 +287,7 @@ class Matrix:
             for j in range(self.matrix.ncol):
                 floorMatrix[i].append(math.floor(self.matrix.data[i][j]))
         return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=floorMatrix)
-    # Methods for Matrix Analysis
+    # *------- Methods for Matrix Analysis -----------------------------------*
 
     # 6.Equality
     # A method which overrides operator for chechking equality of two matrices
@@ -401,7 +431,7 @@ class Matrix:
         """
         if(self.matrix.determinant == None):
             if(self.isSquareMatrix()):
-                determinant = self.__determinantHelper(self.matrix.data)
+                determinant = self.__determinantHelper(Copy(self.matrix.data))
                 self.matrix.determinant = determinant
                 if(determinant == 0):
                     self.matrix.invertibility = False
@@ -440,7 +470,8 @@ class Matrix:
         """Calculates the Rank of the matrix object \n
             Returns integer value of rank
         """
-        x = self.RrowEchleonTransform()
+        cself=self.copy()
+        x = cself.RrowEchleonTransform()
         rank = 0
         for i in range(x.matrix.nrow):
             for j in range(x.matrix.ncol):
@@ -499,7 +530,7 @@ class Matrix:
         else:
             return False
 
-    # Intermatrix Row and column operations
+    # *------- Intermatrix Row and column operations -------------------------*
 
     # 17. addRow
     # adds row of matrix1 to row of matrix 2
@@ -536,7 +567,7 @@ class Matrix:
         """
         self.matrix.data[index1] = self.__row_sub(
             self.matrix.data[index1], self.matrix.data[index2])
-    # Transformations on matrices
+    # *------- Transformations on matrices -----------------------------------*
 
     # 19. Invert Matrix
     # returns a new object of inverted matrix
@@ -550,7 +581,7 @@ class Matrix:
         if(self.matrix.invertibility == False):
             pass
         else:
-            AM = self.matrix.data
+            AM = Copy(self.matrix.data)
             IM = identityMatrix(
                 self.matrix.nrow, self.matrix.ncol).matrix.data
             for fd in range(len(AM)):
@@ -584,7 +615,7 @@ class Matrix:
         """This method verifies a unverse of the matrix by multiplying it with the orignal input matrix to get identity matrix.
         """
         matrixs = []
-        m1 = self.matrix.data
+        m1 = Copy(self.matrix.data)
         im = []
         s = 0
         l = len(m1)
@@ -685,10 +716,10 @@ class Matrix:
         s = Matrix(nrow=self.matrix.ncol, ncol=self.matrix.nrow, data=c)
         return s
 
-    # additional Methods
+    # *------- Supplementary Methods -----------------------------------------*
 
     # 28.vectorMultiplication
-    # multiplication of vector as a matrix with another matrix
+    # multiplication of vector as a matrix with another Vector
 
     def vectorMultiplication(self, v1):
         if(self.matrix.nrow != len(v1)):
@@ -709,9 +740,6 @@ class Matrix:
 
     # 29.StrassenMultiplication
     # returns multiplication of two matrices with strassen method
-    # 30.eigenTerms
-    # returns the eigenValues and eigenVects of the matrix
-
     # 31.strassen2x2
     # helper method for 2x2matrix multiplications by strassen method
 
@@ -762,7 +790,7 @@ class Matrix:
         """Finds all the minor values of the matrix object.\n
         Returns a new Matrix Object of minors.
         """
-        matrixdata = self.matrix.data
+        matrixdata = Copy(self.matrix.data)
         if(self.isSquareMatrix()):
             if (self.matrix.dimensions == [2, 2]):
                 allminorslist = self.__minor2x2(matrixdata)
@@ -839,7 +867,9 @@ class Matrix:
         """
         clist = self.copy().matrix.data
         return __nestifyMatrix(clist, rowcount, colcount)
-    # Statistical Methods
+
+
+    # *------- Statistical Methods -------------------------------------------*
 
     def globalMean(self):
         data = self.matrix.data
@@ -1064,3 +1094,6 @@ def flipDimensions(AnyMatrixObject):
     newcol = AnyMatrixObject.matrix.nrow
     newrow = AnyMatrixObject.matrix.ncol
     return reDimensionalize(AnyMatrixObject, newrow, newcol)
+
+def Copy(AnyObject):
+    return copy.deepcopy(AnyObject)

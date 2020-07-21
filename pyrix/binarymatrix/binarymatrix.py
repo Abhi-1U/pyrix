@@ -1,18 +1,17 @@
 #!/usr/bin/python3
 # -*- coding : UTF-8 -*-
 """
------------------------- Brief Documentation -----------------------
 Name        : Pyrix/BinaryMatrix\n
-Author      : Abhi-1U<https://github.com/Abhi-1U>\n
+Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.6.11\n
-Build       : 0.6.11/30-06-2020
---------------------------------------------------------------------
+Version     : 0.6.14\n
+Build       : 0.6.14/17-07-2020
 """
-from Matrix import Matrix, matrixData
-from PyrixExceptions import binaryMatrixException,incompaitableTypeException
+from pyrix.matrix import Matrix, matrixData
+from pyrix.exception import binaryMatrixException,incompaitableTypeException
 import random
+import copy
 """
 Unique methods List:
 1. binary add
@@ -54,7 +53,8 @@ class BinaryMatrix(Matrix):
             self.isBinaryMatrix()
         else:
             raise incompaitableTypeException
-
+    def __repr__(self):
+        pass
     def __str__(self):
         stringV = str()
         stringV = "Binary Matrix:\n"
@@ -63,7 +63,7 @@ class BinaryMatrix(Matrix):
         stringV += ("Dimensions :") + \
             str(self.matrix.dimensions[0])+"x"+str(self.matrix.dimensions[1])
         return stringV
-
+    __repr__ = __str__
     def __add__(self, BinaryMat2):
         carryterm = 0
         if(not BinaryMat2.isBinaryMatrix()):
@@ -482,3 +482,7 @@ def flipDimensions(AnyMatrixObject):
     newcol = AnyMatrixObject.matrix.nrow
     newrow = AnyMatrixObject.matrix.ncol
     return reDimensionalize(AnyMatrixObject, newrow, newcol)
+
+
+def Copy(AnyObject):
+    return copy.deepcopy(AnyObject)

@@ -1,16 +1,14 @@
 #!/usr/bin/python3
 # -*- coding : UTF-8 -*-
 """
------------------- Brief Documentation --------------------
 Name        : Pyrix/Vector\n
-Author      : Abhi-1U<https://github.com/Abhi-1U>\n
+Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : An extension to pyrix for vectors\n
 Encoding    : UTF-8\n
-Version     : 0.6.11\n
-Build       : 0.6.11/30-06-2020
-------------------------------------------------------------
+Version     : 0.6.14\n
+Build       : 0.6.14/17-07-2020
 """
-from PyrixExceptions import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix # exceptions required
+from pyrix.exception import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix # exceptions required
 import math # for basic math functions
 import copy # for deep copy()
 import random # for random matrix
@@ -76,7 +74,7 @@ class Vector:
             return Vector(dims=self.vector.dimensions, data=sum)
         else:
             raise incompaitableTypeException
-
+    __repr__ = __str__
     def __sub__(self, Vector2):
         if(self.vector.dimensions == Vector2.vector.dimensions):
             diff = []
@@ -125,7 +123,7 @@ class Vector:
     def __abs__(self):
         return self.vectorNorm()
 
-    def __pow__(self):
+    def __pow__(self,scalar):
         return self.dotProduct(v2=self)
 
     def copy(self):
@@ -225,3 +223,7 @@ def linearVector(dims, minVal, maxVal):
         data.append(minVal+gap*i)
     linVector = Vector(dims=dims, data=data)
     return linVector
+
+
+def Copy(AnyObject):
+    return copy.deepcopy(AnyObject)
