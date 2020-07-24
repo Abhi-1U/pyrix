@@ -5,13 +5,14 @@ Name        : Pyrix/BinaryMatrix\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.6.14\n
-Build       : 0.6.14/17-07-2020
+Version     : 0.6.15\n
+Build       : 0.6.15/23-07-2020
 """
 from pyrix.matrix import Matrix, matrixData
 from pyrix.exception import binaryMatrixException,incompaitableTypeException
 import random
 import copy
+
 """
 Unique methods List:
 1. binary add
@@ -64,6 +65,19 @@ class BinaryMatrix(Matrix):
             str(self.matrix.dimensions[0])+"x"+str(self.matrix.dimensions[1])
         return stringV
     __repr__ = __str__
+
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
+
+    def __getattr__(self, name):
+        try:
+            return self.__dict__[name]
+        except KeyError:
+            raise AttributeError(name)
+
+    def __delattr__(self, name):
+        del self.__dict__[name]
+    
     def __add__(self, BinaryMat2):
         carryterm = 0
         if(not BinaryMat2.isBinaryMatrix()):
@@ -204,7 +218,7 @@ class BinaryMatrix(Matrix):
     def onesComplement(self):
         return self.__invert__()
 
-    def twosSomplement(self):
+    def twosComplement(self):
         binaryinvertedmatrix = self.onesComplement()
         lastrow = binaryinvertedmatrix.matrix.nrow
         lastcol = binaryinvertedmatrix.matrix.ncol
@@ -292,6 +306,7 @@ class BinaryMatrix(Matrix):
                 dataArray.insert(-1, 0)
                 dataArray.pop(0)
         setattr(self.matrix, name='data', value=dataArray)
+        return self
 
     def circularShift(self, direction, bits):
         dataArray = __listifyMatrix(self)
@@ -306,6 +321,7 @@ class BinaryMatrix(Matrix):
                 dataArray.insert(-1, firstelement)
                 dataArray.pop(0)
         setattr(self.matrix, name='data', value=dataArray)
+        return self
 
     def arithmeticShift(self, direction, bits):
         dataArray = __listifyMatrix(self)
@@ -320,6 +336,7 @@ class BinaryMatrix(Matrix):
                 dataArray.insert(-1, LSBvalue)
                 dataArray.pop(0)
         setattr(self.matrix, name='data', value=dataArray)
+        return self
 
     def popcount(self):
         popcount = 0
@@ -464,25 +481,7 @@ def randomBinaryMatrix(scale, type):
         s = BinaryMatrix(nrow=nrow, ncol=ncol, data=data)
         return s
 
-
-def reDimensionalize(AnyMatrixObject, nrow, ncol):
-    listifieddata = __listifyMatrix(AnyMatrixObject)
-    matrixdata = []
-    for i in range(nrow):
-        matrixdata.append([])
-        matrixdata[i] = listifieddata[0:ncol]
-        del listifieddata[0:ncol]
-    if(AnyMatrixObject.matrix.classType == "Matrix"):
-        return Matrix(nrow=nrow, ncol=ncol, data=matrixdata)
-    if(AnyMatrixObject.matrix.classType == "BinaryMatrix"):
-        return BinaryMatrix(nrow=nrow, ncol=ncol, data=matrixdata)
-
-
-def flipDimensions(AnyMatrixObject):
-    newcol = AnyMatrixObject.matrix.nrow
-    newrow = AnyMatrixObject.matrix.ncol
-    return reDimensionalize(AnyMatrixObject, newrow, newcol)
-
-
 def Copy(AnyObject):
     return copy.deepcopy(AnyObject)
+
+

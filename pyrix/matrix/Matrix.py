@@ -5,8 +5,8 @@ Name        : Pyrix/Matrix\n
 Author      : Abhi-1U <https://github.com/Abhi-1U> \n
 Description : A simple matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.6.14\n
-Build       : 0.6.14/17-07-2020
+Version     : 0.6.15\n
+Build       : 0.6.15/23-07-2020
 """
 import copy
 import math
@@ -1080,20 +1080,6 @@ def randomMatrix(scale, type):
                 data[i].append(random.triangular(low=0.0, high=1000.0))
         s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
-def reDimensionalize(AnyMatrixObject, nrow, ncol):
-    listifieddata = __listifyMatrix(AnyMatrixObject)
-    matrixdata = []
-    for i in range(nrow):
-        matrixdata.append([])
-        matrixdata[i] = listifieddata[0:ncol]
-        del listifieddata[0:ncol]
-    if(AnyMatrixObject.matrix.classType == "Matrix"):
-        return Matrix(nrow=nrow, ncol=ncol, data=matrixdata)
-
-def flipDimensions(AnyMatrixObject):
-    newcol = AnyMatrixObject.matrix.nrow
-    newrow = AnyMatrixObject.matrix.ncol
-    return reDimensionalize(AnyMatrixObject, newrow, newcol)
 
 def Copy(AnyObject):
     return copy.deepcopy(AnyObject)

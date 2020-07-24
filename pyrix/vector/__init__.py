@@ -5,8 +5,8 @@ Name        : Pyrix/Vector\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : An extension to pyrix for vectors\n
 Encoding    : UTF-8\n
-Version     : 0.6.14\n
-Build       : 0.6.14/17-07-2020
+Version     : 0.6.15\n
+Build       : 0.6.15/23-07-2020
 """
 from pyrix.vector.Vector import (
     linearVector,

@@ -5,8 +5,8 @@ Name        : Pyrix/Vector\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : An extension to pyrix for vectors\n
 Encoding    : UTF-8\n
-Version     : 0.6.14\n
-Build       : 0.6.14/17-07-2020
+Version     : 0.6.15\n
+Build       : 0.6.15/17-07-2020
 """
 from pyrix.exception import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix # exceptions required
 import math # for basic math functions
@@ -223,7 +223,6 @@ def linearVector(dims, minVal, maxVal):
         data.append(minVal+gap*i)
     linVector = Vector(dims=dims, data=data)
     return linVector
-
 
 def Copy(AnyObject):
     return copy.deepcopy(AnyObject)

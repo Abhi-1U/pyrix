@@ -5,8 +5,8 @@ Name        : Pyrix/MatrixEquations\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : An extension for matrix Based Equations \n
 Encoding    : UTF-8\n
-Version     : 0.6.14\n
-Build       : 0.6.14/17-07-2020
+Version     : 0.6.15\n
+Build       : 0.6.15/23-07-2020
 """
 from pyrix.binarymatrix.binarymatrix import BinaryMatrix
 from pyrix.matrix.Matrix import Matrix
@@ -32,12 +32,6 @@ class matrixEquation:
 
 
 class MEquation(BinaryMatrix):
-    def isSymmnetricMatrix(self, side, terms):
-        pass
-
-    def isOrthogonalMatrix(self, side, terms):
-        pass
-
     def ACRTransform(self):
         pass
 
