@@ -13,5 +13,5 @@ from pyrix.binarymatrix.binarymatrix import (
     identityBinaryMatrix,
     randomBinaryMatrix,
     unitBinaryMatrix,
-    zeroBinaryMatrix
+    zeroBinaryMatrix,
 )

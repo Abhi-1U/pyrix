@@ -8,9 +8,10 @@ Encoding    : UTF-8\n
 Version     : 0.6.15\n
 Build       : 0.6.15/23-07-2020
 """
-from pyrix.exception.pyrixexceptions import(
+from pyrix.exception.pyrixexceptions import (
     binaryMatrixException,
     bitWiseOnMatrix,
     divisionErrorException,
     incompaitableTypeException,
-    nonInvertibleException)
+    nonInvertibleException,
+)

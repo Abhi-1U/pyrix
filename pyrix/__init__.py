@@ -9,34 +9,23 @@ Version     : 0.6.15\n
 Build       : 0.6.15/23-07-2020
 """
 
-from pyrix.exception import(
+from pyrix.exception import (
     binaryMatrixException,
     bitWiseOnMatrix,
     divisionErrorException,
     incompaitableTypeException,
-    nonInvertibleException)
-
-from pyrix.matrix import (
-    Matrix,
-    zeroMatrix,
-    unitMatrix,
-    randomMatrix,
-    identityMatrix
+    nonInvertibleException,
 )
+
+from pyrix.matrix import Matrix, zeroMatrix, unitMatrix, randomMatrix, identityMatrix
 from pyrix.binarymatrix import (
     BinaryMatrix,
     identityBinaryMatrix,
     randomBinaryMatrix,
     unitBinaryMatrix,
-    zeroBinaryMatrix
+    zeroBinaryMatrix,
 )
-from pyrix.vector import (
-    linearVector,
-    randomVector,
-    unitVector,
-    Vector,
-    zeroVector
-)
+from pyrix.vector import linearVector, randomVector, unitVector, Vector, zeroVector
 
 from pyrix.util import (
     flipDimensions,
@@ -44,5 +33,5 @@ from pyrix.util import (
     reDimensionalize,
     nestifyMatrix,
     JSONExport,
-    Copy
+    Copy,
 )

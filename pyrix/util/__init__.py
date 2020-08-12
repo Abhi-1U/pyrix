@@ -4,5 +4,5 @@ from pyrix.util.pyrixutil import (
     reDimensionalize,
     nestifyMatrix,
     JSONExport,
-    Copy
+    Copy,
 )

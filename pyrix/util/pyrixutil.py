@@ -11,9 +11,10 @@ Build       : 0.6.15/23-07-2020
 from pyrix.matrix import Matrix
 from pyrix.binarymatrix import BinaryMatrix
 from pyrix.vector import Vector
-from pyrix.exception import  binaryMatrixException, incompaitableTypeException
+from pyrix.exception import binaryMatrixException, incompaitableTypeException
 import json
 import copy
+
 
 def reDimensionalize(AnyMatrixObject, nrow, ncol):
     listifieddata = listifyMatrix(AnyMatrixObject)
@@ -22,12 +23,13 @@ def reDimensionalize(AnyMatrixObject, nrow, ncol):
         matrixdata.append([])
         matrixdata[i] = listifieddata[0:ncol]
         del listifieddata[0:ncol]
-    if(AnyMatrixObject.matrix.classType == "Matrix"):
+    if AnyMatrixObject.matrix.classType == "Matrix":
         return Matrix(nrow=nrow, ncol=ncol, data=matrixdata)
-    if(AnyMatrixObject.matrix.classType == "BinaryMatrix"):
+    if AnyMatrixObject.matrix.classType == "BinaryMatrix":
         return BinaryMatrix(nrow=nrow, ncol=ncol, data=matrixdata)
-    if(isinstance(AnyMatrixObject,Vector)):
+    if isinstance(AnyMatrixObject, Vector):
         print("reDimensionalize not applicable on Vectors")
+
 
 def listifyMatrix(MatrixObject):
     matrixdata = MatrixObject.matrix.data
@@ -57,6 +59,7 @@ def flipDimensions(AnyMatrixObject):
 def Copy(AnyObject):
     return copy.deepcopy(AnyObject)
 
+
 def JSONEncoder(object):
     """Encodes dictionary data of the Matrix Object into JSON format.
     """
@@ -83,23 +86,23 @@ def JSONDecoder(object):
     ncol = 0
     data = []
     for key, item in object.items():
-        if(key == 'classType'):
+        if key == "classType":
             classtype = item
             continue
-        if(key == 'nrow'):
+        if key == "nrow":
             nrow = item
             continue
-        if(key == 'ncol'):
+        if key == "ncol":
             ncol = item
             continue
-        if(key == 'data'):
+        if key == "data":
             data = item
             break
-    if classtype == 'BinaryMatrix':
+    if classtype == "BinaryMatrix":
         returnMatrix = BinaryMatrix(nrow=nrow, ncol=ncol, data=data)
         for key, item in object.items():
             setattr(returnMatrix.matrix, key, item)
-    if classtype == 'Matrix':
+    if classtype == "Matrix":
         returnMatrix = Matrix(nrow=nrow, ncol=ncol, data=data)
         for key, item in object.items():
             setattr(returnMatrix.matrix, key, item)
@@ -111,14 +114,16 @@ def JSONImport(filename, mode="UI"):
         If you have Tkinter installed then the UI mode will trigger the GUI to select file.
         Returns a Matrix Object.
     """
-    if(mode == "UI"):
+    if mode == "UI":
         filepath = fileChooserUI()
     else:
         filepath = filename
-    with open(filepath, 'r') as openfile:
+    with open(filepath, "r") as openfile:
         json_object = json.load(openfile)
         openfile.close()
     return JSONDecoder(json_object)
+
+
 try:
     from tkinter import messagebox
     from tkinter import filedialog
@@ -127,10 +132,11 @@ try:
     def fileChooserUI():
         main = Tk()
         main.withdraw()
-        main.sourceFolder = ''
-        main.sourceFile = ''
+        main.sourceFolder = ""
+        main.sourceFile = ""
         main.sourceFile = filedialog.askopenfilename(
-            parent=main, initialdir="/", title='Please select a directory')
+            parent=main, initialdir="/", title="Please select a directory"
+        )
         main.destroy()
         main.mainloop()
         return main.sourceFile
@@ -138,17 +144,22 @@ try:
     def folderChooserUI():
         main = Tk()
         main.withdraw()
-        main.sourceFolder = ''
-        main.sourceFile = ''
+        main.sourceFolder = ""
+        main.sourceFile = ""
         main.sourceFolder = filedialog.askdirectory(
-            parent=main, initialdir="/", title='Please select a directory')
+            parent=main, initialdir="/", title="Please select a directory"
+        )
         main.destroy()
         main.mainloop()
         return main.sourceFolder
+
+
 except ImportError as e:
     """Tkinter or Tk or Tk bindings not installed \n
         enter the file path by text\n
         or install tkinter"""
-    print("Tkinter or Tk or Tk bindings not installed \n \
+    print(
+        "Tkinter or Tk or Tk bindings not installed \n \
           enter the file path by text\n \
-          or install tkinter")
+          or install tkinter"
+    )

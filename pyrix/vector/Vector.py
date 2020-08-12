@@ -8,10 +8,14 @@ Encoding    : UTF-8\n
 Version     : 0.6.15\n
 Build       : 0.6.15/17-07-2020
 """
-from pyrix.exception import incompaitableTypeException, divisionErrorException, bitWiseOnMatrix # exceptions required
-import math # for basic math functions
-import copy # for deep copy()
-import random # for random matrix
+from pyrix.exception import (
+    incompaitableTypeException,
+    divisionErrorException,
+    bitWiseOnMatrix,
+)  # exceptions required
+import math  # for basic math functions
+import copy  # for deep copy()
+import random  # for random matrix
 
 # Vector is treated like a List
 # Unlike Matrix which is Nested List
@@ -24,6 +28,7 @@ class vectorData(object):
         4.directionVectorSet[list]: list of direction Vector Objects (Not Implemented yet)
         5.classType:defines the type of pyrix/vector implementation(occours in inheriting classes)
     """
+
     def __init__(self, dims, data):
         self.data = data
         self.dimensions = dims
@@ -51,6 +56,7 @@ class Vector:
         data=corresponding vector data of the dimensions as a list\n
         eg. Vect = Vector(dims=2,data=[1,1]) 
     """
+
     def __init__(self, dims, data):
         self.vector = vectorData(dims, data)
 
@@ -58,40 +64,45 @@ class Vector:
         stringV = str()
         stringV = "Vector:\n"
         for item in self.vector.data:
-            stringV += str(item)+"\n"
-        stringV += "Dimensions :" + \
-            str(self.vector.dimensions)
+            stringV += str(item) + "\n"
+        stringV += "Dimensions :" + str(self.vector.dimensions)
         return stringV
 
     def __repr__(self):
         pass
 
     def __add__(self, Vector2):
-        if(self.vector.dimensions == Vector2.vector.dimensions):
+        if self.vector.dimensions == Vector2.vector.dimensions:
             sum = []
             for i in range(self.vector.dimensions):
-                sum.append(self.vector.data[i]+Vector2.vector.data[i])
+                sum.append(self.vector.data[i] + Vector2.vector.data[i])
             return Vector(dims=self.vector.dimensions, data=sum)
         else:
             raise incompaitableTypeException
+
     __repr__ = __str__
+
     def __sub__(self, Vector2):
-        if(self.vector.dimensions == Vector2.vector.dimensions):
+        if self.vector.dimensions == Vector2.vector.dimensions:
             diff = []
             for i in range(self.vector.dimensions):
-                diff.append(self.vector.data[i]-Vector2.vector.data[i])
+                diff.append(self.vector.data[i] - Vector2.vector.data[i])
             return Vector(dims=self.vector.dimensions, data=diff)
         else:
             raise incompaitableTypeException
 
     def __mul__(self, *args):
-        print("Depending on the application use other methods like:\n1. dotProduct\n2. crossProduct(Under-Development)")
+        print(
+            "Depending on the application use other methods like:\n1. dotProduct\n2. crossProduct(Under-Development)"
+        )
 
     def __truediv__(self, m2):
         raise divisionErrorException
 
     def __eq__(self, vector2):
-        if(self.vector.dimensions == vector2.vector.dimensions)and (self.vector.data == vector2.vector.data):
+        if (self.vector.dimensions == vector2.vector.dimensions) and (
+            self.vector.data == vector2.vector.data
+        ):
             return True
         else:
             return False
@@ -123,17 +134,19 @@ class Vector:
     def __abs__(self):
         return self.vectorNorm()
 
-    def __pow__(self,scalar):
+    def __pow__(self, scalar):
         return self.dotProduct(v2=self)
 
     def copy(self):
         return copy.deepcopy(self)
 
     def dotProduct(self, v2):
-        assert self.vector.dimensions == v2.vector.dimensions, "incompaitableTypeException"
+        assert (
+            self.vector.dimensions == v2.vector.dimensions
+        ), "incompaitableTypeException"
         dotproduct = 0
         for i in range(self.vector.dimensions):
-            dotproduct += (self.vector.data[i])*(v2.vector.data[i])
+            dotproduct += (self.vector.data[i]) * (v2.vector.data[i])
         return dotproduct
 
     def vectorNorm(self):
@@ -142,7 +155,7 @@ class Vector:
 
     def vectorNormalize(self):
         normValue = self.vectorNorm()
-        assert (normValue != 0), "Vector normal value 0"
+        assert normValue != 0, "Vector normal value 0"
         for i in range(self.vector.dimensions):
             self.vector.data[i] /= normValue
         return self
@@ -154,16 +167,19 @@ class Vector:
         return self
 
     def crossProduct(self, v2):
-        assert self.vector.dimensions == v2.vector.dimensions, "incompaitableTypeException"
-        dims=self.vector.dimensions
-        data=[]
-        vector1data=self.vector.data
-        vector2data=v2.vector.data
+        assert (
+            self.vector.dimensions == v2.vector.dimensions
+        ), "incompaitableTypeException"
+        dims = self.vector.dimensions
+        data = []
+        vector1data = self.vector.data
+        vector2data = v2.vector.data
         print("Work under Progress :( ")
 
     def orthogonalityVector(self):
         raise NotImplementedError
-    __repr__==__str__
+
+    __repr__ == __str__
 
 
 def unitVector(dims):
@@ -181,14 +197,14 @@ def zeroVector(dims):
 
 
 def randomVector(scale, type):
-    if(scale == "small" and type == "int"):
+    if scale == "small" and type == "int":
         dims = random.randint(1, 10)
         data = []
         for i in range(dims):
             data[i].append(random.randint(1, 100))
         s = Vector(dims=dims, data=data)
         return s
-    if(scale == "large" and type == "int"):
+    if scale == "large" and type == "int":
         dims = random.randint(10, 100)
         data = []
         for i in range(dims):
@@ -196,14 +212,14 @@ def randomVector(scale, type):
         s = Vector(dims=dims, data=data)
         return s
 
-    if(scale == "small" and type == "float"):
+    if scale == "small" and type == "float":
         dims = random.randint(1, 10)
         data = []
         for i in range(dims):
             data[i].append(random.triangular(low=0.0, high=10.0))
         s = Vector(dims=dims, data=data)
         return s
-    if(scale == "large" and type == "float"):
+    if scale == "large" and type == "float":
         dims = random.randint(10, 100)
         data = []
         for i in range(dims):
@@ -214,15 +230,16 @@ def randomVector(scale, type):
 
 def linearVector(dims, minVal, maxVal):
     assert minVal <= maxVal
-    'Not suitable Range'
+    "Not suitable Range"
     assert dims > 1
-    'Dimensions too small'
+    "Dimensions too small"
     data = []
-    gap = (maxVal-minVal)/(dims-1)
+    gap = (maxVal - minVal) / (dims - 1)
     for i in range(dims):
-        data.append(minVal+gap*i)
+        data.append(minVal + gap * i)
     linVector = Vector(dims=dims, data=data)
     return linVector
+
 
 def Copy(AnyObject):
     return copy.deepcopy(AnyObject)
