@@ -5,27 +5,38 @@ Name        : Pyrix\n
 Author      : Abhi-1U <https://github.com/Abhi-1U> \n
 Description : A Matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     : 0.6.15\n
-Build       : 0.6.15/23-07-2020
+Version     :0.7.16rc0\n
+Build       :0.7.16rc0/29-08-2020
 """
 
-from pyrix.exception import (
+from pyrix.exception import(
     binaryMatrixException,
     bitWiseOnMatrix,
     divisionErrorException,
     incompaitableTypeException,
-    nonInvertibleException,
-)
+    nonInvertibleException)
 
-from pyrix.matrix import Matrix, zeroMatrix, unitMatrix, randomMatrix, identityMatrix
+from pyrix.matrix import (
+    Matrix,
+    zeroMatrix,
+    unitMatrix,
+    randomMatrix,
+    identityMatrix
+)
 from pyrix.binarymatrix import (
     BinaryMatrix,
     identityBinaryMatrix,
     randomBinaryMatrix,
     unitBinaryMatrix,
-    zeroBinaryMatrix,
+    zeroBinaryMatrix
 )
-from pyrix.vector import linearVector, randomVector, unitVector, Vector, zeroVector
+from pyrix.vector import (
+    linearVector,
+    randomVector,
+    unitVector,
+    Vector,
+    zeroVector
+)
 
 from pyrix.util import (
     flipDimensions,
@@ -34,4 +45,9 @@ from pyrix.util import (
     nestifyMatrix,
     JSONExport,
     Copy,
+    listifyMatrix
+)
+from pyrix.charmatrix import(
+    alphaMatrix5x5,
+    CharMatrix
 )

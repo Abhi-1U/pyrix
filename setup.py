@@ -1,8 +1,8 @@
-from setuptools import setup, find_packages
+from setuptools import setup,find_packages
 
-name = "pyrix"
+name="pyrix"
 # *---------------------------------------------------------------------------*
-# * Including ReadMe Markdown File in the setup
+# * Including ReadMe Markdown File in the setup 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 # *---------------------------------------------------------------------------*
@@ -25,7 +25,7 @@ CLASSIFIERS = [
 setup(
     name=name,
     license="MIT",
-    version="0.6.15",
+    version="0.7.16rc0",
     author="Abhi-1U",
     author_email="PerricoQ@outlook.com",
     description="A matrix Library",
@@ -34,5 +34,5 @@ setup(
     project_urls=PROJECT_URLS,
     packages=find_packages(),
     classifiers=CLASSIFIERS,
-    python_requires=">=3.0",
+    python_requires='>=3.0',
 )
