@@ -7,8 +7,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 # *---------------------------------------------------------------------------*
 PROJECT_URLS = {
-    "Documentation": "https://abhi-1u.github.io/gitlas/docs/",
-    "Source Code": "https://github.com/Abhi-1U/gitlas",
+    "Source Code": "https://github.com/Abhi-1U/pyrix",
 }
 CLASSIFIERS = [
     "Development Status :: 5 - Production/Stable",
