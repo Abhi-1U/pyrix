@@ -3,6 +3,7 @@ import pyrix.matrix as M
 import pyrix.binarymatrix as B
 import pyrix.vector as V
 import pyrix.exception as E
+
 d = [[2, 3, 9], [2, 11, 5]]
 st = [[2, 4, 2], [2, 1, 1], [2, 1, 4]]
 nrow = 2
