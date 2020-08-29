@@ -5,8 +5,8 @@ Name        : Pyrix/Utilities\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : Utility Extention to pyrix  \n
 Encoding    : UTF-8\n
-Version     :0.7.16rc0\n
-Build       :0.7.16rc0/29-08-2020
+Version     :0.7.17rc0\n
+Build       :0.7.17rc0/29-08-2020
 """
 from pyrix.matrix import Matrix
 from pyrix.binarymatrix import BinaryMatrix
