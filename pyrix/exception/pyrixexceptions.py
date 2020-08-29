@@ -9,12 +9,13 @@ Version     :0.7.16rc0\n
 Build       :0.7.16rc0/29-08-2020
 """
 
+
 class ExceptionTemplate(Exception):
     def __call__(self, *args):
         return self.__class__(*(self.args + args))
 
     def __str__(self):
-        return ': '.join(self.args)
+        return ": ".join(self.args)
 
 
 class bitWiseOnMatrix(ExceptionTemplate):

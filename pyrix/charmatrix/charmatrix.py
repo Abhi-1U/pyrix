@@ -9,13 +9,19 @@ Version     :0.7.16rc0\n
 Build       :0.7.16rc0/29-08-2020
 """
 import copy
-from pyrix.matrix import matrixData,Matrix
-from pyrix.exception import incompaitableTypeException,divisionErrorException,bitWiseOnMatrix
+from pyrix.matrix import matrixData, Matrix
+from pyrix.exception import (
+    incompaitableTypeException,
+    divisionErrorException,
+    bitWiseOnMatrix,
+)
+
+
 class CharMatrix(Matrix):
-    def __init__(self, nrow=1, ncol=1, data=[['']]):
-        if(len(data) == nrow, len(data[0]) == ncol):
+    def __init__(self, nrow=1, ncol=1, data=[[""]]):
+        if (len(data) == nrow, len(data[0]) == ncol):
             self.matrix = matrixData(nrow=nrow, ncol=ncol, data=data)
-            self.matrix.classType ="charactar"
+            self.matrix.classType = "charactar"
         else:
             raise incompaitableTypeException
 
@@ -26,11 +32,16 @@ class CharMatrix(Matrix):
         stringV = str()
         stringV = "Charactar Matrix:\n"
         for item in self.matrix.data:
-            stringV += str(item)+"\n"
-        stringV += "Dimensions :" + \
-            str(self.matrix.dimensions[0])+"x"+str(self.matrix.dimensions[1])
+            stringV += str(item) + "\n"
+        stringV += (
+            "Dimensions :"
+            + str(self.matrix.dimensions[0])
+            + "x"
+            + str(self.matrix.dimensions[1])
+        )
         return stringV
-    __repr__=__str__
+
+    __repr__ = __str__
     # 4. Divide Matrix
     # A method just to avoid division by operator
 
@@ -62,6 +73,7 @@ class CharMatrix(Matrix):
 
     def __invert__(self):
         raise bitWiseOnMatrix
+
     def copy(self):
         return copy.deepcopy(self)
 
@@ -70,11 +82,10 @@ class CharMatrix(Matrix):
              A square matrix is a matrix with equal number of rows and cols\n
              Returns a Boolean value
         """
-        if(self.matrix.nrow == self.matrix.ncol):
+        if self.matrix.nrow == self.matrix.ncol:
             return True
         else:
             return False
-
 
     def getRow(self, index):
         """Selects a Row of the matrix of specified index\n
@@ -99,7 +110,7 @@ class CharMatrix(Matrix):
             temp[i].append(self.matrix.data[i][index])
         s = CharMatrix(nrow=self.matrix.nrow, ncol=1, data=temp)
         return s
-    
+
     def transposeTransform(self):
         """Transpose of the original matrix is created.\n
             Returns a Matrix Object.
@@ -111,29 +122,33 @@ class CharMatrix(Matrix):
                 c[i].append(self.matrix.data[j][i])
         s = CharMatrix(nrow=self.matrix.ncol, ncol=self.matrix.nrow, data=c)
         return s
-    def findCharactar(self,charactar):
+
+    def findCharactar(self, charactar):
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
-                if(charactar==self.matrix.data[i][j]):
-                    return [i,j]
+                if charactar == self.matrix.data[i][j]:
+                    return [i, j]
+
     def ASCIIvals(self):
-        data=self.copy().matrix.data
-        returndata=[]
+        data = self.copy().matrix.data
+        returndata = []
         for i in range(self.matrix.nrow):
             returndata.append([])
             for j in range(self.matrix.ncol):
                 returndata[i].append(ord(data[i][j]))
-        return Matrix(nrow=self.matrix.nrow,ncol=self.matrix.ncol,data=returndata)
+        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=returndata)
+
+
 def alphaMatrix5x5(offsetchars=[]):
-    table=[]
-    alpha="abcdefghijklmnopqrstuvwxyz"
-    if(len(offsetchars)!=0):
+    table = []
+    alpha = "abcdefghijklmnopqrstuvwxyz"
+    if len(offsetchars) != 0:
         for i in offsetchars:
-            assert i.isalpha(),"Key should contain only alphabets"
-            if(i in table ):
+            assert i.isalpha(), "Key should contain only alphabets"
+            if i in table:
                 continue
-            if(i =="j"):
-                if("i" in table):
+            if i == "j":
+                if "i" in table:
                     continue
                 else:
                     table.append("i")
@@ -141,18 +156,20 @@ def alphaMatrix5x5(offsetchars=[]):
             else:
                 table.append(i)
     for i in range(len(alpha)):
-        if(alpha[i]  in table):
+        if alpha[i] in table:
             continue
-        if(alpha[i] =="j"):
-            if("i" in table):
+        if alpha[i] == "j":
+            if "i" in table:
                 continue
             else:
                 table.append("i")
             continue
         else:
             table.append(alpha[i])
-    outmatrix=CharMatrix(nrow=5,ncol=5,data=__nestifyMatrix(table,5,5))
+    outmatrix = CharMatrix(nrow=5, ncol=5, data=__nestifyMatrix(table, 5, 5))
     return outmatrix
+
+
 def __listifyMatrix(MatrixObject):
     matrixdata = MatrixObject.matrix.data
     listifiedmatrix = []

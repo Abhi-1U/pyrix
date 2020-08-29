@@ -14,5 +14,5 @@ from pyrix.matrix.Matrix import (
     unitMatrix,
     randomMatrix,
     identityMatrix,
-    matrixData
+    matrixData,
 )

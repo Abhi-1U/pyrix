@@ -5,5 +5,5 @@ from pyrix.util.pyrixutil import (
     nestifyMatrix,
     JSONExport,
     Copy,
-    listifyMatrix
+    listifyMatrix,
 )

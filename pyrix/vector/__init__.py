@@ -13,5 +13,5 @@ from pyrix.vector.Vector import (
     randomVector,
     unitVector,
     Vector,
-    zeroVector
+    zeroVector,
 )
