@@ -1,5 +1,8 @@
-# *Pyrix* 
-
+# *Pyrix* : The Minimalist Matrix Library
+![PyPI](https://img.shields.io/pypi/v/pyrix)
+  ![GitHub](https://img.shields.io/github/license/Abhi-1U/pyrix) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyrix?color=red)
+ [![Code Style](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
+ ![PyPI - Downloads](https://img.shields.io/pypi/dm/pyrix?color=navy)
 Well often times in the process of evolution we come across new stuff. Pyrix is one of them!
 Pyrix is a Clean-Room implemented ,standalone pure Python *Module/Library* which allows for improved, More intuitive Operations with Matrices and some of its related Fields such as vectors and linear Algebra.
 
