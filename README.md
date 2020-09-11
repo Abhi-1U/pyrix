@@ -1,10 +1,12 @@
-# *Pyrix* : The Minimalist Matrix Library
+# **Pyrix** : The Minimalist Matrix Library
 ![PyPI](https://img.shields.io/pypi/v/pyrix)
   ![GitHub](https://img.shields.io/github/license/Abhi-1U/pyrix) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyrix?color=red)
  [![Code Style](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
  ![PyPI - Downloads](https://img.shields.io/pypi/dm/pyrix?color=navy)
-Well often times in the process of evolution we come across new stuff. Pyrix is one of them!
-Pyrix is a Clean-Room implemented ,standalone pure Python *Module/Library* which allows for improved, More intuitive Operations with Matrices and some of its related Fields such as vectors and linear Algebra.
+ [![codecov](https://codecov.io/gh/Abhi-1U/pyrix/branch/master/graph/badge.svg)](https://codecov.io/gh/Abhi-1U/pyrix)
+ [![Build Status](https://travis-ci.org/Abhi-1U/pyrix.svg?branch=master)](https://travis-ci.org/Abhi-1U/pyrix)  
+### A different take on Matrices
+Matrices are everywhere and the central most important aspect of computing. Be it graphics, AI or cryptography Matrix plays an important role and Pyrix takes on with the pure Python matrix implementation.
 
 ### Why Pyrix?
 As computaional Mathematics has evolved we have reached a stage where traditional pen/paper mathematics is becoming more of a tradition. For example in the recent courses at MIT for Linear Algebra-18.06 Most lectures are focused on explaining abstract ideas and methods. For the most Part Computers have proven to be a lot faster to do large computations and with a precise, accurate solution.  
