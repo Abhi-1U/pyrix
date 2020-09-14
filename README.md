@@ -2,13 +2,10 @@
 ![PyPI](https://img.shields.io/pypi/v/pyrix)
 ![GitHub](https://img.shields.io/github/license/Abhi-1U/pyrix)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyrix?color=red)
-[![Code Style](https://img.shields.io/badge/code%20style-black-black)]
-(https://github.com/psf/black)
+[![Code Style](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/pyrix?color=navy)
-[![codecov](https://codecov.io/gh/Abhi-1U/pyrix/branch/master/graph/badge.svg)]
-(https://codecov.io/gh/Abhi-1U/pyrix)
-[![Build Status](https://travis-ci.org/Abhi-1U/pyrix.svg?branch=master)]
-(https://travis-ci.org/Abhi-1U/pyrix)  
+[![codecov](https://codecov.io/gh/Abhi-1U/pyrix/branch/master/graph/badge.svg)](https://codecov.io/gh/Abhi-1U/pyrix)
+[![Build Status](https://travis-ci.org/Abhi-1U/pyrix.svg?branch=master)](https://travis-ci.org/Abhi-1U/pyrix)  
 ### A different take on Matrices
 Matrices are everywhere and the central most important aspect of computing. Be
 it graphics, AI or cryptography Matrix plays an important role and Pyrix takes
