@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding : UTF-8 -*-
 """
-Name        : Pyrix/BinaryMatrix\n
+Name        : Pyrix/CharactarMatrix\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : A Charactar matrix manipulation sub-library  \n
 Encoding    : UTF-8\n
@@ -78,9 +78,10 @@ class CharMatrix(Matrix):
         return copy.deepcopy(self)
 
     def isSquareMatrix(self):
-        """ Checks if the Matrix is a square Matrix or not\n
-             A square matrix is a matrix with equal number of rows and cols\n
-             Returns a Boolean value
+        """
+        Checks if the Matrix is a square Matrix or not\n
+        A square matrix is a matrix with equal number of rows and cols\n
+        Returns a Boolean value
         """
         if self.matrix.nrow == self.matrix.ncol:
             return True
@@ -88,39 +89,54 @@ class CharMatrix(Matrix):
             return False
 
     def getRow(self, index):
-        """Selects a Row of the matrix of specified index\n
-            Returns a list of the values
+        """
+        Selects a Row of the matrix of specified index\n
+        Returns a list of the values
         """
         temp = [[]]
         for j in range(self.matrix.ncol):
             temp[0].append(self.matrix.data[index][j])
-        s = CharMatrix(nrow=1, ncol=self.matrix.ncol, data=temp)
+        s = CharMatrix(
+            nrow=1,
+            ncol=self.matrix.ncol,
+            data=temp
+        )
         return s
 
     # 11. getcol
     # returns a specified column
 
     def getCol(self, index):
-        """Selects a Column of the matrix of specified index\n
-            Returns a list(or nested list) of the values
+        """
+        Selects a Column of the matrix of specified index\n
+        Returns a list(or nested list) of the values
         """
         temp = []
         for i in range(self.matrix.nrow):
             temp.append([])
             temp[i].append(self.matrix.data[i][index])
-        s = CharMatrix(nrow=self.matrix.nrow, ncol=1, data=temp)
+        s = CharMatrix(
+            nrow=self.matrix.nrow,
+            ncol=1,
+            data=temp
+        )
         return s
 
     def transposeTransform(self):
-        """Transpose of the original matrix is created.\n
-            Returns a Matrix Object.
+        """
+        Transpose of the original matrix is created.\n
+        Returns a Matrix Object.
         """
         c = []
         for i in range(self.matrix.ncol):
             c.append([])
             for j in range(self.matrix.nrow):
                 c[i].append(self.matrix.data[j][i])
-        s = CharMatrix(nrow=self.matrix.ncol, ncol=self.matrix.nrow, data=c)
+        s = CharMatrix(
+            nrow=self.matrix.ncol,
+            ncol=self.matrix.nrow,
+            data=c
+        )
         return s
 
     def findCharactar(self, charactar):
@@ -136,7 +152,11 @@ class CharMatrix(Matrix):
             returndata.append([])
             for j in range(self.matrix.ncol):
                 returndata[i].append(ord(data[i][j]))
-        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=returndata)
+        return Matrix(
+            nrow=self.matrix.nrow,
+            ncol=self.matrix.ncol,
+            data=returndata
+        )
 
 
 def alphaMatrix5x5(offsetchars=[]):
@@ -166,7 +186,11 @@ def alphaMatrix5x5(offsetchars=[]):
             continue
         else:
             table.append(alpha[i])
-    outmatrix = CharMatrix(nrow=5, ncol=5, data=__nestifyMatrix(table, 5, 5))
+    outmatrix = CharMatrix(
+                nrow=5,
+                ncol=5,
+                data=__nestifyMatrix(table, 5, 5)
+    )
     return outmatrix
 
 
@@ -187,3 +211,8 @@ def __nestifyMatrix(listeddata, rowcount, colcount):
         nested.append(clist[0:colcount])
         del clist[0:colcount]
     return nested
+#*-----------------------------------------------------------------------------*
+#*                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
+#*                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
+#*                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
+#*-----------------------------------------------------------------------------*

@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 # -*- coding : UTF-8 -*-
 """
-Name        : Pyrix/Matrix\n
-Author      : Abhi-1U <https://github.com/Abhi-1U> \n
-Description : A simple matrix manipulation library  \n
-Encoding    : UTF-8\n
-Version     :0.7.17rc0\n
+Name        : Pyrix/Matrix
+Author      : Abhi-1U <https://github.com/Abhi-1U>
+Description : A simple matrix manipulation library
+Encoding    : UTF-8
+Version     :0.7.17rc0
 Build       :0.7.17rc0/29-08-2020
 """
 import copy
@@ -18,7 +18,7 @@ from pyrix.exception import (
 )
 import random
 
-# *------- matrixData --------------------------------------------------------*
+# *------- matrixData ---------------------------------------------------------*
 # * This is the primary data object in pyrix/Matrix and pyrix/BinaryMatrix.
 # * MatrixData includes a ton of meta-Data which allows for enhanced Features,
 # * Performance and Computational Savings.
@@ -33,28 +33,38 @@ import random
 # * are JSON friendly.
 # * A list of MetaData Stored and descriptions are bundled along with the
 # * docstrings included with the class .
-# * --------------------------------------------------------------------------*
+# * ---------------------------------------------------------------------------*
 class matrixData(object):
-    """ All The Matrix Data is stored here which allows for implementing Dynamic Programming Principles such as Memoization:\n
-        Data List:
-        1.nrow[int]: Number of Rows
-        2.ncol[int]: Number of Columns
-        3.dimensions[list]: list format of nrow,ncol together
-        4.data[list]: All the Matrix Values stored in nested-list format
-        5.invertibility[Boolean]: returns True if matrix is invertible ,default-value=None
-        6.determinant[int]: stores determinant value,default-value=None
-        7.singular[Boolean]: returns False if matrix is invertible ,default-value=None
-        8.eigenvals[list]: list of eigen values
-        9.eigenvects[list]: list of eigen vectors
-        10.rank[int]: stores the rank of the matrix
-        11.triangularity[int]: returns 2 for upperT. ,1 for lowerT.,0 for No Triangularity
-        12.binaryMatrix[Boolean]: returns True if binary matrix//reserved for binary matrix class
-        13.singularvalue[int/float]:returns singular value,None By default
-        14.orthogonalMatrix[Boolean]:returns True if matrix is orthogonal in nature
-        15.minor[list]: contains minor values,By default None
-        16.listifieddata[list]: contains all the data values in a flattened list
-        17.classtype[str]: defines the type of pyrix/matrix implementation(occours in inheriting classes)
-        18.symmetry[Boolean]:True for symmetrical,None by default,False otherwise 
+    """
+    All The Matrix Data is stored here which allows for implementing Dynamic
+    Programming Principles such as Memoization:
+    Data List:
+        1.nrow[int]: Number of Rows.
+        2.ncol[int]: Number of Columns.
+        3.dimensions[list]: list format of nrow,ncol together.
+        4.data[list]: All the Matrix Values stored in nested-list format.
+        5.invertibility[Boolean]: returns True if matrix is invertible ,
+            default-value=None.
+        6.determinant[int]: stores determinant value,default-value=None.
+        7.singular[Boolean]: returns False if matrix is invertible ,
+            default-value=None.
+        8.eigenvals[list]: list of eigen values.
+        9.eigenvects[list]: list of eigen vectors.
+        10.rank[int]: stores the rank of the matrix.
+        11.triangularity[int]: returns 2 for upperT. ,1 for lowerT.,0 for No
+            Triangularity.
+        12.binaryMatrix[Boolean]: returns True if binary matrix//reserved
+            for binary matrix class.
+        13.singularvalue[int/float]:returns singular value,None By default.
+        14.orthogonalMatrix[Boolean]:returns True if matrix is orthogonal in
+            nature.
+        15.minor[list]: contains minor values,By default None.
+        16.listifieddata[list]:contains all the data values in a flattened list.
+        17.classtype[str]: defines the type of pyrix/matrix implementation
+            (occours in inheriting classes).
+        18.symmetry[Boolean]:True for symmetrical,None by default,False
+            otherwise.
+        19.mode[str]: Represents mode of operation for some value
     """
 
     def __init__(self, nrow, ncol, data):
@@ -77,6 +87,7 @@ class matrixData(object):
         self.minor = None
         self.listifieddata = []
         self.symmetry = None
+        self.mode=None
 
     def __setattr__(self, name, value):
         self.__dict__[name] = value
@@ -91,7 +102,7 @@ class matrixData(object):
         del self.__dict__[name]
 
 
-# *------- Matrix ------------------------------------------------------------*
+# *------- Matrix -------------------------------------------------------------*
 # * pyrix/Matrix is the core Module and intuitively places an implementation
 # * of Abstract/Computer Representation of Matrix in general .
 # * The primary reason for such Development was to simplify dependence on C
@@ -144,7 +155,7 @@ class matrixData(object):
 # * 34. JSONImport
 # * 35. isSymmetricMatrix
 # * 36. isOrthogonalMatrix
-# *---------------------------------------------------------------------------*
+# *----------------------------------------------------------------------------*
 
 
 class Matrix:
@@ -157,7 +168,11 @@ class Matrix:
 
     def __init__(self, nrow=1, ncol=1, data=[[1]]):
         if (len(data) == nrow, len(data[0]) == ncol):
-            self.matrix = matrixData(nrow=nrow, ncol=ncol, data=data)
+            self.matrix = matrixData(
+                nrow=nrow,
+                ncol=ncol,
+                data=data
+                )
         else:
             raise incompaitableTypeException
 
@@ -177,7 +192,7 @@ class Matrix:
         )
         return stringV
 
-    # *------- Basic Operations on Matrices ----------------------------------*
+    # *------- Basic Operations on Matrices -----------------------------------*
 
     # 1. Add Matrix
     # Operator Overloading for adding Matrices
@@ -190,7 +205,11 @@ class Matrix:
             for i in range(len(m2.matrix.data)):
                 for j in range(len(m2.matrix.data[i])):
                     temp[i][j] += m2.matrix.data[i][j]
-            s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
+            s = Matrix(
+                nrow=self.matrix.nrow,
+                ncol=self.matrix.ncol,
+                data=temp
+            )
             return s
 
     # 2. Subtract Matrix
@@ -204,7 +223,11 @@ class Matrix:
             for i in range(len(m2.matrix.data)):
                 for j in range(len(m2.matrix.data[i])):
                     temp[i][j] -= m2.matrix.data[i][j]
-            s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
+            s = Matrix(
+                nrow=self.matrix.nrow,
+                ncol=self.matrix.ncol,
+                data=temp
+            )
             return s
 
     # 3. Multiply Matrix
@@ -214,7 +237,8 @@ class Matrix:
         if self.matrix.ncol != m2.matrix.nrow:  # checking Parameters
             raise incompaitableTypeException
         else:
-            m3 = [[0 for x in range(m2.matrix.ncol)] for y in range(self.matrix.nrow)]
+            m3 = [[0 for x in range(m2.matrix.ncol)]
+            for y in range(self.matrix.nrow)]
             sum = 0
             for i in range(self.matrix.nrow):
                 for j in range(m2.matrix.ncol):
@@ -222,7 +246,11 @@ class Matrix:
                         sum += self.matrix.data[i][k] * m2.matrix.data[k][j]
                     m3[i][j] = sum
                     sum = 0
-        s = Matrix(nrow=self.matrix.nrow, ncol=m2.matrix.ncol, data=m3)
+        s = Matrix(
+            nrow=self.matrix.nrow,
+            ncol=m2.matrix.ncol,
+            data=m3
+        )
         return s
 
     def __pow__(self, times):
@@ -278,7 +306,11 @@ class Matrix:
             truncMatrix.append([])
             for j in range(self.matrix.ncol):
                 truncMatrix[i].append(math.trunc(self.matrix.data[i][j]))
-        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=truncMatrix)
+        return Matrix(
+            nrow=self.matrix.nrow,
+            ncol=self.matrix.ncol,
+            data=truncMatrix
+        )
 
     def __ceil__(self):
         ceilMatrix = []
@@ -286,7 +318,11 @@ class Matrix:
             ceilMatrix.append([])
             for j in range(self.matrix.ncol):
                 ceilMatrix[i].append(math.ceil(self.matrix.data[i][j]))
-        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=ceilMatrix)
+        return Matrix(
+            nrow=self.matrix.nrow,
+            ncol=self.matrix.ncol,
+            data=ceilMatrix
+        )
 
     def __floor__(self):
         floorMatrix = []
@@ -294,9 +330,13 @@ class Matrix:
             floorMatrix.append([])
             for j in range(self.matrix.ncol):
                 floorMatrix[i].append(math.floor(self.matrix.data[i][j]))
-        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=floorMatrix)
+        return Matrix(
+            nrow=self.matrix.nrow,
+            ncol=self.matrix.ncol,
+            data=floorMatrix
+        )
 
-    # *------- Methods for Matrix Analysis -----------------------------------*
+    # *------- Methods for Matrix Analysis ------------------------------------*
 
     # 6.Equality
     # A method which overrides operator for chechking equality of two matrices
@@ -305,9 +345,10 @@ class Matrix:
         return self.equals(matrix2)
 
     def equals(self, matrix2):
-        """Checks for equality of the two matrices\n
-            based on dimensions and the data inside.
-            Returns a Boolean Value
+        """
+        Checks for equality of the two matrices
+        based on dimensions and the data inside.
+        Returns a Boolean Value
         """
         if (self.matrix.dimensions == matrix2.matrix.dimensions) and (
             self.matrix.data == matrix2.matrix.data
@@ -320,9 +361,10 @@ class Matrix:
     # a method to check if the matrix is square matrix or not
 
     def isSquareMatrix(self):
-        """ Checks if the Matrix is a square Matrix or not\n
-             A square matrix is a matrix with equal number of rows and cols\n
-             Returns a Boolean value
+        """
+        Checks if the Matrix is a square Matrix or not
+        A square matrix is a matrix with equal number of rows and cols
+        Returns a Boolean value
         """
         if self.matrix.nrow == self.matrix.ncol:
             return True
@@ -333,9 +375,10 @@ class Matrix:
     # a method to check if the matrix is invertible matrix or not
 
     def isInvertible(self):
-        """ Checks if the Matrix is an Invertible Matrix or not\n
-             An Invertible matrix is a matrix with a non zero determinant \n
-             Returns a Boolean value
+        """
+        Checks if the Matrix is an Invertible Matrix or not
+        An Invertible matrix is a matrix with a non zero determinant
+        Returns a Boolean value
         """
         if self.matrix.singular == True and self.matrix.invertibility == False:
             return False
@@ -352,7 +395,7 @@ class Matrix:
     # Returns a boolean Value based on the symmetry
     def isSymmetricMatrix(self):
         """
-            Returns a boolean value based on the matrix symmetry
+        Returns a boolean value based on the matrix symmetry
         """
         assert self.isSquareMatrix(), "A Square Matrix is a Primary Requirement"
         transposeMarix = self.transposeTransform()
@@ -365,7 +408,7 @@ class Matrix:
 
     def isOrthogonalMatrix(self):
         """
-            Returns a boolean value based on the matrix Orthogonality
+        Returns a boolean value based on the matrix Orthogonality
         """
         assert self.isSquareMatrix(), "A Square Matrix is a Primary Requirement"
         transposeMarix = self.transposeTransform()
@@ -381,8 +424,9 @@ class Matrix:
     # returns a deep copy of the matrix object
 
     def copy(self):
-        """ Creates a DEEP(HARD) copy of the Matrix object\n
-            Returns a Matrix Object
+        """
+        Creates a DEEP(HARD) copy of the Matrix object\n
+        Returns a Matrix Object
         """
         return copy.deepcopy(self)
 
@@ -390,35 +434,46 @@ class Matrix:
     # returns a specified row
 
     def getRow(self, index):
-        """Selects a Row of the matrix of specified index\n
-            Returns a list of the values
+        """
+        Selects a Row of the matrix of specified index\n
+        Returns a list of the values
         """
         temp = [[]]
         for j in range(self.matrix.ncol):
             temp[0].append(self.matrix.data[index][j])
-        s = Matrix(nrow=1, ncol=self.matrix.ncol, data=temp)
+        s = Matrix(
+            nrow=1,
+            ncol=self.matrix.ncol,
+            data=temp
+        )
         return s
 
     # 11. getcol
     # returns a specified column
 
     def getCol(self, index):
-        """Selects a Column of the matrix of specified index\n
-            Returns a list(or nested list) of the values
+        """
+        Selects a Column of the matrix of specified index\n
+        Returns a list(or nested list) of the values
         """
         temp = []
         for i in range(self.matrix.nrow):
             temp.append([])
             temp[i].append(self.matrix.data[i][index])
-        s = Matrix(nrow=self.matrix.nrow, ncol=1, data=temp)
+        s = Matrix(
+            nrow=self.matrix.nrow,
+            ncol=1,
+            data=temp
+        )
         return s
 
     # 12. RoundOff
     # rounds off all values to a certain degree
 
     def RoundOff(self, extent):
-        """Rounds off the Value of the data in the matrix object to the given extent\n
-            Returns NoneType and should not be assigned to a variable
+        """
+        Rounds off the Value of the data in the matrix object to the given
+        extent. Returns NoneType and should not be assigned to a variable.
         """
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
@@ -428,8 +483,9 @@ class Matrix:
     # scales matrix values with a scalar
 
     def scaleMatrix(self, scalar):
-        """Scales the Value of the data in the matrix object by the scalar value\n
-            Returns NoneType and should not be assigned to a variable
+        """
+        Scales the Value of the data in the matrix object by the scalar value
+        Returns NoneType and should not be assigned to a variable.
         """
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
@@ -439,8 +495,9 @@ class Matrix:
     # returns the determinant Value of the matrix
 
     def determinantValue(self):
-        """Determines the determinant value of the matrix object \n
-            Returns int or float depending on the outcome
+        """
+        Determines the determinant value of the matrix object
+        Returns int or float depending on the outcome
         """
         if self.matrix.determinant == None:
             if self.isSquareMatrix():
@@ -460,7 +517,9 @@ class Matrix:
     # helps with determinant calculations
 
     def __determinantHelper(self, x, sum=0):
-        """This Method specifically helps with recursive implementation of determinant algorithm.
+        """
+        This Method specifically helps with recursive implementation of
+        determinant algorithm.
         """
         count = list(range(len(x)))
         if len(x) == 2 and len(x[0]) == 2:
@@ -481,8 +540,9 @@ class Matrix:
     # returns the rank of the matrix
 
     def matrixRank(self):
-        """Calculates the Rank of the matrix object \n
-            Returns integer value of rank
+        """
+        Calculates the Rank of the matrix object.
+        Returns integer value of rank.
         """
         cself = self.copy()
         x = cself.RrowEchleonTransform()
@@ -498,8 +558,9 @@ class Matrix:
         return rank
 
     def matrixTrace(self):
-        """The trace of a square matrix is defined to be the sum of elements on the main diagonal of a Matrix.\n
-            Returns a int/float value
+        """
+        The trace of a square matrix is defined to be the sum of elements on the
+        main diagonal of a Matrix. Returns a int/float value.
         """
         trace = 0
         if self.isSquareMatrix():
@@ -509,8 +570,9 @@ class Matrix:
         return trace
 
     def isUpperTriangularMatrix(self):
-        """This method determines whether a Matrix is a Upper Triangular matrix or not\n
-            Returns a Boolean value
+        """
+        This method determines whether a Matrix is a Upper Triangular matrix or
+        not. Returns a Boolean value.
         """
         isUpperTriangularMatrix = True
         isLowerTriangularMatrix = True
@@ -527,8 +589,9 @@ class Matrix:
             return False
 
     def isLowerTriangularMatrix(self):
-        """This method determines whether a Matrix is a Lower Triangular matrix or not\n
-         Returns a Boolean value
+        """
+        This method determines whether a Matrix is a Lower Triangular matrix or
+        not. Returns a Boolean value.
         """
         isUpperTriangularMatrix = True
         isLowerTriangularMatrix = True
@@ -544,14 +607,15 @@ class Matrix:
         else:
             return False
 
-    # *------- Intermatrix Row and column operations -------------------------*
+    # *------- Intermatrix Row and column operations --------------------------*
 
     # 17. addRow
     # adds row of matrix1 to row of matrix 2
 
     def addRows(self, index1, m2, index2):
-        """Adds row values of one matrix to another matrix\n
-            Returns NoneType and should not be assigned to a variable
+        """
+        Adds row values of one matrix to another matrix.
+        Returns NoneType and should not be assigned to a variable
         """
         self.matrix.data[index1] = self.__row_add(
             self.matrix.data[index1], m2.matrix.data[index2]
@@ -561,8 +625,9 @@ class Matrix:
     # subtracts row of matrix1 to row of matrix 2
 
     def subRows(self, index1, m2, index2):
-        """Subtracts row values of one matrix to another matrix\n
-            Returns NoneType and should not be assigned to a variable
+        """
+        Subtracts row values of one matrix to another matrix.
+        Returns NoneType and should not be assigned to a variable.
         """
         self.matrix.data[index1] = self.__row_sub(
             self.matrix.data[index1], m2.matrix.data[index2]
@@ -571,29 +636,32 @@ class Matrix:
     # IntraMatrix Row and Col Operations
     # Coming soon!
     def addRow(self, index1, index2):
-        """Adds row values of one matrix to same matrix\n
-            Returns NoneType and should not be assigned to a variable
+        """
+        Adds row values of one matrix to same matrix.
+        Returns NoneType and should not be assigned to a variable.
         """
         self.matrix.data[index1] = self.__row_add(
             self.matrix.data[index1], self.matrix.data[index2]
         )
 
     def subRow(self, index1, index2):
-        """Subtracts row values of one matrix to same matrix\n
-            Returns NoneType and should not be assigned to a variable
+        """
+        Subtracts row values of one matrix to same matrix.
+        Returns NoneType and should not be assigned to a variable.
         """
         self.matrix.data[index1] = self.__row_sub(
             self.matrix.data[index1], self.matrix.data[index2]
         )
 
-    # *------- Transformations on matrices -----------------------------------*
+    # *------- Transformations on matrices ------------------------------------*
 
     # 19. Invert Matrix
     # returns a new object of inverted matrix
 
     def invertMatrix(self):
-        """Creates an Inverse Matrix of the given matrix\n
-            Returns a Matrix object
+        """
+        Creates an Inverse Matrix of the given matrix
+        Returns a Matrix object
         """
         if self.matrix.nrow != self.matrix.ncol:
             raise incompaitableTypeException
@@ -609,7 +677,7 @@ class Matrix:
                 for j in range(len(AM)):
                     AM[fd][j] *= fdScaler
                     IM[fd][j] *= fdScaler
-                for i in list(range(len(AM)))[0:fd] + list(range(len(AM)))[fd + 1 :]:
+                for i in list(range(len(AM)))[0:fd]+list(range(len(AM)))[fd +1 :]:
                     crScaler = AM[i][fd]
                     for j in range(len(AM)):
                         AM[i][j] = AM[i][j] - crScaler * AM[fd][j]
@@ -622,8 +690,9 @@ class Matrix:
                         IM[i][j] = IM[i][j]
                 inverteddata = IM
                 return Matrix(
-                    nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=inverteddata
-                )
+                    nrow=self.matrix.nrow,
+                    ncol=self.matrix.ncol,
+                    data=inverteddata)
             else:
                 self.matrix.determinant = 0
                 self.matrix.singular = True
@@ -632,7 +701,9 @@ class Matrix:
     # 20.Helper Method for inversion
     # Verifies the matrix for proper inversion
     def __verify(self, m2):
-        """This method verifies a unverse of the matrix by multiplying it with the orignal input matrix to get identity matrix.
+        """
+        This method verifies a unverse of the matrix by multiplying it with the
+        orignal input matrix to get identity matrix.
         """
         matrixs = []
         m1 = Copy(self.matrix.data)
@@ -700,7 +771,11 @@ class Matrix:
                 [(0 if (0.0000000001 > x > -0.0000000001) else x) for x in row]
                 for row in temp
             ]
-        s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
+        s = Matrix(
+            nrow=self.matrix.nrow,
+            ncol=self.matrix.ncol,
+            data=temp
+        )
         return s
 
     # 26.RRowEchleonTransform
@@ -720,22 +795,31 @@ class Matrix:
                             continue
                         if z[j][i] != 0:
                             self.__row_sub(z[j], self.__row_mult(z[i], z[i][j]))
-        s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=z)
+        s = Matrix(
+            nrow=self.matrix.nrow,
+            ncol=self.matrix.ncol,
+            data=z
+        )
         return s
 
     # 27.transposeTransform
     # returns the transpose of the matrix
 
     def transposeTransform(self):
-        """Transpose of the original matrix is created.\n
-            Returns a Matrix Object.
+        """
+        Transpose of the original matrix is created.
+        Returns a Matrix Object.
         """
         c = []
         for i in range(self.matrix.ncol):
             c.append([])
             for j in range(self.matrix.nrow):
                 c[i].append(self.matrix.data[j][i])
-        s = Matrix(nrow=self.matrix.ncol, ncol=self.matrix.nrow, data=c)
+        s = Matrix(
+            nrow=self.matrix.ncol,
+            ncol=self.matrix.nrow,
+            data=c
+        )
         return s
 
     # *------- Supplementary Methods -----------------------------------------*
@@ -757,7 +841,11 @@ class Matrix:
                     sum += matrix[j][i] * vector[j]
                 c[i].append(sum)
                 sum = 0
-            p = Matrix(ncol=1, nrow=len(v1), data=c)
+            p = Matrix(
+                ncol=1,
+                nrow=len(v1),
+                data=c
+            )
             return p
 
     # 29.StrassenMultiplication
@@ -775,7 +863,8 @@ class Matrix:
         M5 = (t1[0][0] + t1[0][1]) * t2[1][1]
         M6 = (t1[1][0] - t1[0][0]) * (t2[0][0] + t2[0][1])
         M7 = (t1[0][1] - t1[1][1]) * (t2[1][0] + t2[1][1])
-        mtx = [[M1 + M4 - M5 + M7, M3 + M5], [M2 + M4, M1 - M2 + M3 + M6]]
+        mtx = [[M1 + M4 - M5 + M7, M3 + M5],
+               [M2 + M4, M1 - M2 + M3 + M6]]
         return mtx
 
     # 32.dotproduct
@@ -794,8 +883,9 @@ class Matrix:
         return cofactor.transposeTransform()
 
     def minorSpecific(self, row, column):
-        """Finds a specific minor value for a certain position.\n
-            Returns a Int/Float Value.
+        """
+        Finds a specific minor value for a certain position.
+        Returns a Int/Float Value.
         """
         if self.matrix.minor == None:
             self.getAllMinors()
@@ -804,13 +894,15 @@ class Matrix:
         return self.matrix.minor[row][column]
 
     def cofactorSpecific(self, row, column):
-        """Finds a specific cofactor Value of a certain position.\n
-            Returns a Int/Float Value.
+        """
+        Finds a specific cofactor Value of a certain position.
+        Returns a Int/Float Value.
         """
         return self.getAllCofactors().matrix.data[row][column]
 
     def getAllMinors(self):
-        """Finds all the minor values of the matrix object.\n
+        """
+        Finds all the minor values of the matrix object.
         Returns a new Matrix Object of minors.
         """
         matrixdata = Copy(self.matrix.data)
@@ -821,13 +913,16 @@ class Matrix:
                 allminorslist = self.__minor(matrixdata)
             self.matrix.minor = allminorslist
             return Matrix(
-                nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=self.matrix.minor
+                nrow=self.matrix.nrow,
+                ncol=self.matrix.ncol,
+                data=self.matrix.minor
             )
         else:
             raise incompaitableTypeException
 
     def getAllCofactors(self):
-        """Finds all the cofactor values of the matrix object.\n
+        """
+        Finds all the cofactor values of the matrix object.
         Returns a new Matrix Object of cofactors.
         """
         if self.matrix.minor == None:
@@ -835,11 +930,16 @@ class Matrix:
         else:
             pass
         cofactors = self.__cofactor(self.matrix.minor)
-        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=cofactors)
+        return Matrix(
+            nrow=self.matrix.nrow,
+            ncol=self.matrix.ncol,
+            data=cofactors
+        )
 
     def __minor2x2(self, matrixdata):
-        """Finds minor values for 2x2 matrices.\n
-        Private method\n
+        """
+        Finds minor values for 2x2 matrices.
+        Private method
         Returns a nested list.
         """
         return [
@@ -848,8 +948,9 @@ class Matrix:
         ]
 
     def __cofactor(self, minorlist):
-        """Finds cofactor values. A Private method \n
-           Returns a nested list of cofactors.
+        """
+        Finds cofactor values. A Private method.
+        Returns a nested list of cofactors.
         """
         cofactors = []
         for i in range(self.matrix.nrow):
@@ -859,15 +960,17 @@ class Matrix:
         return cofactors
 
     def __minor(self, matrixdata):
-        """Finds minor values. A Private method \n
-           Returns a nested list of minors.
+        """
+        Finds minor values. A Private method.
+        Returns a nested list of minors.
         """
         minors = []
         for i in range(len(matrixdata)):
             minors.append([])
             for j in range(len(matrixdata[0])):
                 minors[i].append(
-                    self.__determinantHelper(self.__matrixsplitter(matrixdata, i, j))
+                    self.__determinantHelper(
+                    self.__matrixsplitter(matrixdata, i, j))
                 )
         return minors
 
@@ -892,12 +995,13 @@ class Matrix:
         return returnmatrix
 
     def __unlistifydata(self, data, rowcount, colcount):
-        """converts a single listed matrix into nested listed matrix.
+        """
+        converts a single listed matrix into nested listed matrix.
         """
         clist = self.copy().matrix.data
         return __nestifyMatrix(clist, rowcount, colcount)
 
-    # *------- Statistical Methods -------------------------------------------*
+    # *------- Statistical Methods --------------------------------------------*
 
     def globalMean(self):
         data = self.matrix.data
@@ -926,9 +1030,11 @@ class Matrix:
         serializeddata = __listifyMatrix(self)
         serializeddata.sort()
         if len(serializeddata) % 2 != 0:
-            globalmedian = serializeddata[int((-1 + len(serializeddata)) / 2)]
+            globalmedian = serializeddata[int(
+                (-1 + len(serializeddata)) / 2)]
         else:
-            globalmedian = serializeddata[int(math.ceil(len(serializeddata) / 2))]
+            globalmedian = serializeddata[int(
+                math.ceil(len(serializeddata) / 2))]
         return globalmedian
 
     def localRowMedian(self, rowindex):
@@ -1006,20 +1112,31 @@ def __nestifyMatrix(listeddata, rowcount, colcount):
 
 # Quick Initialization  Methods
 
+def Copy(AnyObject):
+    """
+    Returns A Hard copy of the object
+    """
+    return copy.deepcopy(AnyObject)
+
 # zeroMatrix
 # Creates a matrix with zeros of given shape and size
 
 
 def zeroMatrix(nrow, ncol):
-    """Create a zero matrix of the given dimensions\n
-        Retuns a Matrix Object 
+    """
+    Create a zero matrix of the given dimensions.
+    Retuns a Matrix Object.
     """
     t = []
     for i in range(nrow):
         t.append([])
         for _j in range(ncol):
             t[i].append(0)
-    s = Matrix(nrow=nrow, ncol=ncol, data=t)
+    s = Matrix(
+        nrow=nrow,
+        ncol=ncol,
+        data=t
+    )
     return s
 
 
@@ -1028,15 +1145,20 @@ def zeroMatrix(nrow, ncol):
 
 
 def unitMatrix(nrow, ncol):
-    """Create a unit matrix of the given dimensions\n
-        Retuns a Matrix Object 
+    """
+    Create a unit matrix of the given dimensions.
+    Retuns a Matrix Object.
     """
     t = []
     for i in range(nrow):
         t.append([])
         for _j in range(ncol):
             t[i].append(1)
-    s = Matrix(nrow=nrow, ncol=ncol, data=t)
+    s = Matrix(
+        nrow=nrow,
+        ncol=ncol,
+        data=t
+    )
     return s
 
 
@@ -1045,9 +1167,10 @@ def unitMatrix(nrow, ncol):
 
 
 def identityMatrix(nrow, ncol):
-    """Create a identity matrix of the given dimensions\n
-        Works for square Matrices\n
-        Retuns a Matrix Object 
+    """
+    Create a identity matrix of the given dimensions
+    Works for square Matrices
+    Retuns a Matrix Object
     """
     if nrow == ncol:
         t = []
@@ -1058,7 +1181,11 @@ def identityMatrix(nrow, ncol):
                     t[i].append(1)
                 else:
                     t[i].append(0)
-        s = Matrix(nrow=nrow, ncol=ncol, data=t)
+        s = Matrix(
+            nrow=nrow,
+            ncol=ncol,
+            data=t
+        )
         return s
     else:
         raise incompaitableTypeException
@@ -1077,7 +1204,11 @@ def randomMatrix(scale, type):
             data.append([])
             for _j in range(ncol):
                 data[i].append(random.randint(1, 100))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        s = Matrix(
+            nrow=nrow,
+            ncol=ncol,
+            data=data
+        )
         return s
     if scale == "large" and type == "int":
         nrow = random.randint(10, 100)
@@ -1087,7 +1218,11 @@ def randomMatrix(scale, type):
             data.append([])
             for _j in range(ncol):
                 data[i].append(random.randint(10, 10000))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        s = Matrix(
+            nrow=nrow,
+            ncol=ncol,
+            data=data
+        )
         return s
 
     if scale == "small" and type == "float":
@@ -1098,7 +1233,11 @@ def randomMatrix(scale, type):
             data.append([])
             for _j in range(ncol):
                 data[i].append(random.triangular(low=0.0, high=10.0))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        s = Matrix(
+            nrow=nrow,
+            ncol=ncol,
+            data=data
+        )
         return s
     if scale == "large" and type == "float":
         nrow = random.randint(10, 100)
@@ -1108,9 +1247,16 @@ def randomMatrix(scale, type):
             data.append([])
             for _j in range(ncol):
                 data[i].append(random.triangular(low=0.0, high=1000.0))
-        s = Matrix(nrow=nrow, ncol=ncol, data=data)
+        s = Matrix(
+            nrow=nrow,
+            ncol=ncol,
+            data=data
+        )
         return s
 
 
-def Copy(AnyObject):
-    return copy.deepcopy(AnyObject)
+#*-----------------------------------------------------------------------------*
+#*                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
+#*                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
+#*                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
+#*-----------------------------------------------------------------------------*

@@ -24,9 +24,17 @@ def reDimensionalize(AnyMatrixObject, nrow, ncol):
         matrixdata[i] = listifieddata[0:ncol]
         del listifieddata[0:ncol]
     if AnyMatrixObject.matrix.classType == "Matrix":
-        return Matrix(nrow=nrow, ncol=ncol, data=matrixdata)
+        return Matrix(
+            nrow=nrow,
+            ncol=ncol,
+            data=matrixdata
+        )
     if AnyMatrixObject.matrix.classType == "BinaryMatrix":
-        return BinaryMatrix(nrow=nrow, ncol=ncol, data=matrixdata)
+        return BinaryMatrix(
+            nrow=nrow,
+            ncol=ncol,
+            data=matrixdata
+        )
     if isinstance(AnyMatrixObject, Vector):
         print("reDimensionalize not applicable on Vectors")
 
@@ -61,14 +69,16 @@ def Copy(AnyObject):
 
 
 def JSONEncoder(object):
-    """Encodes dictionary data of the Matrix Object into JSON format.
+    """
+    Encodes dictionary data of the Matrix Object into JSON format.
     """
     Object = object
     return Object.matrix.__dict__
 
 
 def JSONExport(Object, filename):
-    """Exports the Object data as an JSON file to save th eobject permanantely.
+    """
+    Exports the Object data as an JSON file to save th eobject permanantely.
     """
     data = JSONEncoder(Object)
     with open(filename, "w") as outfile:
@@ -78,8 +88,9 @@ def JSONExport(Object, filename):
 
 
 def JSONDecoder(object):
-    """Decodes JSON File type\n 
-        returns a Matrix Object.
+    """
+    Decodes JSON File type\n
+    returns a Matrix Object.
     """
     classtype = None
     nrow = 0
@@ -99,20 +110,29 @@ def JSONDecoder(object):
             data = item
             break
     if classtype == "BinaryMatrix":
-        returnMatrix = BinaryMatrix(nrow=nrow, ncol=ncol, data=data)
+        returnMatrix = BinaryMatrix(
+            nrow=nrow,
+            ncol=ncol,
+            data=data
+        )
         for key, item in object.items():
             setattr(returnMatrix.matrix, key, item)
     if classtype == "Matrix":
-        returnMatrix = Matrix(nrow=nrow, ncol=ncol, data=data)
+        returnMatrix = Matrix(
+            nrow=nrow,
+            ncol=ncol,
+            data=data
+        )
         for key, item in object.items():
             setattr(returnMatrix.matrix, key, item)
     return returnMatrix
 
 
 def JSONImport(filename, mode="UI"):
-    """Allows for JSON files to be read and recreate the objects\n
-        If you have Tkinter installed then the UI mode will trigger the GUI to select file.
-        Returns a Matrix Object.
+    """
+    Allows for JSON files to be read and recreate the objects\n
+    If you have Tkinter installed then the UI mode will trigger the GUI to
+    select file. Returns a Matrix Object.
     """
     if mode == "UI":
         filepath = fileChooserUI()
@@ -155,11 +175,18 @@ try:
 
 
 except ImportError as e:
-    """[Warning]Tkinter or Tk or Tk bindings not installed \n
-        enter the file path by text\n
-        or install tkinter"""
+    """
+    [Warning] Tkinter or Tk or Tk bindings not installed \n
+              enter the file path by text\n
+              or install tkinter
+    """
     print(
         "[Warning] Tkinter or Tk or Tk bindings not installed \n \
-          enter the file path by text\n \
-          or install tkinter"
+                   enter the file path by text\n \
+                   or install tkinter"
     )
+#*-----------------------------------------------------------------------------*
+#*                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
+#*                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
+#*                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
+#*-----------------------------------------------------------------------------*

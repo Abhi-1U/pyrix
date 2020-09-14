@@ -20,8 +20,8 @@ class ExceptionTemplate(Exception):
 
 class bitWiseOnMatrix(ExceptionTemplate):
     """
-    Traditional Bitwise Operators are not allowed to work on matrix objects as of now.\n
-    Maybe in future we will find a creative use case of them.
+    Traditional Bitwise Operators are not allowed to work on matrix objects as
+    of now.\n Maybe in future we will find a creative use case of them.
     """
 
 
@@ -32,17 +32,29 @@ class binaryMatrixException(ExceptionTemplate):
 
 
 class divisionErrorException(ExceptionTemplate):
-    """Can Matrices be Divided ?"""
+    """
+    Can Matrices be Divided ?
+    """
 
 
 class incompaitableTypeException(Exception):
-    """If you come across this Exception then the issue is probably out of these four cases:\n
-        Case 1: The dimensions of matrices dont match for the operation to happen\n
-        Case 2: The matrix is not a square matrix\n
-        Case 3: The matrices do not satisfy the condition for multiplication\n
-        Case 4: The Data of the Matrix is not of the Dimensions Given.
+    """
+    If you come across this Exception then the issue is probably out of these
+    four cases:\n
+    Case 1: The dimensions of matrices dont match for the operation to happen\n
+    Case 2: The matrix is not a square matrix\n
+    Case 3: The matrices do not satisfy the condition for multiplication\n
+    Case 4: The Data of the Matrix is not of the Dimensions Given.
     """
 
 
 class nonInvertibleException(Exception):
-    """Matrix is not invertible due to its singular nature and determinant being zero"""
+    """
+    Matrix is not invertible due to its singular nature and determinant being
+    zero.
+    """
+#*-----------------------------------------------------------------------------*
+#*                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
+#*                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
+#*                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
+#*-----------------------------------------------------------------------------*

@@ -20,13 +20,17 @@ import random  # for random matrix
 # Vector is treated like a List
 # Unlike Matrix which is Nested List
 class vectorData(object):
-    """ All The Vector Data is stored here which allows for implementing Dynamic Programming Principles such as Memoization:\n
-        Data List:
+    """
+    All The Vector Data is stored here which allows for implementing Dynamic
+    Programming Principles such as Memoization:\n
+    Data List:
         1.dimensions[int]:The number of dimensions of a vector is represented.
         2.data[list]: The vector data is stored here.
         3.ncol[int]: Number of Columns
-        4.directionVectorSet[list]: list of direction Vector Objects (Not Implemented yet)
-        5.classType:defines the type of pyrix/vector implementation(occours in inheriting classes)
+        4.directionVectorSet[list]: list of direction Vector Objects
+    (Not Implemented yet)
+        5.classType:defines the type of pyrix/vector implementation
+    (occours in inheriting classes)
     """
 
     def __init__(self, dims, data):
@@ -54,7 +58,7 @@ class Vector:
     Get Started By Creating a Vector Object\n
         dims=number of dimensions\n
         data=corresponding vector data of the dimensions as a list\n
-        eg. Vect = Vector(dims=2,data=[1,1]) 
+        eg. Vect = Vector(dims=2,data=[1,1])
     """
 
     def __init__(self, dims, data):
@@ -93,7 +97,10 @@ class Vector:
 
     def __mul__(self, *args):
         print(
-            "Depending on the application use other methods like:\n1. dotProduct\n2. crossProduct(Under-Development)"
+            "Depending on the application use other methods like:\n \
+                1. dotProduct\n \
+                2. crossProduct(Under-Development) \
+            "
         )
 
     def __truediv__(self, m2):
@@ -243,3 +250,8 @@ def linearVector(dims, minVal, maxVal):
 
 def Copy(AnyObject):
     return copy.deepcopy(AnyObject)
+#*-----------------------------------------------------------------------------*
+#*                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
+#*                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
+#*                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
+#*-----------------------------------------------------------------------------*
