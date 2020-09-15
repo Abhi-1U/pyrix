@@ -6,7 +6,7 @@ python:
 # command to install dependencies
 install:
   - pip install codecov pytest pytest-cov
-  - pip install .
+  - python setup.py develop
 #environment settings
 # command to run tests
 script:
