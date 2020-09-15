@@ -1,7 +1,7 @@
 import pytest
 from pyrix import Matrix
 from pyrix.exception import incompaitableTypeException
-
+import copy
 # Test Suite M1 
 # Square matrices are test  
 data = [
@@ -25,12 +25,12 @@ def test_Matrixinit():
         print('Incompaitable Sizes')
     return objects
 
-def test_Matrixdata(test_Matrixinit):
+def test_Matrix_data(test_Matrixinit):
     cases=4
     (rows, cols) = [2, 3, 4,5], [2, 3, 4,5]
     traversal = 0
     for (r,c,d) in zip(rows,cols,data):
-        assert test_Matrixinit[traversal].matrix.classType == "Matrix", "Matrix Object Creation Failed"
+        assert test_Matrixinit[traversal].matrix.classType == "Matrix","Matrix Object Creation Failed"
         assert test_Matrixinit[traversal].matrix.dimensions == [r, c], "nrows,ncols fail to match"
         assert test_Matrixinit[traversal].matrix.data == d, "Data initialization failed"
         traversal += 1
@@ -41,3 +41,16 @@ def test_Matrix_isquare(test_Matrixinit):
     for i in range(len(test_Matrixinit)):
         assert test_Matrixinit[i].isSquareMatrix()== True,"Square Matrix Declared wrongly"
     print("Square Matrices correctly recognized")
+
+
+def test_Matrix_equals(test_Matrixinit):
+    copylist=copy.deepcopy(test_Matrixinit)
+    for i in range(len(test_Matrixinit)):
+        assert test_Matrixinit[i].equals(copylist[i]),"Equals function test"
+        assert test_Matrixinit[i]==copylist[i],"Equals Operator not working"
+    print("Equal() method working correctly")
+
+def test_Matrix_copy(test_Matrixinit):
+    copylist=test_Matrixinit.copy()
+    assert test_Matrixinit == copylist,"Copy method works properly"
+    print("Copy() method working correctly")
