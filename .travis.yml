@@ -1,0 +1,15 @@
+language: python
+python:
+  - "3.6"      # current default Python on Travis CI
+  - "3.7"
+  - "3.8"
+# command to install dependencies
+install:
+  - pip install codecov pytest pytest-cov
+  - pip install .
+#environment settings
+# command to run tests
+script:
+  - py.test  --cov-report term --cov=./
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
