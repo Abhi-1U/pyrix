@@ -17,13 +17,7 @@ from pyrix.exception import (
     nonInvertibleException,
 )
 
-from pyrix.matrix import (
-    Matrix,
-    zeroMatrix,
-    unitMatrix,
-    randomMatrix,
-    identityMatrix
-)
+from pyrix.matrix import Matrix, zeroMatrix, unitMatrix, randomMatrix, identityMatrix
 from pyrix.binarymatrix import (
     BinaryMatrix,
     identityBinaryMatrix,
@@ -31,13 +25,7 @@ from pyrix.binarymatrix import (
     unitBinaryMatrix,
     zeroBinaryMatrix,
 )
-from pyrix.vector import (
-    linearVector,
-    randomVector,
-    unitVector,
-    Vector,
-    zeroVector
-)
+from pyrix.vector import linearVector, randomVector, unitVector, Vector, zeroVector
 
 from pyrix.util import (
     flipDimensions,
@@ -48,7 +36,4 @@ from pyrix.util import (
     Copy,
     listifyMatrix,
 )
-from pyrix.charmatrix import (
-    alphaMatrix5x5,
-    CharMatrix
-)
+from pyrix.charmatrix import alphaMatrix5x5, CharMatrix

@@ -87,7 +87,7 @@ class matrixData(object):
         self.minor = None
         self.listifieddata = []
         self.symmetry = None
-        self.mode=None
+        self.mode = None
 
     def __setattr__(self, name, value):
         self.__dict__[name] = value
@@ -167,12 +167,8 @@ class Matrix:
     """
 
     def __init__(self, nrow=1, ncol=1, data=[[1]]):
-        if (len(data) == nrow, len(data[0]) == ncol):
-            self.matrix = matrixData(
-                nrow=nrow,
-                ncol=ncol,
-                data=data
-                )
+        if (len(data) == nrow) and (len(data[0]) == ncol):
+            self.matrix = matrixData(nrow=nrow, ncol=ncol, data=data)
         else:
             raise incompaitableTypeException
 
@@ -205,11 +201,7 @@ class Matrix:
             for i in range(len(m2.matrix.data)):
                 for j in range(len(m2.matrix.data[i])):
                     temp[i][j] += m2.matrix.data[i][j]
-            s = Matrix(
-                nrow=self.matrix.nrow,
-                ncol=self.matrix.ncol,
-                data=temp
-            )
+            s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
             return s
 
     # 2. Subtract Matrix
@@ -223,11 +215,7 @@ class Matrix:
             for i in range(len(m2.matrix.data)):
                 for j in range(len(m2.matrix.data[i])):
                     temp[i][j] -= m2.matrix.data[i][j]
-            s = Matrix(
-                nrow=self.matrix.nrow,
-                ncol=self.matrix.ncol,
-                data=temp
-            )
+            s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
             return s
 
     # 3. Multiply Matrix
@@ -237,8 +225,7 @@ class Matrix:
         if self.matrix.ncol != m2.matrix.nrow:  # checking Parameters
             raise incompaitableTypeException
         else:
-            m3 = [[0 for x in range(m2.matrix.ncol)]
-            for y in range(self.matrix.nrow)]
+            m3 = [[0 for x in range(m2.matrix.ncol)] for y in range(self.matrix.nrow)]
             sum = 0
             for i in range(self.matrix.nrow):
                 for j in range(m2.matrix.ncol):
@@ -246,11 +233,7 @@ class Matrix:
                         sum += self.matrix.data[i][k] * m2.matrix.data[k][j]
                     m3[i][j] = sum
                     sum = 0
-        s = Matrix(
-            nrow=self.matrix.nrow,
-            ncol=m2.matrix.ncol,
-            data=m3
-        )
+        s = Matrix(nrow=self.matrix.nrow, ncol=m2.matrix.ncol, data=m3)
         return s
 
     def __pow__(self, times):
@@ -306,11 +289,7 @@ class Matrix:
             truncMatrix.append([])
             for j in range(self.matrix.ncol):
                 truncMatrix[i].append(math.trunc(self.matrix.data[i][j]))
-        return Matrix(
-            nrow=self.matrix.nrow,
-            ncol=self.matrix.ncol,
-            data=truncMatrix
-        )
+        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=truncMatrix)
 
     def __ceil__(self):
         ceilMatrix = []
@@ -318,11 +297,7 @@ class Matrix:
             ceilMatrix.append([])
             for j in range(self.matrix.ncol):
                 ceilMatrix[i].append(math.ceil(self.matrix.data[i][j]))
-        return Matrix(
-            nrow=self.matrix.nrow,
-            ncol=self.matrix.ncol,
-            data=ceilMatrix
-        )
+        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=ceilMatrix)
 
     def __floor__(self):
         floorMatrix = []
@@ -330,11 +305,7 @@ class Matrix:
             floorMatrix.append([])
             for j in range(self.matrix.ncol):
                 floorMatrix[i].append(math.floor(self.matrix.data[i][j]))
-        return Matrix(
-            nrow=self.matrix.nrow,
-            ncol=self.matrix.ncol,
-            data=floorMatrix
-        )
+        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=floorMatrix)
 
     # *------- Methods for Matrix Analysis ------------------------------------*
 
@@ -441,11 +412,7 @@ class Matrix:
         temp = [[]]
         for j in range(self.matrix.ncol):
             temp[0].append(self.matrix.data[index][j])
-        s = Matrix(
-            nrow=1,
-            ncol=self.matrix.ncol,
-            data=temp
-        )
+        s = Matrix(nrow=1, ncol=self.matrix.ncol, data=temp)
         return s
 
     # 11. getcol
@@ -460,11 +427,7 @@ class Matrix:
         for i in range(self.matrix.nrow):
             temp.append([])
             temp[i].append(self.matrix.data[i][index])
-        s = Matrix(
-            nrow=self.matrix.nrow,
-            ncol=1,
-            data=temp
-        )
+        s = Matrix(nrow=self.matrix.nrow, ncol=1, data=temp)
         return s
 
     # 12. RoundOff
@@ -677,7 +640,7 @@ class Matrix:
                 for j in range(len(AM)):
                     AM[fd][j] *= fdScaler
                     IM[fd][j] *= fdScaler
-                for i in list(range(len(AM)))[0:fd]+list(range(len(AM)))[fd +1 :]:
+                for i in list(range(len(AM)))[0:fd] + list(range(len(AM)))[fd + 1 :]:
                     crScaler = AM[i][fd]
                     for j in range(len(AM)):
                         AM[i][j] = AM[i][j] - crScaler * AM[fd][j]
@@ -690,9 +653,8 @@ class Matrix:
                         IM[i][j] = IM[i][j]
                 inverteddata = IM
                 return Matrix(
-                    nrow=self.matrix.nrow,
-                    ncol=self.matrix.ncol,
-                    data=inverteddata)
+                    nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=inverteddata
+                )
             else:
                 self.matrix.determinant = 0
                 self.matrix.singular = True
@@ -771,11 +733,7 @@ class Matrix:
                 [(0 if (0.0000000001 > x > -0.0000000001) else x) for x in row]
                 for row in temp
             ]
-        s = Matrix(
-            nrow=self.matrix.nrow,
-            ncol=self.matrix.ncol,
-            data=temp
-        )
+        s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
         return s
 
     # 26.RRowEchleonTransform
@@ -795,11 +753,7 @@ class Matrix:
                             continue
                         if z[j][i] != 0:
                             self.__row_sub(z[j], self.__row_mult(z[i], z[i][j]))
-        s = Matrix(
-            nrow=self.matrix.nrow,
-            ncol=self.matrix.ncol,
-            data=z
-        )
+        s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=z)
         return s
 
     # 27.transposeTransform
@@ -815,11 +769,7 @@ class Matrix:
             c.append([])
             for j in range(self.matrix.nrow):
                 c[i].append(self.matrix.data[j][i])
-        s = Matrix(
-            nrow=self.matrix.ncol,
-            ncol=self.matrix.nrow,
-            data=c
-        )
+        s = Matrix(nrow=self.matrix.ncol, ncol=self.matrix.nrow, data=c)
         return s
 
     # *------- Supplementary Methods -----------------------------------------*
@@ -841,11 +791,7 @@ class Matrix:
                     sum += matrix[j][i] * vector[j]
                 c[i].append(sum)
                 sum = 0
-            p = Matrix(
-                ncol=1,
-                nrow=len(v1),
-                data=c
-            )
+            p = Matrix(ncol=1, nrow=len(v1), data=c)
             return p
 
     # 29.StrassenMultiplication
@@ -863,8 +809,7 @@ class Matrix:
         M5 = (t1[0][0] + t1[0][1]) * t2[1][1]
         M6 = (t1[1][0] - t1[0][0]) * (t2[0][0] + t2[0][1])
         M7 = (t1[0][1] - t1[1][1]) * (t2[1][0] + t2[1][1])
-        mtx = [[M1 + M4 - M5 + M7, M3 + M5],
-               [M2 + M4, M1 - M2 + M3 + M6]]
+        mtx = [[M1 + M4 - M5 + M7, M3 + M5], [M2 + M4, M1 - M2 + M3 + M6]]
         return mtx
 
     # 32.dotproduct
@@ -913,9 +858,7 @@ class Matrix:
                 allminorslist = self.__minor(matrixdata)
             self.matrix.minor = allminorslist
             return Matrix(
-                nrow=self.matrix.nrow,
-                ncol=self.matrix.ncol,
-                data=self.matrix.minor
+                nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=self.matrix.minor
             )
         else:
             raise incompaitableTypeException
@@ -930,11 +873,7 @@ class Matrix:
         else:
             pass
         cofactors = self.__cofactor(self.matrix.minor)
-        return Matrix(
-            nrow=self.matrix.nrow,
-            ncol=self.matrix.ncol,
-            data=cofactors
-        )
+        return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=cofactors)
 
     def __minor2x2(self, matrixdata):
         """
@@ -969,8 +908,7 @@ class Matrix:
             minors.append([])
             for j in range(len(matrixdata[0])):
                 minors[i].append(
-                    self.__determinantHelper(
-                    self.__matrixsplitter(matrixdata, i, j))
+                    self.__determinantHelper(self.__matrixsplitter(matrixdata, i, j))
                 )
         return minors
 
@@ -1030,11 +968,9 @@ class Matrix:
         serializeddata = __listifyMatrix(self)
         serializeddata.sort()
         if len(serializeddata) % 2 != 0:
-            globalmedian = serializeddata[int(
-                (-1 + len(serializeddata)) / 2)]
+            globalmedian = serializeddata[int((-1 + len(serializeddata)) / 2)]
         else:
-            globalmedian = serializeddata[int(
-                math.ceil(len(serializeddata) / 2))]
+            globalmedian = serializeddata[int(math.ceil(len(serializeddata) / 2))]
         return globalmedian
 
     def localRowMedian(self, rowindex):
@@ -1112,11 +1048,13 @@ def __nestifyMatrix(listeddata, rowcount, colcount):
 
 # Quick Initialization  Methods
 
+
 def Copy(AnyObject):
     """
     Returns A Hard copy of the object
     """
     return copy.deepcopy(AnyObject)
+
 
 # zeroMatrix
 # Creates a matrix with zeros of given shape and size
@@ -1132,11 +1070,7 @@ def zeroMatrix(nrow, ncol):
         t.append([])
         for _j in range(ncol):
             t[i].append(0)
-    s = Matrix(
-        nrow=nrow,
-        ncol=ncol,
-        data=t
-    )
+    s = Matrix(nrow=nrow, ncol=ncol, data=t)
     return s
 
 
@@ -1154,11 +1088,7 @@ def unitMatrix(nrow, ncol):
         t.append([])
         for _j in range(ncol):
             t[i].append(1)
-    s = Matrix(
-        nrow=nrow,
-        ncol=ncol,
-        data=t
-    )
+    s = Matrix(nrow=nrow, ncol=ncol, data=t)
     return s
 
 
@@ -1181,11 +1111,7 @@ def identityMatrix(nrow, ncol):
                     t[i].append(1)
                 else:
                     t[i].append(0)
-        s = Matrix(
-            nrow=nrow,
-            ncol=ncol,
-            data=t
-        )
+        s = Matrix(nrow=nrow, ncol=ncol, data=t)
         return s
     else:
         raise incompaitableTypeException
@@ -1204,11 +1130,7 @@ def randomMatrix(scale, type):
             data.append([])
             for _j in range(ncol):
                 data[i].append(random.randint(1, 100))
-        s = Matrix(
-            nrow=nrow,
-            ncol=ncol,
-            data=data
-        )
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
     if scale == "large" and type == "int":
         nrow = random.randint(10, 100)
@@ -1218,11 +1140,7 @@ def randomMatrix(scale, type):
             data.append([])
             for _j in range(ncol):
                 data[i].append(random.randint(10, 10000))
-        s = Matrix(
-            nrow=nrow,
-            ncol=ncol,
-            data=data
-        )
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
 
     if scale == "small" and type == "float":
@@ -1233,11 +1151,7 @@ def randomMatrix(scale, type):
             data.append([])
             for _j in range(ncol):
                 data[i].append(random.triangular(low=0.0, high=10.0))
-        s = Matrix(
-            nrow=nrow,
-            ncol=ncol,
-            data=data
-        )
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
     if scale == "large" and type == "float":
         nrow = random.randint(10, 100)
@@ -1247,16 +1161,12 @@ def randomMatrix(scale, type):
             data.append([])
             for _j in range(ncol):
                 data[i].append(random.triangular(low=0.0, high=1000.0))
-        s = Matrix(
-            nrow=nrow,
-            ncol=ncol,
-            data=data
-        )
+        s = Matrix(nrow=nrow, ncol=ncol, data=data)
         return s
 
 
-#*-----------------------------------------------------------------------------*
-#*                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
-#*                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
-#*                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
-#*-----------------------------------------------------------------------------*
+# *-----------------------------------------------------------------------------*
+# *                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
+# *                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
+# *                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
+# *-----------------------------------------------------------------------------*

@@ -24,17 +24,9 @@ def reDimensionalize(AnyMatrixObject, nrow, ncol):
         matrixdata[i] = listifieddata[0:ncol]
         del listifieddata[0:ncol]
     if AnyMatrixObject.matrix.classType == "Matrix":
-        return Matrix(
-            nrow=nrow,
-            ncol=ncol,
-            data=matrixdata
-        )
+        return Matrix(nrow=nrow, ncol=ncol, data=matrixdata)
     if AnyMatrixObject.matrix.classType == "BinaryMatrix":
-        return BinaryMatrix(
-            nrow=nrow,
-            ncol=ncol,
-            data=matrixdata
-        )
+        return BinaryMatrix(nrow=nrow, ncol=ncol, data=matrixdata)
     if isinstance(AnyMatrixObject, Vector):
         print("reDimensionalize not applicable on Vectors")
 
@@ -110,19 +102,11 @@ def JSONDecoder(object):
             data = item
             break
     if classtype == "BinaryMatrix":
-        returnMatrix = BinaryMatrix(
-            nrow=nrow,
-            ncol=ncol,
-            data=data
-        )
+        returnMatrix = BinaryMatrix(nrow=nrow, ncol=ncol, data=data)
         for key, item in object.items():
             setattr(returnMatrix.matrix, key, item)
     if classtype == "Matrix":
-        returnMatrix = Matrix(
-            nrow=nrow,
-            ncol=ncol,
-            data=data
-        )
+        returnMatrix = Matrix(nrow=nrow, ncol=ncol, data=data)
         for key, item in object.items():
             setattr(returnMatrix.matrix, key, item)
     return returnMatrix
@@ -185,8 +169,8 @@ except ImportError as e:
                    enter the file path by text\n \
                    or install tkinter"
     )
-#*-----------------------------------------------------------------------------*
-#*                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
-#*                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
-#*                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
-#*-----------------------------------------------------------------------------*
+# *-----------------------------------------------------------------------------*
+# *                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
+# *                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
+# *                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
+# *-----------------------------------------------------------------------------*

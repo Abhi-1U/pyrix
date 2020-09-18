@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
-name = "pyrix"
+NAME = "pyrix"
 # *---------------------------------------------------------------------------*
 # * Including ReadMe Markdown File in the setup
 with open("README.md", "r") as fh:
-    long_description = fh.read()
+    LONG_DESCRIPTION = fh.read()
 # *---------------------------------------------------------------------------*
 PROJECT_URLS = {
     "Source Code": "https://github.com/Abhi-1U/pyrix",
@@ -22,21 +22,21 @@ CLASSIFIERS = [
     "Topic :: Scientific/Engineering",
 ]
 setup(
-    name=name,
+    name=NAME,
     license="MIT",
     version="0.7.17rc0",
     author="Abhi-1U",
     author_email="PerricoQ@outlook.com",
     description="A matrix Library",
-    long_description=long_description,
+    long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     project_urls=PROJECT_URLS,
     packages=find_packages(),
     classifiers=CLASSIFIERS,
     python_requires=">=3.0",
 )
-#*-----------------------------------------------------------------------------*
-#*                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
-#*                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
-#*                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
-#*-----------------------------------------------------------------------------*
+# *-----------------------------------------------------------------------------*
+# *                          ░█▀█░█░█░█▀▄░▀█▀░█░█░
+# *                          ░█▀▀░░█░░█▀▄░░█░░▄▀▄░
+# *                          ░▀░░░░▀░░▀░▀░▀▀▀░▀░▀░
+# *-----------------------------------------------------------------------------*

@@ -1,1 +1,0 @@
-from binMat import BinaryMatrix
