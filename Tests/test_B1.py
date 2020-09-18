@@ -1,5 +1,5 @@
 import pytest
-from pyrix import BinaryMatrix
+from pyrix import BinaryMatrix,unitBinaryMatrix,zeroBinaryMatrix,randomBinaryMatrix,identityBinaryMatrix
 from pyrix.exception import *
 import copy
 
@@ -78,3 +78,45 @@ def test_BinMatrix_copy(test_BinMatrixinit):
     copylist = test_BinMatrixinit.copy()
     assert test_BinMatrixinit == copylist, "Copy method works properly"
     print("Copy() method working correctly")
+
+
+def test_unitBmatrix():
+    list = []
+    for i in range(1,5):
+        z=unitBinaryMatrix(nrow=i,ncol=i)
+        list.append(z)
+    for i in range(1,5):
+        assert list[i-1].matrix.nrow == i
+        assert list[i-1].matrix.ncol == i
+        assert list[i-1].matrix.data[i-1][i-1] == 1
+
+
+def test_zeroBmatrix():
+    list = []
+    for i in range(1,5):
+        z=zeroBinaryMatrix(nrow=i,ncol=i)
+        list.append(z)
+    for i in range(1,5):
+        assert list[i-1].matrix.nrow == i
+        assert list[i-1].matrix.ncol == i
+        assert list[i-1].matrix.data[i-1][i-1] == 0
+
+
+def test_randomBmatrix():
+    list = []
+    for i in range(1,5):
+        list.append(randomBinaryMatrix(scale="small", type="int"))
+    for i in range(0,4):
+        pass
+
+def test_IdentityBMatrix():
+    list = []
+    for i in range(1, 5):
+        z = identityBinaryMatrix(nrow=i, ncol=i)
+        list.append(z)
+    for i in range(1, 5):
+        assert list[i-1].matrix.nrow == i
+        assert list[i-1].matrix.ncol == i
+        assert list[i-1].matrix.data[i-1][i-1] == 1
+        if(i>1):
+            assert list[i-1].matrix.data[i-1][0]==0

@@ -1,5 +1,5 @@
 import pytest
-from pyrix import Matrix
+from pyrix import Matrix,unitMatrix,zeroMatrix,randomMatrix,identityMatrix
 from pyrix.exception import incompaitableTypeException
 import copy
 
@@ -71,3 +71,43 @@ def test_Matrix_copy(test_Matrixinit):
     copylist = test_Matrixinit.copy()
     assert test_Matrixinit == copylist, "Copy method works properly"
     print("Copy() method working correctly")
+
+def test_unitmatrix():
+    list=[]
+    for i in range(1,5):
+        list.append(unitMatrix(nrow=i,ncol=i))
+    for i in range(1,5):
+        assert list[i-1].matrix.nrow==i
+        assert list[i-1].matrix.ncol==i
+        assert list[i-1].matrix.data[i-1][i-1]==1
+
+
+def test_zeromatrix():
+    list = []
+    for i in range(1,5):
+        list.append(zeroMatrix(nrow=i, ncol=i))
+    for i in range(1,5):
+        assert list[i-1].matrix.nrow == i
+        assert list[i-1].matrix.ncol == i
+        assert list[i-1].matrix.data[i-1][i-1] == 0
+
+
+def test_randommatrix():
+    list = []
+    for i in range(1,5):
+        list.append(randomMatrix(scale="small",type="int"))
+    for i in range(0,4):
+        pass
+
+
+def test_IdentityMatrix():
+    list = []
+    for i in range(1, 5):
+        z = identityMatrix(nrow=i, ncol=i)
+        list.append(z)
+    for i in range(1, 5):
+        assert list[i-1].matrix.nrow == i
+        assert list[i-1].matrix.ncol == i
+        assert list[i-1].matrix.data[i-1][i-1] == 1
+        if(i > 1):
+            assert list[i-1].matrix.data[i-1][0] == 0

@@ -208,14 +208,14 @@ def randomVector(scale, type):
         dims = random.randint(1, 10)
         data = []
         for i in range(dims):
-            data[i].append(random.randint(1, 100))
+            data.append(random.randint(1, 100))
         s = Vector(dims=dims, data=data)
         return s
     if scale == "large" and type == "int":
         dims = random.randint(10, 100)
         data = []
         for i in range(dims):
-            data[i].append(random.randint(10, 10000))
+            data.append(random.randint(10, 10000))
         s = Vector(dims=dims, data=data)
         return s
 
@@ -223,14 +223,14 @@ def randomVector(scale, type):
         dims = random.randint(1, 10)
         data = []
         for i in range(dims):
-            data[i].append(random.triangular(low=0.0, high=10.0))
+            data.append(random.triangular(low=0.0, high=10.0))
         s = Vector(dims=dims, data=data)
         return s
     if scale == "large" and type == "float":
         dims = random.randint(10, 100)
         data = []
         for i in range(dims):
-            data[i].append(random.triangular(low=0.0, high=1000.0))
+            data.append(random.triangular(low=0.0, high=1000.0))
         s = Vector(dims=dims, data=data)
         return s
 

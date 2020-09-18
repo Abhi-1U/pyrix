@@ -57,6 +57,7 @@ class BinaryMatrix(Matrix):
             self.matrix.classType = 'BinaryMatrix'
             self.matrix.mode=mode
             self.isBinaryMatrix()
+            
         else:
             raise incompaitableTypeException
     def __repr__(self):
@@ -471,13 +472,12 @@ def zeroBinaryMatrix(nrow, ncol):
     for i in range(nrow):
         t.append([])
         for _j in range(ncol):
-            t[i].append(0)
-    s = BinaryMatrix(
+            t[i].append(0) 
+    return BinaryMatrix(
         nrow=nrow,
         ncol=ncol,
         data=t
     )
-    return s
 
 # unitBinaryMatrix
 # Creates a Binary Matrix with ones of given size and shape
@@ -493,12 +493,11 @@ def unitBinaryMatrix(nrow, ncol):
         t.append([])
         for _j in range(ncol):
             t[i].append(1)
-    s = BinaryMatrix(
+    return BinaryMatrix(
         nrow=nrow,
         ncol=ncol,
         data=t
     )
-    return s
 # identityBinaryMatrix
 # Creates a Binarymatrix with zeros of given shape and size
 
@@ -518,12 +517,11 @@ def identityBinaryMatrix(nrow, ncol):
                     t[i].append(1)
                 else:
                     t[i].append(0)
-        s = BinaryMatrix(
+        return BinaryMatrix(
             nrow=nrow,
             ncol=ncol,
             data=t
         )
-        return s
     else:
         raise incompaitableTypeException
 
@@ -537,12 +535,11 @@ def randomBinaryMatrix(scale, type):
             data.append([])
             for _j in range(ncol):
                 data[i].append(random.randint(0, 1))
-        s = Matrix(
+        return BinaryMatrix(
             nrow=nrow,
             ncol=ncol,
             data=data
         )
-        return s
     if(scale == "large" and type == "int"):
         nrow = random.randint(10, 100)
         ncol = random.randint(10, 100)
@@ -551,12 +548,11 @@ def randomBinaryMatrix(scale, type):
             data.append([])
             for _j in range(ncol):
                 data[i].append(random.randint(0, 1))
-        s = BinaryMatrix(
+        return BinaryMatrix(
             nrow=nrow,
             ncol=ncol,
             data=data
         )
-        return s
 
 def Copy(AnyObject):
     return copy.deepcopy(AnyObject)

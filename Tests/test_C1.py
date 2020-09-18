@@ -1,5 +1,5 @@
 import pytest
-from pyrix import CharMatrix
+from pyrix import CharMatrix,alphaMatrix5x5
 from pyrix.exception import incompaitableTypeException
 import copy
 
@@ -55,3 +55,22 @@ def test_CharMatrix_data(test_CharMatrixinit):
         ), "Data initialization failed"
         traversal += 1
     print("Ran Initialization Test on", cases, " test cases")
+
+def test_alpha5x5():
+    mat=alphaMatrix5x5()
+    assert mat.matrix.data==data[-1]
+
+
+def test_CMatrix_copy(test_CharMatrixinit):
+    copylist = test_CharMatrixinit.copy()
+    assert test_CharMatrixinit == copylist, "Copy method works properly"
+    print("Copy() method working correctly")
+
+
+def test_Matrix_isquare(test_CharMatrixinit):
+
+    for i in range(len(test_CharMatrixinit)):
+        assert (
+            test_CharMatrixinit[i].isSquareMatrix() == True
+        ), "Square Matrix Declared wrongly"
+    print("Square Matrices correctly recognized")
