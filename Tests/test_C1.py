@@ -74,3 +74,33 @@ def test_Matrix_isquare(test_CharMatrixinit):
             test_CharMatrixinit[i].isSquareMatrix() == True
         ), "Square Matrix Declared wrongly"
     print("Square Matrices correctly recognized")
+
+def test_ASCIIvals(test_CharMatrixinit):
+    ASCIImatrix=[]
+    for i in range(len(test_CharMatrixinit)):
+        ASCIImatrix.append(test_CharMatrixinit[i].ASCIIvals())
+    
+    for i in range(len(test_CharMatrixinit)):
+        for j in range(test_CharMatrixinit[i].matrix.nrow):
+            for k in range(test_CharMatrixinit[i].matrix.ncol):
+                assert chr(ASCIImatrix[i].matrix.data[j][k])==test_CharMatrixinit[i].matrix.data[j][k]
+    
+def test_findcharactar(test_CharMatrixinit):
+
+    for i in range(len(test_CharMatrixinit)):
+        char=test_CharMatrixinit[i].findCharactar("a")
+        assert test_CharMatrixinit[i].matrix.data[char[0]][char[1]]=="a"
+    
+def test_transpose(test_CharMatrixinit):
+    transposes=[]
+    for i in range(len(test_CharMatrixinit)):
+        transposes.append(test_CharMatrixinit[i].transposeTransform())
+    for i in range(len(test_CharMatrixinit)):
+        assert transposes[i].transposeTransform().matrix.data ==test_CharMatrixinit[i].matrix.data
+
+def test_getrow(test_CharMatrixinit):
+    rows=[]
+    for i in range(len(test_CharMatrixinit)):
+        rows.append(test_CharMatrixinit[i].getRow(i))
+    for i in range(len(test_CharMatrixinit)):
+        assert rows[i].matrix.data[0]==test_CharMatrixinit[i].matrix.data[i]

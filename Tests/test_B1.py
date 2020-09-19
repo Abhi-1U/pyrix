@@ -120,3 +120,19 @@ def test_IdentityBMatrix():
         assert list[i-1].matrix.data[i-1][i-1] == 1
         if(i>1):
             assert list[i-1].matrix.data[i-1][0]==0
+
+
+def test_transpose(test_BinMatrixinit):
+    transposes = []
+    for i in range(len(test_BinMatrixinit)):
+        transposes.append(test_BinMatrixinit[i].transposeTransform())
+    for i in range(len(test_BinMatrixinit)):
+        assert transposes[i].transposeTransform().matrix.data == test_BinMatrixinit[i].matrix.data
+
+
+def test_getrow(test_BinMatrixinit):
+    rows = []
+    for i in range(len(test_BinMatrixinit)):
+        rows.append(test_BinMatrixinit[i].getRow(i))
+    for i in range(len(test_BinMatrixinit)):
+        assert rows[i].matrix.data[0] == test_BinMatrixinit[i].matrix.data[i]

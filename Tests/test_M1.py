@@ -111,3 +111,19 @@ def test_IdentityMatrix():
         assert list[i-1].matrix.data[i-1][i-1] == 1
         if(i > 1):
             assert list[i-1].matrix.data[i-1][0] == 0
+
+
+def test_transposeMatrix(test_Matrixinit):
+    transposes = []
+    for i in range(len(test_Matrixinit)):
+        transposes.append(test_Matrixinit[i].transposeTransform())
+    for i in range(len(test_Matrixinit)):
+        assert transposes[i].transposeTransform().matrix.data == test_Matrixinit[i].matrix.data
+
+
+def test_getrow(test_Matrixinit):
+    rows = []
+    for i in range(len(test_Matrixinit)):
+        rows.append(test_Matrixinit[i].getRow(i))
+    for i in range(len(test_Matrixinit)):
+        assert rows[i].matrix.data[0] == test_Matrixinit[i].matrix.data[i]
