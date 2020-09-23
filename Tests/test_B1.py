@@ -106,6 +106,9 @@ def test_randomBmatrix():
     list = []
     for i in range(1,5):
         list.append(randomBinaryMatrix(scale="small", type="int"))
+        list.append(randomBinaryMatrix(scale="small", type="float"))
+        list.append(randomBinaryMatrix(scale="large", type="int"))
+        list.append(randomBinaryMatrix(scale="large", type="float"))
     for i in range(0,4):
         pass
 
@@ -136,3 +139,4 @@ def test_getrow(test_BinMatrixinit):
         rows.append(test_BinMatrixinit[i].getRow(i))
     for i in range(len(test_BinMatrixinit)):
         assert rows[i].matrix.data[0] == test_BinMatrixinit[i].matrix.data[i]
+        print(test_BinMatrixinit[i])

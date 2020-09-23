@@ -31,6 +31,7 @@ def test_vector_data(test_Vectorinit):
             test_Vectorinit[traversal].vector.dimensions == dim
         ), "dimensions fail to match"
         assert test_Vectorinit[traversal].vector.data == d, "Data initialization failed"
+        print(test_Vectorinit[traversal])
         traversal += 1
     print("Ran Initialization Test on", cases, " test cases")
 
@@ -59,6 +60,9 @@ def test_randomVector():
     list = []
     for i in range(1, 5):
         list.append(randomVector(scale="large", type="int"))
+        list.append(randomVector(scale="small", type="float"))
+        list.append(randomVector(scale="small", type="int"))
+        list.append(randomVector(scale="large", type="float"))
     for i in range(0, 4):
         pass
 

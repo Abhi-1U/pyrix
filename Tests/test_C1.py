@@ -23,7 +23,30 @@ data = [
     ],
 ]
 
-
+coldata=[
+    [
+        ["a"],
+        ["c"]
+    ],
+    [
+        ["a"],
+        ["d"],
+        ["g"]
+    ],
+    [
+        ["a"],
+        ["d"],
+        ["g"],
+        ["m"]
+    ],
+    [
+        ["a"],
+        ["f"],
+        ["l"],
+        ["q"],
+        ["v"]
+    ]
+]
 @pytest.fixture(scope="session")
 def test_CharMatrixinit():
     (rows, cols) = [2, 3, 4, 5], [2, 3, 4, 5]
@@ -60,6 +83,9 @@ def test_alpha5x5():
     mat=alphaMatrix5x5()
     assert mat.matrix.data==data[-1]
 
+def test_alpha5x5_alt():
+    mat=alphaMatrix5x5(['h','e','l','l','o'])
+    assert mat.matrix.data!=data[-1]
 
 def test_CMatrix_copy(test_CharMatrixinit):
     copylist = test_CharMatrixinit.copy()
@@ -179,3 +205,8 @@ def test_invert(test_CharMatrixinit):
             ~test_CharMatrixinit[i]
     except bitWiseOnMatrix as e:
         pass
+
+def test_getcol(test_CharMatrixinit):
+    for i in range(len(test_CharMatrixinit)):
+        assert test_CharMatrixinit[i].getCol(0).matrix.data==coldata[i]
+        print(test_CharMatrixinit[i])

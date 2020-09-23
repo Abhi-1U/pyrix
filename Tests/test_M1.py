@@ -26,9 +26,10 @@ data = [
         [1, 2, 3, 4, 5],
         [2, 3, 1, 4, 5],
         [7, 6, 4, 6, 4],
-        [0, 0, 0, 0, 0],
+        [1, 2, 3, 4, 5],
     ],
 ]
+rankdata=[1,3,2,4]
 symmetricdata = [True, False, False, False]
 
 @pytest.fixture(scope="session")
@@ -108,6 +109,9 @@ def test_randommatrix():
     list = []
     for i in range(1,5):
         list.append(randomMatrix(scale="small",type="int"))
+        list.append(randomMatrix(scale="large",type="float"))
+        list.append(randomMatrix(scale="small",type="float"))
+        list.append(randomMatrix(scale="large",type="int"))
     for i in range(0,4):
         pass
 
@@ -213,3 +217,9 @@ def test_issymmetric(test_Matrixinit):
     for i in range(len(test_Matrixinit)):
         assert test_Matrixinit[i].isSymmetricMatrix()==symmetricdata[i]
 
+def test_rank(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        try:
+            assert test_Matrixinit[i].matrixRank()==rankdata[i]
+        except ZeroDivisionError as e:
+            print(test_Matrixinit[i])
