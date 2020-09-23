@@ -1,14 +1,26 @@
 import pytest
 from pyrix import Matrix,unitMatrix,zeroMatrix,randomMatrix,identityMatrix
-from pyrix.exception import incompaitableTypeException
+from pyrix.exception import incompaitableTypeException,divisionErrorException,bitWiseOnMatrix
 import copy
 
 # Test Suite M1
 # Square matrices are test
 data = [
-    [[2, 2], [2, 2]],
-    [[3, 4, 3], [5, 5, 4], [9, 6, 5]],
-    [[4, 3, 2, 1], [1, 2, 3, 4], [5, 6, 7, 8], [8, 7, 6, 5]],
+    [
+        [2, 2], 
+        [2, 2]
+    ],
+    [   
+        [3, 4, 3], 
+        [5, 5, 4], 
+        [9, 6, 5]
+    ],
+    [
+        [4, 3, 2, 1], 
+        [1, 2, 3, 4], 
+        [5, 6, 7, 8], 
+        [8, 7, 6, 5]
+    ],
     [
         [5, 4, 3, 2, 1],
         [1, 2, 3, 4, 5],
@@ -17,7 +29,7 @@ data = [
         [0, 0, 0, 0, 0],
     ],
 ]
-
+symmetricdata = [True, False, False, False]
 
 @pytest.fixture(scope="session")
 def test_Matrixinit():
@@ -127,3 +139,77 @@ def test_getrow(test_Matrixinit):
         rows.append(test_Matrixinit[i].getRow(i))
     for i in range(len(test_Matrixinit)):
         assert rows[i].matrix.data[0] == test_Matrixinit[i].matrix.data[i]
+
+def test_truedivision(test_Matrixinit):
+    dummy=Matrix(nrow=1,ncol=1,data=[[1]])
+    try:
+        for i in range(len(test_Matrixinit)):
+            test_Matrixinit[i]/dummy
+    except divisionErrorException as e:
+        pass
+
+
+def test_floordivision(test_Matrixinit):
+    dummy = Matrix(nrow=1, ncol=1, data=[[1]])
+    try:
+        for i in range(len(test_Matrixinit)):
+            test_Matrixinit[i]//dummy
+    except divisionErrorException as e:
+        pass
+
+def test_modulus(test_Matrixinit):
+    dummy=Matrix(nrow=1,ncol=1,data=[[1]])
+    try:
+        for i in range(len(test_Matrixinit)):
+            test_Matrixinit[i]%dummy
+    except divisionErrorException as e:
+        pass
+
+
+def test_lshift(test_Matrixinit):
+    try:
+        for i in range(len(test_Matrixinit)):
+            test_Matrixinit[i]<<2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_rshift(test_Matrixinit):
+    try:
+        for i in range(len(test_Matrixinit)):
+            test_Matrixinit[i]>>2
+    except bitWiseOnMatrix as e:
+        pass
+
+def test_and(test_Matrixinit):
+    try:
+        for i in range(len(test_Matrixinit)):
+            test_Matrixinit[i]&2
+    except bitWiseOnMatrix as e:
+        pass
+
+def test_or(test_Matrixinit):
+    try:
+        for i in range(len(test_Matrixinit)):
+            test_Matrixinit[i]|2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_xor(test_Matrixinit):
+    try:
+        for i in range(len(test_Matrixinit)):
+            test_Matrixinit[i] ^ 2
+    except bitWiseOnMatrix as e:
+        pass
+
+def test_invert(test_Matrixinit):
+    try:
+        for i in range(len(test_Matrixinit)):
+            ~test_Matrixinit[i]
+    except bitWiseOnMatrix as e:
+        pass
+def test_issymmetric(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert test_Matrixinit[i].isSymmetricMatrix()==symmetricdata[i]
+

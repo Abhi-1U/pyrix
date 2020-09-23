@@ -1,6 +1,6 @@
 import pytest
 from pyrix import Vector,unitVector,zeroVector,randomVector,linearVector
-from pyrix.exception import incompaitableTypeException
+from pyrix.exception import incompaitableTypeException,divisionErrorException,bitWiseOnMatrix
 
 data = [[1], [1, 3], [2, 3, 4], [5, 4, 3, 5]]
 
@@ -70,3 +70,77 @@ def test_linearVector():
         list.append(z)
     for i in range(2, 5):
         assert list[i-2].vector.dimensions == i
+
+
+def test_truedivision(test_Vectorinit):
+    dummy = Vector(dims=1, data=[1])
+    try:
+        for i in range(len(test_Vectorinit)):
+            test_Vectorinit[i]/dummy
+    except divisionErrorException as e:
+        pass
+
+
+def test_floordivision(test_Vectorinit):
+    dummy = Vector(dims=1, data=[1])
+    try:
+        for i in range(len(test_Vectorinit)):
+            test_Vectorinit[i]//dummy
+    except divisionErrorException as e:
+        pass
+
+
+def test_modulus(test_Vectorinit):
+    dummy = Vector(dims=1, data=[1])
+    try:
+        for i in range(len(test_Vectorinit)):
+            test_Vectorinit[i]%dummy
+    except divisionErrorException as e:
+        pass
+
+
+def test_lshift(test_Vectorinit):
+    try:
+        for i in range(len(test_Vectorinit)):
+            test_Vectorinit[i] << 2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_rshift(test_Vectorinit):
+    try:
+        for i in range(len(test_Vectorinit)):
+            test_Vectorinit[i] >> 2
+    except bitWiseOnMatrix as e:
+        pass
+
+def test_and(test_Vectorinit):
+    try:
+        for i in range(len(test_Vectorinit)):
+            test_Vectorinit[i] & 2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_or(test_Vectorinit):
+    try:
+        for i in range(len(test_Vectorinit)):
+            test_Vectorinit[i] | 2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_xor(test_Vectorinit):
+    try:
+        for i in range(len(test_Vectorinit)):
+            test_Vectorinit[i] ^ 2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_invert(test_Vectorinit):
+    try:
+        for i in range(len(test_Vectorinit)):
+            ~test_Vectorinit[i]
+    except bitWiseOnMatrix as e:
+        pass

@@ -1,6 +1,6 @@
 import pytest
 from pyrix import CharMatrix,alphaMatrix5x5
-from pyrix.exception import incompaitableTypeException
+from pyrix.exception import incompaitableTypeException,divisionErrorException,bitWiseOnMatrix
 import copy
 
 # Test Suite M1
@@ -104,3 +104,78 @@ def test_getrow(test_CharMatrixinit):
         rows.append(test_CharMatrixinit[i].getRow(i))
     for i in range(len(test_CharMatrixinit)):
         assert rows[i].matrix.data[0]==test_CharMatrixinit[i].matrix.data[i]
+
+
+def test_truedivision(test_CharMatrixinit):
+    dummy = CharMatrix(nrow=1, ncol=1, data=[["A"]])
+    try:
+        for i in range(len(test_CharMatrixinit)):
+            test_CharMatrixinit[i]/dummy
+    except divisionErrorException as e:
+        pass
+
+
+def test_floordivision(test_CharMatrixinit):
+    dummy = CharMatrix(nrow=1, ncol=1, data=[["A"]])
+    try:
+        for i in range(len(test_CharMatrixinit)):
+            test_CharMatrixinit[i]//dummy
+    except divisionErrorException as e:
+        pass
+
+
+def test_modulus(test_CharMatrixinit):
+    dummy = CharMatrix(nrow=1, ncol=1, data=[["A"]])
+    try:
+        for i in range(len(test_CharMatrixinit)):
+            test_CharMatrixinit[i]%dummy
+    except divisionErrorException as e:
+        pass
+
+
+def test_lshift(test_CharMatrixinit):
+    try:
+        for i in range(len(test_CharMatrixinit)):
+            test_CharMatrixinit[i] << 2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_rshift(test_CharMatrixinit):
+    try:
+        for i in range(len(test_CharMatrixinit)):
+            test_CharMatrixinit[i] >> 2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_and(test_CharMatrixinit):
+    try:
+        for i in range(len(test_CharMatrixinit)):
+            test_CharMatrixinit[i] & 2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_or(test_CharMatrixinit):
+    try:
+        for i in range(len(test_CharMatrixinit)):
+            test_CharMatrixinit[i] | 2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_xor(test_CharMatrixinit):
+    try:
+        for i in range(len(test_CharMatrixinit)):
+            test_CharMatrixinit[i] ^ 2
+    except bitWiseOnMatrix as e:
+        pass
+
+
+def test_invert(test_CharMatrixinit):
+    try:
+        for i in range(len(test_CharMatrixinit)):
+            ~test_CharMatrixinit[i]
+    except bitWiseOnMatrix as e:
+        pass
