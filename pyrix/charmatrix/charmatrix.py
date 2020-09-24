@@ -173,17 +173,6 @@ def alphaMatrix5x5(offsetchars=[]):
     outmatrix = CharMatrix(nrow=5, ncol=5, data=__nestifyMatrix(table, 5, 5))
     return outmatrix
 
-
-def __listifyMatrix(MatrixObject):
-    matrixdata = MatrixObject.matrix.data
-    listifiedmatrix = []
-    for i in range(MatrixObject.matrix.nrow):
-        for j in range(MatrixObject.matrix.ncol):
-            listifiedmatrix.append(matrixdata[i][j])
-    MatrixObject.matrix.listifieddata = listifiedmatrix
-    return listifiedmatrix
-
-
 def __nestifyMatrix(listeddata, rowcount, colcount):
     clist = listeddata
     nested = []

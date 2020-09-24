@@ -508,13 +508,13 @@ class Matrix:
         Returns integer value of rank.
         """
         cself = self.copy()
-        x = cself.RrowEchleonTransform()
+        x = cself.rowEchleonTransform()
         rank = 0
         for i in range(x.matrix.nrow):
             for j in range(x.matrix.ncol):
                 if x.matrix.data[i][j] == 0:
                     pass
-                if x.matrix.data[i][j] == 1:
+                if x.matrix.data[i][j] != 0:
                     rank += 1
                     break
         self.matrix.rank = rank
@@ -952,14 +952,14 @@ class Matrix:
     def localRowMean(self, rowindex):
         data = self.matrix.data
         count = 0
-        for i in range(self.matrix):
+        for i in range(len(data[rowindex])):
             count += data[rowindex][i]
         return count / self.matrix.nrow
 
     def localColumnMean(self, colindex):
         data = self.matrix.data
         count = 0
-        for i in range(self.matrix):
+        for i in range(len(data[colindex])):
             count += data[i][colindex]
         return count / self.matrix.ncol
 

@@ -1,5 +1,5 @@
 import pytest
-from pyrix import Matrix,unitMatrix,zeroMatrix,randomMatrix,identityMatrix
+from pyrix import Matrix,unitMatrix,zeroMatrix,randomMatrix,identityMatrix,Copy
 from pyrix.exception import incompaitableTypeException,divisionErrorException,bitWiseOnMatrix
 import copy
 
@@ -29,9 +29,41 @@ data = [
         [1, 2, 3, 4, 5],
     ],
 ]
+adjointdata=[
+    [
+        [2, -2],
+        [-2, 2]
+    ],
+    [
+        [1, -2, 1],
+        [11, -12, 3],
+        [-15, 18, -5]
+    ],
+    [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+
+    ],
+    [
+        [0, 72, 0, 0, -72],
+        [0, -84, 0, 0, 84],
+        [0, -6, 0, 0, 6],
+        [0, -24, 0, 0, 24],
+        [0, 42, 0, 0, -42]
+
+    ]
+]
 rankdata=[1,3,2,4]
 symmetricdata = [True, False, False, False]
-
+globalmeandata = [2, 4.888888889,4.5,3.48]
+localrowmeandata = [2, 3.333333333,2.5,3]
+localcolmeandata=[2,5.666666667,4.5,3.2]
+globalmediandata=[2]
+globalmodedata=[2,5,4,4]
+localrowmodedata=[2,3,4,5]
+localcolmodedata=[2,3,4,1]
 @pytest.fixture(scope="session")
 def test_Matrixinit():
     (rows, cols) = [2, 3, 4, 5], [2, 3, 4, 5]
@@ -218,8 +250,40 @@ def test_issymmetric(test_Matrixinit):
         assert test_Matrixinit[i].isSymmetricMatrix()==symmetricdata[i]
 
 def test_rank(test_Matrixinit):
+    for i in range(len(test_Matrixinit)-1):
+        assert test_Matrixinit[i].matrixRank()==rankdata[i]
+
+def test_globalmean(test_Matrixinit):
     for i in range(len(test_Matrixinit)):
-        try:
-            assert test_Matrixinit[i].matrixRank()==rankdata[i]
-        except ZeroDivisionError as e:
-            print(test_Matrixinit[i])
+        assert round(test_Matrixinit[i].globalMean(),3) == round(globalmeandata[i],3)
+def test_localrowmean(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert round(test_Matrixinit[i].localRowMean(0),3) == round(localrowmeandata[i], 3)
+
+
+def test_localcolumnmean(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert round(test_Matrixinit[i].localColumnMean(0), 3) == round(localcolmeandata[i], 3)
+
+def test_globalmode(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert test_Matrixinit[i].globalMode()==globalmodedata[i]
+
+def test_localrowmode(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert test_Matrixinit[i].localRowMode(0)==localrowmodedata[i]
+def test_localcolmode(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert test_Matrixinit[i].localColumnMode(0)==localcolmodedata[i]
+
+def test_scale(test_Matrixinit):
+    copymat=Copy(test_Matrixinit)
+    for i in range(len(test_Matrixinit)):
+        copymat[i].scaleMatrix(i+1)
+    for i in range(len(test_Matrixinit)):
+        copymat[i].scaleMatrix(1/(i+1))
+        assert copymat[i]==test_Matrixinit[i]
+
+def test_adjoint(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert test_Matrixinit[i].adjointTransform().matrix.data == adjointdata[i]
