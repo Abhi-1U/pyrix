@@ -88,6 +88,7 @@ class matrixData(object):
         self.listifieddata = []
         self.symmetry = None
         self.mode = None
+        self.identityMatrix=None
 
     def __setattr__(self, name, value):
         self.__dict__[name] = value
@@ -368,6 +369,8 @@ class Matrix:
         """
         Returns a boolean value based on the matrix symmetry
         """
+        if(self.matrix.symmetry):
+            return self.matrix.symmetry
         assert self.isSquareMatrix(), "A Square Matrix is a Primary Requirement"
         transposeMarix = self.transposeTransform()
         transposedata = transposeMarix.matrix.data
@@ -525,6 +528,8 @@ class Matrix:
         The trace of a square matrix is defined to be the sum of elements on the
         main diagonal of a Matrix. Returns a int/float value.
         """
+        if(self.matrix.trace!=None):
+            return self.matrix.trace
         trace = 0
         if self.isSquareMatrix():
             for i in range(self.matrix.nrow):
@@ -630,6 +635,8 @@ class Matrix:
             raise incompaitableTypeException
         if self.matrix.invertibility == False:
             pass
+        if getattr(self.matrix,"identityMatrix")==True:
+            return self
         else:
             AM = Copy(self.matrix.data)
             IM = identityMatrix(self.matrix.nrow, self.matrix.ncol).matrix.data
@@ -648,7 +655,7 @@ class Matrix:
 
             if self.__verify(IM):
                 self.matrix.singular = False
-                for i in range(len(IM[i])):
+                for i in range(len(IM[0])):
                     for j in range(len(IM[i])):
                         IM[i][j] = IM[i][j]
                 inverteddata = IM
@@ -962,7 +969,7 @@ class Matrix:
         for i in range(len(data[colindex])):
             count += data[i][colindex]
         return count / self.matrix.ncol
-
+        
     def globalMedian(self):
         globalmedian = None
         serializeddata = __listifyMatrix(self)
@@ -1071,6 +1078,9 @@ def zeroMatrix(nrow, ncol):
         for _j in range(ncol):
             t[i].append(0)
     s = Matrix(nrow=nrow, ncol=ncol, data=t)
+    if(nrow == ncol):
+        s.matrix.symmetry = True
+        s.matrix.trace=0
     return s
 
 
@@ -1089,6 +1099,9 @@ def unitMatrix(nrow, ncol):
         for _j in range(ncol):
             t[i].append(1)
     s = Matrix(nrow=nrow, ncol=ncol, data=t)
+    if(nrow==ncol):
+        s.matrix.symmetry=True
+        s.matrix.trace=nrow
     return s
 
 
@@ -1112,6 +1125,10 @@ def identityMatrix(nrow, ncol):
                 else:
                     t[i].append(0)
         s = Matrix(nrow=nrow, ncol=ncol, data=t)
+        s.matrix.symmetry=True
+        s.matrix.trace=nrow
+        s.matrix.invertibility=True
+        setattr(s.matrix,"identityMatrix",True)
         return s
     else:
         raise incompaitableTypeException

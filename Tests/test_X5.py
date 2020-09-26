@@ -45,11 +45,6 @@ def test_XMatrixinit():
         traversal += 1
     return objects
 
-
-def test_BinMatrixException(test_XMatrixinit):
-    pass
-
-
 def test_BitWiseException(test_XMatrixinit):
     for i in range(len(test_XMatrixinit)):
         try:
@@ -64,11 +59,6 @@ def test_DivisionException(test_XMatrixinit):
             test_XMatrixinit[i] / test_XMatrixinit[i]
         except divisionErrorException as e:
             print(e, "\n Test Succesfull")
-
-
-def test_incompaitableException(test_XMatrixinit):
-    pass
-
 
 def test_NotInvertibleException(test_XMatrixinit):
     try:

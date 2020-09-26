@@ -139,12 +139,12 @@ def test_zeromatrix():
 
 def test_randommatrix():
     list = []
-    for i in range(1,5):
+    for _i in range(1,5):
         list.append(randomMatrix(scale="small",type="int"))
         list.append(randomMatrix(scale="large",type="float"))
         list.append(randomMatrix(scale="small",type="float"))
         list.append(randomMatrix(scale="large",type="int"))
-    for i in range(0,4):
+    for _i in range(0,4):
         pass
 
 
@@ -181,7 +181,7 @@ def test_truedivision(test_Matrixinit):
     try:
         for i in range(len(test_Matrixinit)):
             test_Matrixinit[i]/dummy
-    except divisionErrorException as e:
+    except divisionErrorException :
         pass
 
 
@@ -190,7 +190,7 @@ def test_floordivision(test_Matrixinit):
     try:
         for i in range(len(test_Matrixinit)):
             test_Matrixinit[i]//dummy
-    except divisionErrorException as e:
+    except divisionErrorException :
         pass
 
 def test_modulus(test_Matrixinit):
@@ -198,7 +198,7 @@ def test_modulus(test_Matrixinit):
     try:
         for i in range(len(test_Matrixinit)):
             test_Matrixinit[i]%dummy
-    except divisionErrorException as e:
+    except divisionErrorException :
         pass
 
 
@@ -206,7 +206,7 @@ def test_lshift(test_Matrixinit):
     try:
         for i in range(len(test_Matrixinit)):
             test_Matrixinit[i]<<2
-    except bitWiseOnMatrix as e:
+    except bitWiseOnMatrix :
         pass
 
 
@@ -214,21 +214,21 @@ def test_rshift(test_Matrixinit):
     try:
         for i in range(len(test_Matrixinit)):
             test_Matrixinit[i]>>2
-    except bitWiseOnMatrix as e:
+    except bitWiseOnMatrix :
         pass
 
 def test_and(test_Matrixinit):
     try:
         for i in range(len(test_Matrixinit)):
             test_Matrixinit[i]&2
-    except bitWiseOnMatrix as e:
+    except bitWiseOnMatrix:
         pass
 
 def test_or(test_Matrixinit):
     try:
         for i in range(len(test_Matrixinit)):
             test_Matrixinit[i]|2
-    except bitWiseOnMatrix as e:
+    except bitWiseOnMatrix :
         pass
 
 
@@ -236,14 +236,14 @@ def test_xor(test_Matrixinit):
     try:
         for i in range(len(test_Matrixinit)):
             test_Matrixinit[i] ^ 2
-    except bitWiseOnMatrix as e:
+    except bitWiseOnMatrix :
         pass
 
 def test_invert(test_Matrixinit):
     try:
         for i in range(len(test_Matrixinit)):
             ~test_Matrixinit[i]
-    except bitWiseOnMatrix as e:
+    except bitWiseOnMatrix:
         pass
 def test_issymmetric(test_Matrixinit):
     for i in range(len(test_Matrixinit)):

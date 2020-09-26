@@ -1,6 +1,6 @@
 import pytest
 from pyrix import BinaryMatrix,unitBinaryMatrix,zeroBinaryMatrix,randomBinaryMatrix,identityBinaryMatrix
-from pyrix.exception import *
+from pyrix.exception import binaryMatrixException,incompaitableTypeException
 import copy
 
 data = [
@@ -104,12 +104,12 @@ def test_zeroBmatrix():
 
 def test_randomBmatrix():
     list = []
-    for i in range(1,5):
+    for _i in range(1,5):
         list.append(randomBinaryMatrix(scale="small", type="int"))
         list.append(randomBinaryMatrix(scale="small", type="float"))
         list.append(randomBinaryMatrix(scale="large", type="int"))
         list.append(randomBinaryMatrix(scale="large", type="float"))
-    for i in range(0,4):
+    for _i in range(0,4):
         pass
 
 def test_IdentityBMatrix():

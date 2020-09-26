@@ -4,7 +4,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyrix?style=flat-square&logo=python)](https://pypi.org/project/pyrix/#description)
 [![Code Style](https://img.shields.io/badge/code%20style-black-black?style=flat-square)](https://github.com/psf/black)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pyrix?color=navy&style=flat-square)](https://pypi.org/project/pyrix/#files)
-[![Codecov](https://img.shields.io/codecov/c/gh/Abhi-1U/pyrix?style=flat-square&logo=codecov)](https://codecov.io/gh/Abhi-1U/pyrix)
+[![Codecov](https://img.shields.io/codecov/c/github/Abhi-1U/pyrix?style=flat-square&logo=codecov)](https://codecov.io/gh/Abhi-1U/pyrix)
 [![Travis (.org)](https://img.shields.io/travis/Abhi-1U/pyrix?style=flat-square&logo=travis)](https://travis-ci.org/Abhi-1U/pyrix)  
 ### A different take on Matrices
 Matrices are everywhere and the central most important aspect of computing. Be
