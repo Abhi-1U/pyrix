@@ -240,8 +240,8 @@ class Matrix:
     def __pow__(self, times):
         assert isinstance(times, int), "Float not allowed"
         if self.isSquareMatrix():
-            for _i in range(times):
-                self *= self
+            for _i in range(times-1):
+                self = self*self
             return self
         else:
             raise incompaitableTypeException
@@ -456,6 +456,7 @@ class Matrix:
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
                 self.matrix.data[i][j] *= scalar
+        return self
 
     # 14. DeterminantValue
     # returns the determinant Value of the matrix
@@ -972,7 +973,7 @@ class Matrix:
         
     def globalMedian(self):
         globalmedian = None
-        serializeddata = __listifyMatrix(self)
+        serializeddata = listifyMatrix(self.matrix.data)
         serializeddata.sort()
         if len(serializeddata) % 2 != 0:
             globalmedian = serializeddata[int((-1 + len(serializeddata)) / 2)]
@@ -1034,13 +1035,12 @@ class Matrix:
     __repr__ = __str__
 
 
-def __listifyMatrix(MatrixObject):
-    matrixdata = MatrixObject.matrix.data
+def listifyMatrix(MatrixObjectdata):
+    matrixdata = MatrixObjectdata
     listifiedmatrix = []
-    for i in range(MatrixObject.matrix.nrow):
-        for j in range(MatrixObject.matrix.ncol):
+    for i in range(len(MatrixObjectdata)):
+        for j in range(len(MatrixObjectdata[i])):
             listifiedmatrix.append(matrixdata[i][j])
-    MatrixObject.matrix.listifieddata = listifiedmatrix
     return listifiedmatrix
 
 

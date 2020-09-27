@@ -1,5 +1,5 @@
 import pytest
-from pyrix import Vector,unitVector,zeroVector,randomVector,linearVector
+from pyrix import Vector,unitVector,zeroVector,randomVector,linearVector,Copy
 from pyrix.exception import incompaitableTypeException,divisionErrorException,bitWiseOnMatrix
 
 data = [[1], [1, 3], [2, 3, 4], [5, 4, 3, 5]]
@@ -148,3 +148,29 @@ def test_invert(test_Vectorinit):
             ~test_Vectorinit[i]
     except bitWiseOnMatrix as e:
         pass
+
+
+def test_Normalize(test_Vectorinit):
+    norms = Copy(test_Vectorinit)
+    for i in range(len(test_Vectorinit)):
+        norms[i].vectorNormalize()
+        norms[i].crossProduct(test_Vectorinit[i])
+        assert getattr(norms[i].vector, "classType") == "Vector"
+
+def test_add(test_Vectorinit):
+    cVector=test_Vectorinit.copy()
+    sums=[]
+    for i in range(len(test_Vectorinit)):
+        sums.append(cVector[i]+test_Vectorinit[i])
+    for i in range(len(test_Vectorinit)):
+        assert sums[i]==test_Vectorinit[i].scaleVector(2)
+
+def test_sub(test_Vectorinit):
+    cVector=test_Vectorinit.copy()
+    sums=[]
+    for i in range(len(test_Vectorinit)):
+        sums.append(cVector[i]-test_Vectorinit[i])
+    for i in range(len(test_Vectorinit)):
+        assert sums[i]==test_Vectorinit[i].scaleVector(0)
+
+  

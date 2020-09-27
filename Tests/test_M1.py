@@ -64,6 +64,10 @@ globalmediandata=[2]
 globalmodedata=[2,5,4,4]
 localrowmodedata=[2,3,4,5]
 localcolmodedata=[2,3,4,1]
+absdata=[0,2,0,0]
+globalmediandata=[2,5,5,4]
+localrowmediandata=[2,3,3,3]
+localcolmediandata=[2,5,5,2]
 @pytest.fixture(scope="session")
 def test_Matrixinit():
     (rows, cols) = [2, 3, 4, 5], [2, 3, 4, 5]
@@ -91,6 +95,7 @@ def test_Matrix_data(test_Matrixinit):
             c,
         ], "nrows,ncols fail to match"
         assert test_Matrixinit[traversal].matrix.data == d, "Data initialization failed"
+        print(test_Matrixinit[traversal])
         traversal += 1
     print("Ran Initialization Test on", cases, " test cases")
 
@@ -157,6 +162,7 @@ def test_IdentityMatrix():
         assert list[i-1].matrix.nrow == i
         assert list[i-1].matrix.ncol == i
         assert list[i-1].matrix.data[i-1][i-1] == 1
+        assert list[i-1].matrixTrace()==i
         if(i > 1):
             assert list[i-1].matrix.data[i-1][0] == 0
 
@@ -210,6 +216,11 @@ def test_lshift(test_Matrixinit):
         pass
 
 
+def test_adjoint(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert test_Matrixinit[i].adjointTransform(
+        ).matrix.data == adjointdata[i]
+
 def test_rshift(test_Matrixinit):
     try:
         for i in range(len(test_Matrixinit)):
@@ -249,6 +260,10 @@ def test_issymmetric(test_Matrixinit):
     for i in range(len(test_Matrixinit)):
         assert test_Matrixinit[i].isSymmetricMatrix()==symmetricdata[i]
 
+
+def test_abs(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert abs(test_Matrixinit[i]) == absdata[i]
 def test_rank(test_Matrixinit):
     for i in range(len(test_Matrixinit)-1):
         assert test_Matrixinit[i].matrixRank()==rankdata[i]
@@ -261,6 +276,15 @@ def test_localrowmean(test_Matrixinit):
         assert round(test_Matrixinit[i].localRowMean(0),3) == round(localrowmeandata[i], 3)
 
 
+def test_localcolmode(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert test_Matrixinit[i].localColumnMode(0) == localcolmodedata[i]
+
+
+def test_localcolmedian(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert test_Matrixinit[i].localColumnMedian(0) == localcolmediandata[i]
+
 def test_localcolumnmean(test_Matrixinit):
     for i in range(len(test_Matrixinit)):
         assert round(test_Matrixinit[i].localColumnMean(0), 3) == round(localcolmeandata[i], 3)
@@ -268,14 +292,15 @@ def test_localcolumnmean(test_Matrixinit):
 def test_globalmode(test_Matrixinit):
     for i in range(len(test_Matrixinit)):
         assert test_Matrixinit[i].globalMode()==globalmodedata[i]
-
+def test_globalmedian(test_Matrixinit):
+    for i in range(len(test_Matrixinit)):
+        assert test_Matrixinit[i].globalMedian() == globalmediandata[i]
 def test_localrowmode(test_Matrixinit):
     for i in range(len(test_Matrixinit)):
         assert test_Matrixinit[i].localRowMode(0)==localrowmodedata[i]
-def test_localcolmode(test_Matrixinit):
+def test_localrowmedian(test_Matrixinit):
     for i in range(len(test_Matrixinit)):
-        assert test_Matrixinit[i].localColumnMode(0)==localcolmodedata[i]
-
+        assert test_Matrixinit[i].localRowMedian(0)==localrowmediandata[i]
 def test_scale(test_Matrixinit):
     copymat=Copy(test_Matrixinit)
     for i in range(len(test_Matrixinit)):
@@ -284,6 +309,28 @@ def test_scale(test_Matrixinit):
         copymat[i].scaleMatrix(1/(i+1))
         assert copymat[i]==test_Matrixinit[i]
 
-def test_adjoint(test_Matrixinit):
+
+
+
+def test_add(test_Matrixinit):
+    cMatrix = test_Matrixinit.copy()
+    sums = []
     for i in range(len(test_Matrixinit)):
-        assert test_Matrixinit[i].adjointTransform().matrix.data == adjointdata[i]
+        sums.append(cMatrix[i]+test_Matrixinit[i])
+    for i in range(len(test_Matrixinit)):
+        assert sums[i] == test_Matrixinit[i].scaleMatrix(2)
+
+
+def test_sub(test_Matrixinit):
+    cMatrix = test_Matrixinit.copy()
+    sums = []
+    for i in range(len(test_Matrixinit)):
+        sums.append(cMatrix[i]-test_Matrixinit[i])
+    for i in range(len(test_Matrixinit)):
+        assert sums[i] == test_Matrixinit[i].scaleMatrix(0)
+
+def test_pow(test_Matrixinit):
+    cMatrix= Copy(test_Matrixinit)
+    for i in range(len(cMatrix)):
+        assert pow(cMatrix[i],2) == test_Matrixinit[i]*test_Matrixinit[i]
+
