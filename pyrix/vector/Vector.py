@@ -5,8 +5,8 @@ Name        : Pyrix/Vector\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : An extension to pyrix for vectors\n
 Encoding    : UTF-8\n
-Version     :0.7.17rc0\n
-Build       :0.7.17rc0/17-07-2020
+Version     :0.7.17rc1\n
+Build       :0.7.17rc1/17-07-2020
 """
 from pyrix.exception import (
     incompaitableTypeException,

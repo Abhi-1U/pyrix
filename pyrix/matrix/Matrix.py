@@ -5,8 +5,8 @@ Name        : Pyrix/Matrix
 Author      : Abhi-1U <https://github.com/Abhi-1U>
 Description : A simple matrix manipulation library
 Encoding    : UTF-8
-Version     :0.7.17rc0
-Build       :0.7.17rc0/29-08-2020
+Version     :0.7.17rc1
+Build       :0.7.17rc1/28-09-2020
 """
 import copy
 import math
@@ -754,6 +754,7 @@ class Matrix:
                 z[i] = self.__scalarDivideRow(z[i], z[i][i])
         if self.matrix.nrow == self.matrix.ncol:
             IM = identityMatrix(self.matrix.ncol, self.matrix.nrow)
+            loopcounter=0
             while z == IM.matrix.data:
                 for j in range(len(z)):
                     for i in range(len(z[0])):
@@ -761,6 +762,7 @@ class Matrix:
                             continue
                         if z[j][i] != 0:
                             self.__row_sub(z[j], self.__row_mult(z[i], z[i][j]))
+                loopcounter+=1
         s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=z)
         return s
 
@@ -802,23 +804,7 @@ class Matrix:
             p = Matrix(ncol=1, nrow=len(v1), data=c)
             return p
 
-    # 29.StrassenMultiplication
-    # returns multiplication of two matrices with strassen method
-    # 31.strassen2x2
-    # helper method for 2x2matrix multiplications by strassen method
 
-    def __strassen2x2(self, m1, m2):
-        t1 = m1
-        t2 = m2
-        M1 = (t1[0][0] + t1[1][1]) * (t2[0][0] + t2[1][1])
-        M2 = (t1[1][0] + t1[1][1]) * t2[0][0]
-        M3 = t1[0][0] * (t2[0][1] - t2[1][1])
-        M4 = t2[1][1] * (t2[1][0] - t2[0][0])
-        M5 = (t1[0][0] + t1[0][1]) * t2[1][1]
-        M6 = (t1[1][0] - t1[0][0]) * (t2[0][0] + t2[0][1])
-        M7 = (t1[0][1] - t1[1][1]) * (t2[1][0] + t2[1][1])
-        mtx = [[M1 + M4 - M5 + M7, M3 + M5], [M2 + M4, M1 - M2 + M3 + M6]]
-        return mtx
 
     # 32.dotproduct
     # for vectors as matrix
@@ -970,7 +956,7 @@ class Matrix:
         for i in range(len(data[colindex])):
             count += data[i][colindex]
         return count / self.matrix.ncol
-        
+
     def globalMedian(self):
         globalmedian = None
         serializeddata = listifyMatrix(self.matrix.data)

@@ -4,9 +4,21 @@ from pyrix.exception import binaryMatrixException,incompaitableTypeException
 import copy
 
 data = [
-    [[0, 1], [1, 0]],
-    [[0, 1, 1], [0, 0, 0], [1, 0, 1]],
-    [[0, 1, 0, 0], [0, 1, 0, 1], [1, 1, 1, 0], [1, 1, 0, 0]],
+    [
+        [0, 1], 
+        [1, 0]
+    ],
+    [
+        [0, 1, 1], 
+        [0, 0, 0], 
+        [1, 0, 1]
+    ],
+    [
+        [0, 1, 0, 0], 
+        [0, 1, 0, 1], 
+        [1, 1, 1, 0], 
+        [1, 1, 0, 0]
+    ],
     [
         [0, 1, 0, 1, 0],
         [0, 1, 1, 1, 0],
@@ -140,3 +152,4 @@ def test_getrow(test_BinMatrixinit):
     for i in range(len(test_BinMatrixinit)):
         assert rows[i].matrix.data[0] == test_BinMatrixinit[i].matrix.data[i]
         print(test_BinMatrixinit[i])
+

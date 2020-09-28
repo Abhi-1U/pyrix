@@ -24,7 +24,7 @@ CLASSIFIERS = [
 setup(
     name=NAME,
     license="MIT",
-    version="0.7.17rc0",
+    version="0.7.17rc1",
     author="Abhi-1U",
     author_email="PerricoQ@outlook.com",
     description="A matrix Library",
