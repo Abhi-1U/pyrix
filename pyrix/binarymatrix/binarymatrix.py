@@ -5,8 +5,8 @@ Name        : Pyrix/BinaryMatrix\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     :0.7.17rc0\n
-Build       :0.7.17rc0/29-08-2020
+Version     :0.7.17rc1\n
+Build       :0.7.17rc1/29-08-2020
 """
 #*-----------------------------------------------------------------------------*
 # Imports
@@ -51,13 +51,14 @@ class BinaryMatrix(Matrix):
     """
     # Binary Matrix Methods
 
-    def __init__(self, nrow=1, ncol=1, data=[1],mode='EBM'):
+    def __init__(self, nrow=1, ncol=1, data=[1],mode='EBM',bit='1'):
         if(len(data) == nrow, len(data[0]) == ncol):
             self.matrix = matrixData(nrow=nrow, ncol=ncol, data=data)
             self.matrix.classType = 'BinaryMatrix'
             self.matrix.mode=mode
+            setattr(self.matrix,'bitwidth',bit)
             self.isBinaryMatrix()
-            
+
         else:
             raise incompaitableTypeException
     def __repr__(self):
@@ -65,7 +66,7 @@ class BinaryMatrix(Matrix):
     def __str__(self):
         stringV = str()
         stringV = "Binary Matrix ("
-        stringV += str(self.matrix.mode)+" Mode) :\n"
+        stringV += str(self.matrix.mode)+" Mode) "+"Bit-Width :"+self.matrix.bitwidth+":\n"
         for item in self.matrix.data:
             stringV += str(item)+"\n"
         stringV += ("Dimensions :") + \
@@ -146,10 +147,12 @@ class BinaryMatrix(Matrix):
          structure and make it impossibly wierd to represent.")
 
     def __lshift__(self, bits):
-        self.logicalShift(direction="left", bits=bits)
+        if(self.matrix.bitwidth==1):
+            self.logicalShift(direction="left", bits=bits)
 
     def __rshift__(self, bits):
-        self.logicalShift(direction="Right", bits=bits)
+        if(self.matrix.bitwidth==1):
+            self.logicalShift(direction="Right", bits=bits)
 
     def isBinaryMatrix(self):
         for i in range(self.matrix.nrow):
@@ -472,7 +475,7 @@ def zeroBinaryMatrix(nrow, ncol):
     for i in range(nrow):
         t.append([])
         for _j in range(ncol):
-            t[i].append(0) 
+            t[i].append(0)
     return BinaryMatrix(
         nrow=nrow,
         ncol=ncol,
