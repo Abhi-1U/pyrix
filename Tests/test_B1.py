@@ -28,7 +28,6 @@ data = [
     ],
 ]
 
-
 @pytest.fixture(scope="session")
 def test_BinMatrixinit():
     (rows, cols) = [2, 3, 4, 5], [2, 3, 4, 5]

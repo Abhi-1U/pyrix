@@ -87,64 +87,24 @@ class BinaryMatrix(Matrix):
         del self.__dict__[name]
 
     def __add__(self, BinaryMat2):
-        carryterm = 0
         if(not BinaryMat2.isBinaryMatrix()):
             raise incompaitableTypeException
         sum = zeroBinaryMatrix(self.matrix.nrow, self.matrix.ncol)
-        for i in range(self.matrix.nrow-1, -1, -1):
-            for j in range(self.matrix.ncol-1, -1, -1):
-                localsum = (
-                    self.matrix.data[i][j]
-                    +BinaryMat2.matrix.data[i][j]
-                    +carryterm
-                )
-                if(localsum == 0):
-                    sum.matrix.data[i][j] = 0
-                    continue
-                if(localsum == 1):
-                    sum.matrix.data[i][j] = 1
-                    continue
-                if(localsum == 2):
-                    carryterm = 1
-                    sum.matrix.data[i][j] = 0
-                    continue
-                if(localsum == 3):
-                    carryterm = 1
-                    sum.matrix.data[i][j] = 1
-                    continue
+        for i in range(0,self.matrix.nrow):
+            for j in range(0,self.matrix.ncol):
+                sum[i][j]=(self.matrix.data[i][j]+BinaryMat2.matrix.data[i][j])%2
         return sum
-
     def __sub__(self, BinaryMat2):
-        carryterm = 0
         if(not BinaryMat2.isBinaryMatrix()):
             raise incompaitableTypeException
         sum = zeroBinaryMatrix(self.matrix.nrow, self.matrix.ncol)
-        for i in range(self.matrix.nrow-1, -1, -1):
-            for j in range(self.matrix.ncol-1, -1, -1):
-                localsum = (
-                    self.matrix.data[i][j]
-                    -BinaryMat2.matrix.data[i][j]
-                    +carryterm
-                )
-                if(localsum == 0):
-                    sum.matrix.data[i][j] = 0
-                    continue
-                if(localsum == 1):
-                    sum.matrix.data[i][j] = 1
-                    continue
-                if(localsum == -1):
-                    carryterm = -1
-                    sum.matrix.data[i][j] = 1
-                    continue
-                if(localsum == -2):
-                    carryterm = 1
-                    sum.matrix.data[i][j] = 0
-                    continue
+        for i in range(0, self.matrix.nrow):
+            for j in range(0, self.matrix.ncol):
+                sum[i][j]=(self.matrix.data[i][j]-BinaryMat2.matrix.data[i][j])%2
         return sum
 
     def __mul__(self, BinaryMat2):
-        print("Multiplication on binary Matrices will Change the complete \
-         structure and make it impossibly wierd to represent.")
+        return super().__mul__(BinaryMat2)
 
     def __lshift__(self, bits):
         if(self.matrix.bitwidth==1):

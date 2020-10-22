@@ -7,6 +7,8 @@ with open("README.md", "r") as fh:
     LONG_DESCRIPTION = fh.read()
 # *---------------------------------------------------------------------------*
 PROJECT_URLS = {
+    "Bug Tracker": "https://github.com/Abhi-1U/pyrix/issues",
+    "Documentation": "https://abhi-1u.github.io/pyrix-docs/",
     "Source Code": "https://github.com/Abhi-1U/pyrix",
 }
 CLASSIFIERS = [

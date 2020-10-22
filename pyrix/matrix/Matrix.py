@@ -6,7 +6,7 @@ Author      : Abhi-1U <https://github.com/Abhi-1U>
 Description : A simple matrix manipulation library
 Encoding    : UTF-8
 Version     :0.7.17rc1
-Build       :0.7.17rc1/28-09-2020
+Build       :0.7.17rc1/22-10-2020
 """
 import copy
 import math
