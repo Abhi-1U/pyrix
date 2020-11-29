@@ -1,0 +1,9 @@
+*.pyc
+Mkdocs
+*.ipynb
+*.json
+*.coverage
+*.backup
+build
+dist
+pyrix.egg-info
