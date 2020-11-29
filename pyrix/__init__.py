@@ -5,8 +5,8 @@ Name        : Pyrix\n
 Author      : Abhi-1U <https://github.com/Abhi-1U> \n
 Description : A Matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     :0.7.17rc1\n
-Build       :0.7.17rc1/22-10-2020
+Version     :0.8.20\n
+Build       :0.8.20/29-11-2020
 """
 
 from pyrix.exception import (
@@ -37,3 +37,5 @@ from pyrix.util import (
     listifyMatrix,
 )
 from pyrix.charmatrix import alphaMatrix5x5, CharMatrix
+
+from pyrix.units import Unit
