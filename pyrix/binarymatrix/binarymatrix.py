@@ -5,8 +5,8 @@ Name        : Pyrix/BinaryMatrix\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     :0.7.17rc1\n
-Build       :0.7.17rc1/29-08-2020
+Version     :0.8.20\n
+Build       :0.8.20/29-08-2020
 """
 #*-----------------------------------------------------------------------------*
 # Imports
@@ -115,6 +115,9 @@ class BinaryMatrix(Matrix):
             self.logicalShift(direction="Right", bits=bits)
 
     def isBinaryMatrix(self):
+        """
+        Returns True for a binary Matrix.
+        """
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
                 if(self.matrix.data[i][j] == 1):

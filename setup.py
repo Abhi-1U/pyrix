@@ -12,7 +12,7 @@ PROJECT_URLS = {
     "Source Code": "https://github.com/Abhi-1U/pyrix",
 }
 CLASSIFIERS = [
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 3 - Alpha",
     "Environment :: Console",
     "Operating System :: OS Independent",
     "Intended Audience :: Science/Research",
@@ -26,7 +26,7 @@ CLASSIFIERS = [
 setup(
     name=NAME,
     license="MIT",
-    version="0.7.17rc1",
+    version="0.8.20",
     author="Abhi-1U",
     author_email="PerricoQ@outlook.com",
     description="A matrix Library",
