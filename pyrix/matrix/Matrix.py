@@ -477,7 +477,6 @@ class Matrix:
             else:
                 raise incompaitableTypeException
         else:
-            pass
             return self.matrix.determinant
 
     # 15. determinant helper
@@ -936,6 +935,10 @@ class Matrix:
     # *------- Statistical Methods --------------------------------------------*
 
     def globalMean(self):
+        """
+        This method finds the mean value in the whole matrix\n
+        Returns a int/float value of mean.
+        """
         data = self.matrix.data
         count = 0
         for i in range(self.matrix.nrow):
@@ -944,6 +947,10 @@ class Matrix:
         return count / (self.matrix.nrow * self.matrix.ncol)
 
     def localRowMean(self, rowindex):
+        """
+        This method finds the mean value in the indexed row of the matrix\n
+        Returns the mean of the selected row.
+        """
         data = self.matrix.data
         count = 0
         for i in range(len(data[rowindex])):
@@ -951,6 +958,10 @@ class Matrix:
         return count / self.matrix.nrow
 
     def localColumnMean(self, colindex):
+        """
+        This method finds the mean value in the indexed column of the matrix\n
+        Returns the mean of the selected column.
+        """
         data = self.matrix.data
         count = 0
         for i in range(len(data[colindex])):
@@ -958,6 +969,10 @@ class Matrix:
         return count / self.matrix.ncol
 
     def globalMedian(self):
+        """
+        This method finds the median value in the whole matrix\n
+        Returns a int/float value of median.
+        """
         globalmedian = None
         serializeddata = listifyMatrix(self.matrix.data)
         serializeddata.sort()
@@ -968,6 +983,10 @@ class Matrix:
         return globalmedian
 
     def localRowMedian(self, rowindex):
+        """
+        This method finds the median value in the indexed row of the matrix\n
+        Returns the median of the selected row.
+        """
         localmedian = None
         localrow = self.matrix.data[rowindex]
         localrow.sort()
@@ -978,6 +997,10 @@ class Matrix:
         return localmedian
 
     def localColumnMedian(self, colindex):
+        """
+        This method finds the median value in the indexed column of the matrix\n
+        Returns the median of the selected column
+        """
         localmedian = None
         localcol = [z[colindex] for z in self.matrix.data]
         localcol.sort()
@@ -988,6 +1011,10 @@ class Matrix:
         return localmedian
 
     def globalMode(self):
+        """
+        This method finds the mode value in the whole matrix\n
+        Returns a int/float value of mode.
+        """
         globalcount = dict()
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
@@ -999,6 +1026,10 @@ class Matrix:
         return max(globalcount, key=globalcount.get)
 
     def localRowMode(self, rowindex):
+        """
+        This method finds the mode value in the indexed row of the matrix\n
+        Returns the mode of the selected row
+        """
         localcount = dict()
         for i in range(self.matrix.ncol):
             currentVal = self.matrix.data[rowindex][i]
@@ -1009,6 +1040,10 @@ class Matrix:
         return max(localcount, key=localcount.get)
 
     def localColumnMode(self, colindex):
+        """
+        This method finds the mode value in the indexed column of the matrix\n
+        Returns the mode of the selected column
+        """
         localcount = dict()
         for i in range(self.matrix.nrow):
             currentVal = self.matrix.data[i][colindex]
