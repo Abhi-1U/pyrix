@@ -1,20 +1,24 @@
-jobs:
+language: python
+env:
+  global:
+  - PYTHON_VERSION=$PYTHON_VERSION
+matrix:
   include:
-   - os: linux
+   - env: PYTHON_VERSION=3.6 
+     os: linux
      arch: amd64
-   - os: osx
+   - env: PYTHON_VERSION=3.6
+     os: osx
      arch: amd64
-   - os: linux
+     language: generic
+   - env: PYTHON_VERSION=3.6
+     os: linux
      arch: arm64
-   - os: linux
+   - env: PYTHON_VERSION=3.6
+     os: linux
      arch: arm64-graviton2
      virt: lxd
      group: edge
-language: python
-python:
-  - "3.6"      # current default Python on Travis CI
-  - "3.7"
-  - "3.8"
 # command to install dependencies
 install:
   - pip install codecov pytest pytest-cov
