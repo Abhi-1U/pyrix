@@ -7,42 +7,24 @@ matrix:
    - env: PYTHON_VERSION=3.6 
      os: linux
      arch: amd64
-     install:
-       - pip install codecov pytest pytest-cov
-       - python setup.py develop
-     script:
-       - py.test  --cov-report term --cov=./
-     after_success:
-       - bash <(curl -s https://codecov.io/bash)
-
    - env: PYTHON_VERSION=3.6
      os: osx
      arch: amd64
      language: generic
-     install:
-       - pip install codecov pytest pytest-cov
-       - python setup.py develop
    - env: PYTHON_VERSION=3.6
      os: linux
      arch: arm64
-     install:
-       - pip install codecov pytest pytest-cov
-       - python setup.py develop
-    script:
-       - py.test  --cov-report term --cov=./
-    after_success:
-       - bash <(curl -s https://codecov.io/bash)
-
    - env: PYTHON_VERSION=3.6
      os: linux
      arch: arm64-graviton2
      virt: lxd
      group: edge
-     install:
-       - pip install codecov pytest pytest-cov
-       - python setup.py develop
-    script:
-       - py.test  --cov-report term --cov=./
-    after_success:
-       - bash <(curl -s https://codecov.io/bash)
+    
+install:
+  - pip install codecov pytest pytest-cov
+  - python setup.py develop
+script:
+  - py.test  --cov-report term --cov=./
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
