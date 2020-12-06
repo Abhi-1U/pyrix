@@ -8,10 +8,6 @@ matrix:
      os: linux
      arch: amd64
    - env: PYTHON_VERSION=3.6
-     os: osx
-     arch: amd64
-     language: generic
-   - env: PYTHON_VERSION=3.6
      os: linux
      arch: arm64
    - env: PYTHON_VERSION=3.6
