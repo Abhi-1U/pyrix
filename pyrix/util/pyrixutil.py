@@ -5,9 +5,12 @@ Name        : Pyrix/Utilities\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : Utility Extention to pyrix  \n
 Encoding    : UTF-8\n
-Version     :0.7.17rc1\n
-Build       :0.7.17rc1/22-10-2020
+Version     :0.7.17\n
+Build       :0.7.17/18-12-2020
 """
+
+# *------- Imports ------------------------------------------------------------*
+
 from pyrix.matrix import Matrix
 from pyrix.binarymatrix import BinaryMatrix
 from pyrix.vector import Vector
@@ -15,6 +18,9 @@ from pyrix.exception import binaryMatrixException, incompaitableTypeException
 import json
 import copy
 
+#*-----------------------------------------------------------------------------*
+
+#*------- pyrix.util.reDimensionalize() ---------------------------------------*
 
 def reDimensionalize(AnyMatrixObject, nrow, ncol):
     listifieddata = listifyMatrix(AnyMatrixObject)
@@ -30,6 +36,7 @@ def reDimensionalize(AnyMatrixObject, nrow, ncol):
     if isinstance(AnyMatrixObject, Vector):
         print("reDimensionalize not applicable on Vectors")
 
+#*------- pyrix.util.listifyMatrix() ---------------------------------------*
 
 def listifyMatrix(MatrixObject):
     matrixdata = MatrixObject.matrix.data
@@ -40,6 +47,7 @@ def listifyMatrix(MatrixObject):
     MatrixObject.matrix.listifieddata = listifiedmatrix
     return listifiedmatrix
 
+#*------- pyrix.util.nestifyMatrix() ---------------------------------------*
 
 def nestifyMatrix(listeddata, rowcount, colcount):
     clist = listeddata
@@ -49,16 +57,19 @@ def nestifyMatrix(listeddata, rowcount, colcount):
         del clist[0:colcount]
     return nested
 
+#*------- pyrix.util.flipDimensions() ---------------------------------------*
 
 def flipDimensions(AnyMatrixObject):
     newcol = AnyMatrixObject.matrix.nrow
     newrow = AnyMatrixObject.matrix.ncol
     return reDimensionalize(AnyMatrixObject, newrow, newcol)
 
+#*------- pyrix.util.Copy() ---------------------------------------*
 
 def Copy(AnyObject):
     return copy.deepcopy(AnyObject)
 
+#*------- pyrix.util.JSONEncoder() ---------------------------------------*
 
 def JSONEncoder(object):
     """
@@ -67,6 +78,7 @@ def JSONEncoder(object):
     Object = object
     return Object.matrix.__dict__
 
+#*------- pyrix.util.JSONExport() ---------------------------------------*
 
 def JSONExport(Object, filename):
     """
@@ -78,6 +90,7 @@ def JSONExport(Object, filename):
         outfile.close()
     print("Export Of Object Data Successfull!")
 
+#*------- pyrix.util.JSONDecoder() ---------------------------------------*
 
 def JSONDecoder(object):
     """
@@ -111,6 +124,7 @@ def JSONDecoder(object):
             setattr(returnMatrix.matrix, key, item)
     return returnMatrix
 
+#*------- pyrix.util.JSONImport() ---------------------------------------*
 
 def JSONImport(filename, mode="UI"):
     """
@@ -166,6 +180,6 @@ except ImportError as e:
     """
     print(
         "[Warning] Tkinter or Tk or Tk bindings not installed \n \
-                   enter the file path by text\n \
-                   or install tkinter"
+         enter the file path by text\n \
+         or install tkinter"\
     )

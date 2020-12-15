@@ -1,13 +1,17 @@
 #!/usr/bin/python3
 # -*- coding : UTF-8 -*-
+
 """
 Name        : Pyrix/CharactarMatrix\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : A Charactar matrix manipulation sub-library  \n
 Encoding    : UTF-8\n
-Version     :0.7.17rc1\n
-Build       :0.7.17rc1/22-10-2020
+Version     :0.7.17\n
+Build       :0.7.17/18-12-2020
 """
+
+# *------- Imports ------------------------------------------------------------*
+
 import copy
 from pyrix.matrix import matrixData, Matrix
 from pyrix.exception import (
@@ -16,6 +20,9 @@ from pyrix.exception import (
     bitWiseOnMatrix,
 )
 
+# *----------------------------------------------------------------------------*
+
+# *------- pyrix.charmatrix.CharMatrix ----------------------------------------*
 
 class CharMatrix(Matrix):
     def __init__(self, nrow=1, ncol=1, data=[[""]]):
@@ -42,40 +49,58 @@ class CharMatrix(Matrix):
         return stringV
 
     __repr__ = __str__
-    # 4. Divide Matrix
-    # A method just to avoid division by operator
+
+    #*------- Divide CharMatrix -----------------------------------------------*
 
     def __truediv__(self, m2):
         raise divisionErrorException("Can Matrices be divided ?")
 
-    # 5. Divide Matrix
-    # A method just to avoid floor division by operator
+    #*------- FloorDivide CharMatrix ------------------------------------------*
+
     def __floordiv__(self, m2):
         raise divisionErrorException
+
+    #*------- Modulus CharMatrix ----------------------------------------------*
 
     def __mod__(self, m2):
         raise divisionErrorException
 
+    #*------- lshift << CharMatrix --------------------------------------------*
+
     def __lshift__(self, m2):
         raise bitWiseOnMatrix
+
+    #*------- rshift >> CharMatrix --------------------------------------------*
 
     def __rshift__(self, m2):
         raise bitWiseOnMatrix
 
+    #*------- AND & CharMatrix ------------------------------------------------*
+
     def __and__(self, m2):
         raise bitWiseOnMatrix
+
+    #*------- OR | CharMatrix -------------------------------------------------*
 
     def __or__(self, m2):
         raise bitWiseOnMatrix
 
+    #*------- XOR ^ CharMatrix ------------------------------------------------*
+
     def __xor__(self, m2):
         raise bitWiseOnMatrix
+
+    #*------- INVERT ~ CharMatrix ---------------------------------------------*
 
     def __invert__(self):
         raise bitWiseOnMatrix
 
+    #*------- pyrix.charmatrix.CharMatrix.copy() ------------------------------*
+
     def copy(self):
         return copy.deepcopy(self)
+
+    #*------- pyrix.charmatrix.CharMatrix.isSquareMatrix() --------------------*
 
     def isSquareMatrix(self):
         """
@@ -88,6 +113,8 @@ class CharMatrix(Matrix):
         else:
             return False
 
+    #*------- pyrix.charmatrix.CharMatrix.getRow() ----------------------------*
+
     def getRow(self, index):
         """
         Selects a Row of the matrix of specified index\n
@@ -99,8 +126,7 @@ class CharMatrix(Matrix):
         s = CharMatrix(nrow=1, ncol=self.matrix.ncol, data=temp)
         return s
 
-    # 11. getcol
-    # returns a specified column
+    #*------- pyrix.charmatrix.CharMatrix.getCol() ----------------------------*
 
     def getCol(self, index):
         """
@@ -113,6 +139,8 @@ class CharMatrix(Matrix):
             temp[i].append(self.matrix.data[i][index])
         s = CharMatrix(nrow=self.matrix.nrow, ncol=1, data=temp)
         return s
+
+    #*------- pyrix.charmatrix.CharMatrix.transposeTransform() ----------------*
 
     def transposeTransform(self):
         """
@@ -127,11 +155,15 @@ class CharMatrix(Matrix):
         s = CharMatrix(nrow=self.matrix.ncol, ncol=self.matrix.nrow, data=c)
         return s
 
+    #*------- pyrix.charmatrix.CharMatrix.findCharactar() ---------------------*
+
     def findCharactar(self, charactar):
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
                 if charactar == self.matrix.data[i][j]:
                     return [i, j]
+
+    #*------- pyrix.charmatrix.CharMatrix.ASCIIvals() -------------------------*
 
     def ASCIIvals(self):
         data = self.copy().matrix.data
@@ -142,6 +174,7 @@ class CharMatrix(Matrix):
                 returndata[i].append(ord(data[i][j]))
         return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=returndata)
 
+# *------- pyrix.charmatrix.alphaMatrix5x5() ----------------------------------*
 
 def alphaMatrix5x5(offsetchars=[]):
     table = []
@@ -172,6 +205,8 @@ def alphaMatrix5x5(offsetchars=[]):
             table.append(alpha[i])
     outmatrix = CharMatrix(nrow=5, ncol=5, data=__nestifyMatrix(table, 5, 5))
     return outmatrix
+
+# *------- pyrix.charmatrix.__nestifyMatrix() ---------------------------------*
 
 def __nestifyMatrix(listeddata, rowcount, colcount):
     clist = listeddata

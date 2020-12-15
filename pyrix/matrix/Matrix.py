@@ -5,9 +5,10 @@ Name        : Pyrix/Matrix
 Author      : Abhi-1U <https://github.com/Abhi-1U>
 Description : A simple matrix manipulation library
 Encoding    : UTF-8
-Version     :0.7.17rc1
-Build       :0.7.17rc1/22-10-2020
+Version     :0.7.17
+Build       :0.7.17/18-12-2020
 """
+# *------- Imports ------------------------------------------------------------*
 import copy
 import math
 from pyrix.exception import (
@@ -17,6 +18,7 @@ from pyrix.exception import (
     nonInvertibleException,
 )
 import random
+# *----------------------------------------------------------------------------*
 
 # *------- matrixData ---------------------------------------------------------*
 # * This is the primary data object in pyrix/Matrix and pyrix/BinaryMatrix.
@@ -156,6 +158,9 @@ class matrixData(object):
 # * 34. JSONImport
 # * 35. isSymmetricMatrix
 # * 36. isOrthogonalMatrix
+# * 37. globalMean/LocalRowMean/LocalColumnMean
+# * 38. globalMedian/LocalRowMedian/LocalColumnMedian
+# * 39. globalMode/LocalRowMode/LocalColumnMode
 # *----------------------------------------------------------------------------*
 
 
@@ -191,8 +196,7 @@ class Matrix:
 
     # *------- Basic Operations on Matrices -----------------------------------*
 
-    # 1. Add Matrix
-    # Operator Overloading for adding Matrices
+    # *------- Add Matrix -----------------------------------------------------*
 
     def __add__(self, m2):
         if self.matrix.dimensions != m2.matrix.dimensions:
@@ -205,9 +209,8 @@ class Matrix:
             s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
             return s
 
-    # 2. Subtract Matrix
-    # Operator Overloading for subtracting Matrices
-
+    # *------- Subtract Matrix ------------------------------------------------*
+    
     def __sub__(self, m2):
         if self.matrix.dimensions != m2.matrix.dimensions:
             raise incompaitableTypeException
@@ -219,9 +222,8 @@ class Matrix:
             s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
             return s
 
-    # 3. Multiply Matrix
-    # Operator Overloading for Multiplyinging Matrices
-
+    # *------- Multiply Matrix ------------------------------------------------*
+    
     def __mul__(self, m2):
         if self.matrix.ncol != m2.matrix.nrow:  # checking Parameters
             raise incompaitableTypeException
@@ -237,6 +239,8 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=m2.matrix.ncol, data=m3)
         return s
 
+    # *------- Power ----------------------------------------------------------*
+
     def __pow__(self, times):
         assert isinstance(times, int), "Float not allowed"
         if self.isSquareMatrix():
@@ -245,21 +249,20 @@ class Matrix:
             return self
         else:
             raise incompaitableTypeException
-
+    # *------- Absolute -------------------------------------------------------*
     def __abs__(self):
         if self.matrix.determinant == None:
             return self.determinantValue()
         else:
             return self.matrix.determinant
 
-    # 4. Divide Matrix
-    # A method just to avoid division by operator
+    # *------- Divide Matrix --------------------------------------------------*
 
     def __truediv__(self, m2):
         raise divisionErrorException("Can Matrices be divided ?")
 
-    # 5. Divide Matrix
-    # A method just to avoid floor division by operator
+    # *------- Floor Divide Matrix --------------------------------------------*
+
     def __floordiv__(self, m2):
         raise divisionErrorException
 
@@ -283,6 +286,8 @@ class Matrix:
 
     def __invert__(self):
         raise bitWiseOnMatrix
+    
+    # *------- Truncate(R->I 0) -----------------------------------------------*
 
     def __trunc__(self):
         truncMatrix = []
@@ -292,6 +297,8 @@ class Matrix:
                 truncMatrix[i].append(math.trunc(self.matrix.data[i][j]))
         return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=truncMatrix)
 
+    # *------- Ceilate(R->I FOR >=X) -----------------------------------------*
+
     def __ceil__(self):
         ceilMatrix = []
         for i in range(self.matrix.nrow):
@@ -299,6 +306,8 @@ class Matrix:
             for j in range(self.matrix.ncol):
                 ceilMatrix[i].append(math.ceil(self.matrix.data[i][j]))
         return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=ceilMatrix)
+
+    # *------- Floor(R->I FOR <=X) -------------------------------------------*
 
     def __floor__(self):
         floorMatrix = []
@@ -310,8 +319,7 @@ class Matrix:
 
     # *------- Methods for Matrix Analysis ------------------------------------*
 
-    # 6.Equality
-    # A method which overrides operator for chechking equality of two matrices
+    # *------- Equality -------------------------------------------------------*
 
     def __eq__(self, matrix2):
         return self.equals(matrix2)
@@ -329,8 +337,7 @@ class Matrix:
         else:
             return False
 
-    # 7. isSquareMatrix
-    # a method to check if the matrix is square matrix or not
+    # *------- pyrix.matrix.Matrix.isSquareMatrix() ---------------------------*
 
     def isSquareMatrix(self):
         """
@@ -343,8 +350,7 @@ class Matrix:
         else:
             return False
 
-    # 8. isInvertible
-    # a method to check if the matrix is invertible matrix or not
+    # *------- pyrix.matrix.Matrix.isInvertible() -----------------------------*
 
     def isInvertible(self):
         """
@@ -363,8 +369,8 @@ class Matrix:
             else:
                 return True
 
-    # x. isSymmetricMatrix
-    # Returns a boolean Value based on the symmetry
+    # *------- pyrix.matrix.Matrix.isSymmetricMatrix() ------------------------*
+
     def isSymmetricMatrix(self):
         """
         Returns a boolean value based on the matrix symmetry
@@ -379,6 +385,8 @@ class Matrix:
             return True
         else:
             return False
+    
+    # *------- pyrix.matrix.Matrix.isOrthogonalMatrix() -----------------------*
 
     def isOrthogonalMatrix(self):
         """
@@ -394,8 +402,7 @@ class Matrix:
         else:
             return False
 
-    # 9. copy
-    # returns a deep copy of the matrix object
+    # *------- pyrix.matrix.Matrix.copy() -------------------------------------*
 
     def copy(self):
         """
@@ -404,8 +411,7 @@ class Matrix:
         """
         return copy.deepcopy(self)
 
-    # 10. getRow
-    # returns a specified row
+    # *------- pyrix.matrix.Matrix.getRow() -----------------------------------*
 
     def getRow(self, index):
         """
@@ -418,8 +424,7 @@ class Matrix:
         s = Matrix(nrow=1, ncol=self.matrix.ncol, data=temp)
         return s
 
-    # 11. getcol
-    # returns a specified column
+    # *------- pyrix.matrix.Matrix.getCol() -----------------------------------*
 
     def getCol(self, index):
         """
@@ -433,8 +438,7 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=1, data=temp)
         return s
 
-    # 12. RoundOff
-    # rounds off all values to a certain degree
+    # *------- pyrix.matrix.Matrix.RoundOff() ---------------------------------*
 
     def RoundOff(self, extent):
         """
@@ -445,8 +449,7 @@ class Matrix:
             for j in range(self.matrix.ncol):
                 self.matrix.data[i][j] = round(self.matrix.data[i][j], extent)
 
-    # 13. ScaleMatrix
-    # scales matrix values with a scalar
+    # *------- pyrix.matrix.Matrix.scaleMatrix() ------------------------------*
 
     def scaleMatrix(self, scalar):
         """
@@ -458,8 +461,7 @@ class Matrix:
                 self.matrix.data[i][j] *= scalar
         return self
 
-    # 14. DeterminantValue
-    # returns the determinant Value of the matrix
+    # *------- pyrix.matrix.Matrix.determinantValue() -------------------------*
 
     def determinantValue(self):
         """
@@ -479,8 +481,7 @@ class Matrix:
         else:
             return self.matrix.determinant
 
-    # 15. determinant helper
-    # helps with determinant calculations
+    # *------- pyrix.matrix.Matrix.__determinantHelper() ----------------------*
 
     def __determinantHelper(self, x, sum=0):
         """
@@ -502,8 +503,7 @@ class Matrix:
             sum += x[0][i] * sign * subdet
         return sum
 
-    # 16. matrixRank
-    # returns the rank of the matrix
+    # *------- pyrix.matrix.Matrix.matrixRank() -------------------------------*
 
     def matrixRank(self):
         """
@@ -523,6 +523,8 @@ class Matrix:
         self.matrix.rank = rank
         return rank
 
+    # *------- pyrix.matrix.Matrix.matrixTrace() ------------------------------*
+
     def matrixTrace(self):
         """
         The trace of a square matrix is defined to be the sum of elements on the
@@ -536,6 +538,8 @@ class Matrix:
                 trace += self.matrix.data[i][i]
         self.matrix.trace = trace
         return trace
+
+    # *------- pyrix.matrix.Matrix.isUpperTriangularMatrix() ------------------*
 
     def isUpperTriangularMatrix(self):
         """
@@ -555,6 +559,8 @@ class Matrix:
             return True
         else:
             return False
+
+    # *------- pyrix.matrix.Matrix.isLowerTriangularMatirx() -------------------*
 
     def isLowerTriangularMatrix(self):
         """
@@ -577,8 +583,7 @@ class Matrix:
 
     # *------- Intermatrix Row and column operations --------------------------*
 
-    # 17. addRow
-    # adds row of matrix1 to row of matrix 2
+    # *------- pyrix.matrix.Matrix.addRows() ----------------------------------*
 
     def addRows(self, index1, m2, index2):
         """
@@ -589,8 +594,7 @@ class Matrix:
             self.matrix.data[index1], m2.matrix.data[index2]
         )
 
-    # 18. subRow
-    # subtracts row of matrix1 to row of matrix 2
+    # *------- pyrix.matrix.Matrix.subRows() ----------------------------------*
 
     def subRows(self, index1, m2, index2):
         """
@@ -601,8 +605,10 @@ class Matrix:
             self.matrix.data[index1], m2.matrix.data[index2]
         )
 
-    # IntraMatrix Row and Col Operations
-    # Coming soon!
+    # *------- IntraMatrix Row and Col Operations -----------------------------*
+
+    # *------- pyrix.matrix.Matrix.addRow() -----------------------------------*
+
     def addRow(self, index1, index2):
         """
         Adds row values of one matrix to same matrix.
@@ -611,6 +617,8 @@ class Matrix:
         self.matrix.data[index1] = self.__row_add(
             self.matrix.data[index1], self.matrix.data[index2]
         )
+
+    # *------- pyrix.matrix.Matrix.subRow() -----------------------------------*
 
     def subRow(self, index1, index2):
         """
@@ -623,8 +631,7 @@ class Matrix:
 
     # *------- Transformations on matrices ------------------------------------*
 
-    # 19. Invert Matrix
-    # returns a new object of inverted matrix
+    # *------- pyrix.matrix.Matrix.invertMatrix() -----------------------------*
 
     def invertMatrix(self):
         """
@@ -667,8 +674,8 @@ class Matrix:
                 self.matrix.singular = True
                 raise nonInvertibleException
 
-    # 20.Helper Method for inversion
-    # Verifies the matrix for proper inversion
+    # *------- pyrix.matrix.Matrix.__verify() ---------------------------------*
+
     def __verify(self, m2):
         """
         This method verifies a unverse of the matrix by multiplying it with the
@@ -697,28 +704,27 @@ class Matrix:
         else:
             return False
 
-    # 21. micro method for adding rows
+    # *------- pyrix.matrix.Matrix.__row_add() --------------------------------*
 
     def __row_add(self, row_left, row_right):
         return [a + b for (a, b) in zip(row_left, row_right)]
 
-    # 22. micro method for scaling rows
+    # *------- pyrix.matrix.Matrix.__row_mult() -------------------------------*
 
     def __row_mult(self, row, num):
         return [x * num for x in row]
 
-    # 23. micro method for subtracting rows
+    # *------- pyrix.matrix.Matrix.__row_sub() --------------------------------*
 
     def __row_sub(self, row_left, row_right):
         return [a - b for (a, b) in zip(row_left, row_right)]
 
-    # 24. micro method for dividng row with scalar
+    # *------- pyrix.matrix.Matrix.__scalarDivideRow() ------------------------*
 
     def __scalarDivideRow(self, row, value):
         return [(x / value) for x in row]
 
-    # 25.RowEchleonTransform
-    # returns the rowechleon form of the matrix
+    # *------- pyrix.matrix.Matrix.rowEchleonTransform() ----------------------*
 
     def rowEchleonTransform(self):
         zx = self.copy()
@@ -743,8 +749,7 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=temp)
         return s
 
-    # 26.RRowEchleonTransform
-    # returns the reduced rowechleon form of the matrix
+    # *------- pyrix.matrix.Matrix.RrowEchleonTransform() ---------------------*
 
     def RrowEchleonTransform(self):
         z = self.rowEchleonTransform().matrix.data
@@ -765,8 +770,7 @@ class Matrix:
         s = Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=z)
         return s
 
-    # 27.transposeTransform
-    # returns the transpose of the matrix
+    # *------- pyrix.matrix.Matrix.transposeTransform() -----------------------*
 
     def transposeTransform(self):
         """
@@ -783,8 +787,7 @@ class Matrix:
 
     # *------- Supplementary Methods -----------------------------------------*
 
-    # 28.vectorMultiplication
-    # multiplication of vector as a matrix with another Vector
+    # *------- pyrix.matrix.Matrix.vectorMultiplication() --------------------*
 
     def vectorMultiplication(self, v1):
         if self.matrix.nrow != len(v1):
@@ -803,10 +806,8 @@ class Matrix:
             p = Matrix(ncol=1, nrow=len(v1), data=c)
             return p
 
+    # *------- pyrix.matrix.Matrix.dotProduct() -------------------------------*
 
-
-    # 32.dotproduct
-    # for vectors as matrix
     def dotProduct(self, m2):
         sum = 0
         for row in range(self.matrix.nrow):
@@ -816,9 +817,13 @@ class Matrix:
 
     # Matrix Equation Methods
 
+    # *------- pyrix.matrix.Matrix.adjointTransform() -------------------------*
+
     def adjointTransform(self):
         cofactor = self.getAllCofactors()
         return cofactor.transposeTransform()
+
+    # *------- pyrix.matrix.Matrix.minorSpecific() ----------------------------*
 
     def minorSpecific(self, row, column):
         """
@@ -831,12 +836,16 @@ class Matrix:
             pass
         return self.matrix.minor[row][column]
 
+    # *------- pyrix.matrix.Matrix.cofactorSpecific() -------------------------*
+
     def cofactorSpecific(self, row, column):
         """
         Finds a specific cofactor Value of a certain position.
         Returns a Int/Float Value.
         """
         return self.getAllCofactors().matrix.data[row][column]
+
+    # *------- pyrix.matrix.Matrix.getAllMinors() -----------------------------*
 
     def getAllMinors(self):
         """
@@ -856,6 +865,8 @@ class Matrix:
         else:
             raise incompaitableTypeException
 
+    # *------- pyrix.matrix.Matrix.getAllCofactors() --------------------------*
+
     def getAllCofactors(self):
         """
         Finds all the cofactor values of the matrix object.
@@ -868,6 +879,8 @@ class Matrix:
         cofactors = self.__cofactor(self.matrix.minor)
         return Matrix(nrow=self.matrix.nrow, ncol=self.matrix.ncol, data=cofactors)
 
+    # *------- pyrix.matrix.Matrix.__minor2x2() -------------------------------*
+
     def __minor2x2(self, matrixdata):
         """
         Finds minor values for 2x2 matrices.
@@ -878,6 +891,8 @@ class Matrix:
             [matrixdata[1][1], matrixdata[1][0]],
             [matrixdata[0][1], matrixdata[0][0]],
         ]
+
+    # *------- pyrix.matrix.Matrix.__cofactor() -------------------------------*
 
     def __cofactor(self, minorlist):
         """
@@ -890,6 +905,8 @@ class Matrix:
             for j in range(self.matrix.ncol):
                 cofactors[i].append(minorlist[i][j] * pow(-1, i + j + 2))
         return cofactors
+
+    # *------- pyrix.matrix.Matrix.__minor() ----------------------------------*
 
     def __minor(self, matrixdata):
         """
@@ -904,6 +921,8 @@ class Matrix:
                     self.__determinantHelper(self.__matrixsplitter(matrixdata, i, j))
                 )
         return minors
+
+    # *------- pyrix.matrix.Matrix.__matrixsplitter() -------------------------*
 
     def __matrixsplitter(self, matrixdata, exceptionrow, exceptioncol):
         excludedmatrix = []
@@ -925,6 +944,8 @@ class Matrix:
             del excludedmatrix[0 : int(dimensions)]
         return returnmatrix
 
+    # *------- pyrix.matrix.Matrix.__unlistifydata() --------------------------*
+
     def __unlistifydata(self, data, rowcount, colcount):
         """
         converts a single listed matrix into nested listed matrix.
@@ -933,6 +954,8 @@ class Matrix:
         return __nestifyMatrix(clist, rowcount, colcount)
 
     # *------- Statistical Methods --------------------------------------------*
+
+    # *------- pyrix.matrix.Matrix.glovalMean() -------------------------------*
 
     def globalMean(self):
         """
@@ -946,6 +969,8 @@ class Matrix:
                 count += data[i][j]
         return count / (self.matrix.nrow * self.matrix.ncol)
 
+    # *------- pyrix.matrix.Matrix.localRowMean() -----------------------------*
+
     def localRowMean(self, rowindex):
         """
         This method finds the mean value in the indexed row of the matrix\n
@@ -956,6 +981,8 @@ class Matrix:
         for i in range(len(data[rowindex])):
             count += data[rowindex][i]
         return count / self.matrix.nrow
+
+    # *------- pyrix.matrix.Matrix.localColumnMean() --------------------------*
 
     def localColumnMean(self, colindex):
         """
@@ -968,6 +995,8 @@ class Matrix:
             count += data[i][colindex]
         return count / self.matrix.ncol
 
+    # *------- pyrix.matrix.Matrix.globalMedian() -----------------------------*
+    
     def globalMedian(self):
         """
         This method finds the median value in the whole matrix\n
@@ -981,6 +1010,8 @@ class Matrix:
         else:
             globalmedian = serializeddata[int(math.ceil(len(serializeddata) / 2))]
         return globalmedian
+
+    # *------- pyrix.matrix.Matrix.localRowMedian() ---------------------------*
 
     def localRowMedian(self, rowindex):
         """
@@ -996,6 +1027,8 @@ class Matrix:
             localmedian = localrow[int(math.ceil(len(localrow) / 2))]
         return localmedian
 
+    # *------- pyrix.matrix.Matrix.localColumnMedian() ------------------------*
+
     def localColumnMedian(self, colindex):
         """
         This method finds the median value in the indexed column of the matrix\n
@@ -1009,6 +1042,8 @@ class Matrix:
         else:
             localmedian = localcol[int(math.ceil(len(localcol) / 2))]
         return localmedian
+
+    # *------- pyrix.matrix.Matrix.globalMode() -------------------------------*
 
     def globalMode(self):
         """
@@ -1025,6 +1060,8 @@ class Matrix:
                     globalcount[currentVal] += 1
         return max(globalcount, key=globalcount.get)
 
+    # *------- pyrix.matrix.Matrix.localRowMode() -----------------------------*
+
     def localRowMode(self, rowindex):
         """
         This method finds the mode value in the indexed row of the matrix\n
@@ -1038,6 +1075,8 @@ class Matrix:
             else:
                 localcount[currentVal] += 1
         return max(localcount, key=localcount.get)
+
+    # *------- pyrix.matrix.Matrix.localColumnMode() --------------------------*
 
     def localColumnMode(self, colindex):
         """
@@ -1055,6 +1094,7 @@ class Matrix:
 
     __repr__ = __str__
 
+# *------- pyrix.matrix.listifyMatrix() ---------------------------------------*
 
 def listifyMatrix(MatrixObjectdata):
     matrixdata = MatrixObjectdata
@@ -1064,6 +1104,7 @@ def listifyMatrix(MatrixObjectdata):
             listifiedmatrix.append(matrixdata[i][j])
     return listifiedmatrix
 
+# *------- pyrix.matrix.__nestifyMatrix() -------------------------------------*
 
 def __nestifyMatrix(listeddata, rowcount, colcount):
     clist = listeddata
@@ -1076,6 +1117,7 @@ def __nestifyMatrix(listeddata, rowcount, colcount):
 
 # Quick Initialization  Methods
 
+# *------- pyrix.matrix.Copy() ------------------------------------------------*
 
 def Copy(AnyObject):
     """
@@ -1084,9 +1126,7 @@ def Copy(AnyObject):
     return copy.deepcopy(AnyObject)
 
 
-# zeroMatrix
-# Creates a matrix with zeros of given shape and size
-
+# *------- pyrix.matrix.zeroMatrix() ------------------------------------------*
 
 def zeroMatrix(nrow, ncol):
     """
@@ -1104,10 +1144,7 @@ def zeroMatrix(nrow, ncol):
         s.matrix.trace=0
     return s
 
-
-# unit Matrix
-# Creates a Matrix with ones of given size and shape
-
+# *------- pyrix.matrix.unitMatrix() ------------------------------------------*
 
 def unitMatrix(nrow, ncol):
     """
@@ -1125,10 +1162,7 @@ def unitMatrix(nrow, ncol):
         s.matrix.trace=nrow
     return s
 
-
-# identityMatrix
-# Creates a matrix with zeros of given shape and size
-
+# *------- pyrix.matrix.identityMatrix() --------------------------------------*
 
 def identityMatrix(nrow, ncol):
     """
@@ -1154,10 +1188,7 @@ def identityMatrix(nrow, ncol):
     else:
         raise incompaitableTypeException
 
-
-# random Matrix
-# generates a randomized matrix depending on the scale and type
-
+# *------- pyrix.matrix.randomMatrix() ----------------------------------------*
 
 def randomMatrix(scale, type):
     if scale == "small" and type == "int":

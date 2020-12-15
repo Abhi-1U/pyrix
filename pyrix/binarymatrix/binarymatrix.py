@@ -5,16 +5,18 @@ Name        : Pyrix/BinaryMatrix\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     :0.7.17rc1\n
-Build       :0.7.17rc1/29-08-2020
+Version     :0.7.17\n
+Build       :0.7.17/18-12-2020
 """
-#*-----------------------------------------------------------------------------*
-# Imports
+
+#*------- Imports -------------------------------------------------------------*
+
 from pyrix.matrix import Matrix, matrixData
 from pyrix.exception import binaryMatrixException,incompaitableTypeException
 import random
 import copy
 #*-----------------------------------------------------------------------------*
+
 """
 Unique methods List:
     1. binary add
@@ -41,6 +43,7 @@ Unique methods List:
     22. boolean/logical ExNor
 """
 
+#*------- pyrix.binarymatrix.BinaryMatrix -------------------------------------*
 
 class BinaryMatrix(Matrix):
     """
@@ -49,7 +52,6 @@ class BinaryMatrix(Matrix):
     Can be used as comparators,Inverters,Bit Data Manipulators as a matrix.
     BinaryMatrix.__init__() :>
     """
-    # Binary Matrix Methods
 
     def __init__(self, nrow=1, ncol=1, data=[1],mode='EBM',bit='1'):
         if(len(data) == nrow, len(data[0]) == ncol):
@@ -86,6 +88,8 @@ class BinaryMatrix(Matrix):
     def __delattr__(self, name):
         del self.__dict__[name]
 
+    # *------- Add BinaryMatrix -----------------------------------------------*
+
     def __add__(self, BinaryMat2):
         if(not BinaryMat2.isBinaryMatrix()):
             raise incompaitableTypeException
@@ -94,6 +98,9 @@ class BinaryMatrix(Matrix):
             for j in range(0,self.matrix.ncol):
                 sum[i][j]=(self.matrix.data[i][j]+BinaryMat2.matrix.data[i][j])%2
         return sum
+
+    # *------- Subtract BinaryMatrix ------------------------------------------*
+
     def __sub__(self, BinaryMat2):
         if(not BinaryMat2.isBinaryMatrix()):
             raise incompaitableTypeException
@@ -103,16 +110,26 @@ class BinaryMatrix(Matrix):
                 sum[i][j]=(self.matrix.data[i][j]-BinaryMat2.matrix.data[i][j])%2
         return sum
 
+    # *------- Multiply BinaryMatrix ------------------------------------------*
+
     def __mul__(self, BinaryMat2):
         return super().__mul__(BinaryMat2)
 
+    # *------- Left Shift BinaryMatrix ----------------------------------------*
+
     def __lshift__(self, bits):
         if(self.matrix.bitwidth==1):
-            self.logicalShift(direction="left", bits=bits)
+            return BinaryMatrix(nrow=self.matrix.nrow,ncol=self.matrix.ncol,
+            data=self.logicalShift(direction="left", bits=bits))
+
+    # *------- Right Shift BinaryMatrix ---------------------------------------*
 
     def __rshift__(self, bits):
         if(self.matrix.bitwidth==1):
-            self.logicalShift(direction="Right", bits=bits)
+            return BinaryMatrix(nrow=self.matrix.nrow,ncol=self.matrix.ncol,
+            data=self.logicalShift(direction="Right", bits=bits))
+
+    # *------- pyrix.binarymatrix.BinaryMatrix.isBinaryMatrix() ---------------*
 
     def isBinaryMatrix(self):
         for i in range(self.matrix.nrow):
@@ -127,6 +144,8 @@ class BinaryMatrix(Matrix):
         self.matrix.binaryMatrix = True
         return self.matrix.binaryMatrix
 
+    # *------- BOOLEAN AND ----------------------------------------------------*
+
     def __and__(self, m2):
         self.isBinaryMatrix()
         m2.isBinaryMatrix()
@@ -137,7 +156,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            __AndS(self.matrix.data[i][j],
+                            self.__AndS(self.matrix.data[i][j],
                                     m2.matrix.data[i][j])
                             )
                 return BinaryMatrix(
@@ -150,6 +169,8 @@ class BinaryMatrix(Matrix):
         else:
             raise binaryMatrixException
 
+    # *------- BOOLEAN OR -----------------------------------------------------*
+
     def __or__(self, m2):
         self.isBinaryMatrix()
         m2.isBinaryMatrix()
@@ -160,7 +181,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            __Or(self.matrix.data[i][j],
+                            self.__Or(self.matrix.data[i][j],
                                     m2.matrix.data[i][j]))
                 return BinaryMatrix(
                     nrow=self.matrix.nrow,
@@ -171,6 +192,8 @@ class BinaryMatrix(Matrix):
                 raise incompaitableTypeException
         else:
             raise binaryMatrixException
+
+    # *------- BOOLEAN XOR ----------------------------------------------------*
 
     def __xor__(self, m2):
         self.isBinaryMatrix()
@@ -182,7 +205,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            __Exor(self.matrix.data[i][j],
+                            self.__Exor(self.matrix.data[i][j],
                                     m2.matrix.data[i][j]))
                 return BinaryMatrix(
                     nrow=self.matrix.nrow,
@@ -194,6 +217,8 @@ class BinaryMatrix(Matrix):
         else:
             raise binaryMatrixException
 
+    # *------- BOOLEAN INVERT -------------------------------------------------*
+
     def __invert__(self):
         self.isBinaryMatrix()
 
@@ -203,7 +228,7 @@ class BinaryMatrix(Matrix):
                 data.append([])
                 for j in range(self.matrix.ncol):
                     data[i].append(
-                        __Not(self.matrix.data[i][j]))
+                        self.__Not(self.matrix.data[i][j]))
             return BinaryMatrix(
                 nrow=self.matrix.nrow,
                 ncol=self.matrix.ncol,
@@ -212,8 +237,12 @@ class BinaryMatrix(Matrix):
         else:
             raise binaryMatrixException
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.onesComplement() ---------------*
+
     def onesComplement(self):
         return self.__invert__()
+
+    # *------- pyrix.binarymatrix.BinaryMatrix.twosComplement() ---------------*
 
     def twosComplement(self):
         binaryinvertedmatrix = self.onesComplement()
@@ -228,6 +257,8 @@ class BinaryMatrix(Matrix):
             binaryinvertedmatrix.matrix.data = data
         return binaryinvertedmatrix
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.__forward_one() ----------------*
+
     def __forward_one(self, data, rowcount, colcount):
         for _i in range(rowcount-1, 0, -1):
             for _j in range(colcount-1, 0, -1):
@@ -237,6 +268,8 @@ class BinaryMatrix(Matrix):
                 if(data[_i][_j] == 0):
                     data[_i][_j] == 1
         return data
+
+    # *------- pyrix.binarymatrix.BinaryMatrix.Nand() -------------------------*
 
     def Nand(self, Bmatrix2):
         self.isBinaryMatrix()
@@ -249,7 +282,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            __Nand(self.matrix.data[i][j],
+                            self.__Nand(self.matrix.data[i][j],
                                     Bmatrix2.matrix.data[i][j]))
                 return BinaryMatrix(
                     nrow=self.matrix.nrow,
@@ -260,6 +293,8 @@ class BinaryMatrix(Matrix):
                 raise incompaitableTypeException
         else:
             raise binaryMatrixException
+
+    # *------- pyrix.binarymatrix.BinaryMatrix.Nor() --------------------------*
 
     def Nor(self, Bmatrix2):
         self.isBinaryMatrix()
@@ -272,7 +307,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            __Nor(self.matrix.data[i][j],
+                            self.__Nor(self.matrix.data[i][j],
                                 Bmatrix2.matrix.data[i][j]))
                 return BinaryMatrix(
                     nrow=self.matrix.nrow,
@@ -283,6 +318,8 @@ class BinaryMatrix(Matrix):
                 raise incompaitableTypeException
         else:
             raise binaryMatrixException
+
+    # *------- pyrix.binarymatrix.BinaryMatrix.ExNor() ------------------------*
 
     def ExNor(self, Bmatrix2):
         self.isBinaryMatrix()
@@ -295,7 +332,7 @@ class BinaryMatrix(Matrix):
                     data.append([])
                     for j in range(self.matrix.ncol):
                         data[i].append(
-                            __EXNor(self.matrix.data[i][j],
+                            self.__EXNor(self.matrix.data[i][j],
                                     Bmatrix2.matrix.data[i][j]))
                 return BinaryMatrix(
                     nrow=self.matrix.nrow,
@@ -306,9 +343,11 @@ class BinaryMatrix(Matrix):
                 raise incompaitableTypeException
         else:
             raise binaryMatrixException
+    
+    # *------- pyrix.binarymatrix.BinaryMatrix.logicalShift() -----------------*
 
     def logicalShift(self, direction, bits):
-        dataArray = __listifyMatrix(self)
+        dataArray = self.__listifyMatrix(self)
         right=["r","R","right","Right","RIGHT"]
         left=["l","L","left","Left","LEFT"]
         if direction in right:
@@ -319,11 +358,12 @@ class BinaryMatrix(Matrix):
             for _i in range(bits):
                 dataArray.insert(-1, 0)
                 dataArray.pop(0)
-        setattr(self.matrix, name='data', value=dataArray)
-        return self
+        return dataArray
+
+    # *------- pyrix.binarymatrix.BinaryMatrix.circularShift() ----------------*
 
     def circularShift(self, direction, bits):
-        dataArray = __listifyMatrix(self)
+        dataArray = self.__listifyMatrix(self)
         right=["r","R","right","Right","RIGHT"]
         left=["l","L","left","Left","LEFT"]
         if direction in right:
@@ -339,8 +379,10 @@ class BinaryMatrix(Matrix):
         setattr(self.matrix, name='data', value=dataArray)
         return self
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.arithmeticShift() --------------*
+
     def arithmeticShift(self, direction, bits):
-        dataArray = __listifyMatrix(self)
+        dataArray = self.__listifyMatrix(self)
         right=["r","R","right","Right","RIGHT"]
         left=["l","L","left","Left","LEFT"]
         if direction in right:
@@ -356,9 +398,11 @@ class BinaryMatrix(Matrix):
         setattr(self.matrix, name='data', value=dataArray)
         return self
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.popcount() ---------------------*
+
     def popcount(self):
         popcount = 0
-        dataArray = __listifyMatrix(self)
+        dataArray = self.__listifyMatrix(self)
         for value in dataArray:
             if (value != 0):
                 popcount += 1
@@ -366,65 +410,74 @@ class BinaryMatrix(Matrix):
                 continue
         return popcount
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.__Exor() -----------------------*
 
-def __Exor(t1, t2):
-    if(t1 == t2):
-        return 0
-    else:
-        return 1
+    def __Exor(self,t1, t2):
+        if(t1 == t2):
+            return 0
+        else:
+            return 1
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.__AndS() -----------------------*
 
-def __AndS(t1, t2):
-    if(t1 == t2 == 1):
-        return 1
-    else:
-        return 0
+    def __AndS(self,t1, t2):
+        if(t1 == t2 == 1):
+            return 1
+        else:
+            return 0
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.__Or() -------------------------*
 
-def __Or(t1, t2):
-    if(t1 == t2 == 0):
-        return 0
-    else:
-        return 1
+    def __Or(self,t1, t2):
+        if(t1 == t2 == 0):
+            return 0
+        else:
+            return 1
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.__Nor() ------------------------*
 
-def __Not(t1):
-    if(t1 == 1):
-        return 0
-    else:
-        return 1
+    def __Not(self,t1):
+        if(t1 == 1):
+            return 0
+        else:
+            return 1
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.__Nand() -----------------------*
 
-def __Nand(t1, t2):
-    if(t1 == t2 == 1):
-        return 0
-    else:
-        return 1
+    def __Nand(self,t1, t2):
+        if(t1 == t2 == 1):
+            return 0
+        else:
+            return 1
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.__Nor() ------------------------*
 
-def __Nor(t1, t2):
-    if(t1 == t2 == 0):
-        return 1
-    else:
-        return 0
+    def __Nor(self,t1, t2):
+        if(t1 == t2 == 0):
+            return 1
+        else:
+            return 0
 
+    # *------- pyrix.binarymatrix.BinaryMatrix.__EXNor() ----------------------*
 
-def __EXNor(t1, t2):
-    if(t1 == t2):
-        return 1
-    else:
-        return 0
+    def __EXNor(self,t1, t2):
+        if(t1 == t2):
+            return 1
+        else:
+            return 0
 
+    # *------- pyrix.binarymatrix.__listifyMatrix() -------------------------------*
 
-def __listifyMatrix(BinaryMatrixObject):
-    matrixdata = BinaryMatrixObject.matrix.data
-    listifiedmatrix = []
-    for i in range(BinaryMatrixObject.matrix.nrow):
-        for j in range(BinaryMatrixObject.matrix.ncol):
-            listifiedmatrix.append(matrixdata[i][j])
-    BinaryMatrixObject.matrix.listifieddata = listifiedmatrix
-    return listifiedmatrix
+    def __listifyMatrix(self,BinaryMatrixObject):
+        matrixdata = BinaryMatrixObject.matrix.data
+        listifiedmatrix = []
+        for i in range(BinaryMatrixObject.matrix.nrow):
+            for j in range(BinaryMatrixObject.matrix.ncol):
+                listifiedmatrix.append(matrixdata[i][j])
+        BinaryMatrixObject.matrix.listifieddata = listifiedmatrix
+        return listifiedmatrix
 
+# *------- pyrix.binarymatrix.zeroBinaryMatrix() ------------------------------*
 
 def zeroBinaryMatrix(nrow, ncol):
     """
@@ -442,9 +495,7 @@ def zeroBinaryMatrix(nrow, ncol):
         data=t
     )
 
-# unitBinaryMatrix
-# Creates a Binary Matrix with ones of given size and shape
-
+# *------- pyrix.binarymatrix.unitBinaryMatrix() ------------------------------*
 
 def unitBinaryMatrix(nrow, ncol):
     """
@@ -461,9 +512,8 @@ def unitBinaryMatrix(nrow, ncol):
         ncol=ncol,
         data=t
     )
-# identityBinaryMatrix
-# Creates a Binarymatrix with zeros of given shape and size
 
+# *------- pyrix.binarymatrix.identityBinaryMatrix() --------------------------*
 
 def identityBinaryMatrix(nrow, ncol):
     """
@@ -488,6 +538,7 @@ def identityBinaryMatrix(nrow, ncol):
     else:
         raise incompaitableTypeException
 
+# *------- pyrix.binarymatrix.randomBinaryMatrix() ----------------------------*
 
 def randomBinaryMatrix(scale, type):
     if(scale == "small" and type == "int"):
@@ -516,6 +567,8 @@ def randomBinaryMatrix(scale, type):
             ncol=ncol,
             data=data
         )
+
+# *------- pyrix.binarymatrix.Copy() ------------------------------------------*
 
 def Copy(AnyObject):
     return copy.deepcopy(AnyObject)

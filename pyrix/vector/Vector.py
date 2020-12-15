@@ -5,9 +5,10 @@ Name        : Pyrix/Vector\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : An extension to pyrix for vectors\n
 Encoding    : UTF-8\n
-Version     :0.7.17rc1\n
-Build       :0.7.17rc1/17-07-2020
+Version     :0.7.17\n
+Build       :0.7.17/18-12-2020
 """
+#*------- Imports -------------------------------------------------------------*
 from pyrix.exception import (
     incompaitableTypeException,
     divisionErrorException,
@@ -16,9 +17,10 @@ from pyrix.exception import (
 import math  # for basic math functions
 import copy  # for deep copy()
 import random  # for random matrix
+#*-----------------------------------------------------------------------------*
 
-# Vector is treated like a List
-# Unlike Matrix which is Nested List
+#*------- pyrix.vector.vectorData ---------------------------------------------*
+
 class vectorData(object):
     """
     All The Vector Data is stored here which allows for implementing Dynamic
@@ -52,6 +54,7 @@ class vectorData(object):
     def __delattr__(self, key):
         del self.__dict__[key]
 
+#*------- pyrix.vector.Vector -------------------------------------------------*
 
 class Vector:
     """
@@ -74,6 +77,9 @@ class Vector:
 
     def __repr__(self):
         pass
+    
+    __repr__ = __str__
+    #*------- Add Vectors -----------------------------------------------------*
 
     def __add__(self, Vector2):
         if self.vector.dimensions == Vector2.vector.dimensions:
@@ -84,7 +90,8 @@ class Vector:
         else:
             raise incompaitableTypeException
 
-    __repr__ = __str__
+
+    #*------- Subtract Vectors ------------------------------------------------*
 
     def __sub__(self, Vector2):
         if self.vector.dimensions == Vector2.vector.dimensions:
@@ -95,7 +102,9 @@ class Vector:
         else:
             raise incompaitableTypeException
 
-    def __mul__(self, *args):
+    #*------- Multiply Vectors ------------------------------------------------*
+
+    def __mul__(self, Vector2):
         print(
             "Depending on the application use other methods like:\n \
                 1. dotProduct\n \
@@ -103,8 +112,12 @@ class Vector:
             "
         )
 
+    #*------- TrueDivision Vectors --------------------------------------------*
+    
     def __truediv__(self, m2):
         raise divisionErrorException
+
+    #*------- Equality Vectors ------------------------------------------------*
 
     def __eq__(self, vector2):
         if (self.vector.dimensions == vector2.vector.dimensions) and (
@@ -114,38 +127,62 @@ class Vector:
         else:
             return False
 
+    #*------- Floor Division Vectors ------------------------------------------*
+
     def __floordiv__(self, m2):
         raise divisionErrorException
+
+    #*------- Modulus Vectors -------------------------------------------------*
 
     def __mod__(self, m2):
         raise divisionErrorException
 
+    #*------- lshift << Vectors -----------------------------------------------*
+
     def __lshift__(self, m2):
         raise bitWiseOnMatrix
+
+    #*------- rshift >> Vectors -----------------------------------------------*
 
     def __rshift__(self, m2):
         raise bitWiseOnMatrix
 
+    #*------- AND & Vectors ---------------------------------------------------*
+
     def __and__(self, m2):
         raise bitWiseOnMatrix
+
+    #*------- OR | Vectors ----------------------------------------------------*
 
     def __or__(self, m2):
         raise bitWiseOnMatrix
 
+    #*------- XOR ^ Vectors ---------------------------------------------------*
+
     def __xor__(self, m2):
         raise bitWiseOnMatrix
+
+    #*------- INVERT ~ Vectors ------------------------------------------------*
 
     def __invert__(self):
         raise bitWiseOnMatrix
 
+    #*------- Absolute Vectors ------------------------------------------------*
+
     def __abs__(self):
         return self.vectorNorm()
+
+    #*------- Power ** Vectors ------------------------------------------------*
 
     def __pow__(self, scalar):
         return self.dotProduct(v2=self)
 
+    #*------- pyrix.vector.Vector.copy() --------------------------------------*
+
     def copy(self):
         return copy.deepcopy(self)
+
+    #*------- pyrix.vector.Vector.dotProduct() --------------------------------*
 
     def dotProduct(self, v2):
         assert (
@@ -156,9 +193,13 @@ class Vector:
             dotproduct += (self.vector.data[i]) * (v2.vector.data[i])
         return dotproduct
 
+    #*------- pyrix.vector.Vector.vectorNorm() --------------------------------*
+
     def vectorNorm(self):
         norm = math.sqrt(self.dotProduct(v2=self))
         return norm
+
+    #*------- pyrix.vector.Vector.vectorNormalize() ---------------------------*
 
     def vectorNormalize(self):
         normValue = self.vectorNorm()
@@ -167,27 +208,27 @@ class Vector:
             self.vector.data[i] /= normValue
         return self
 
+    #*------- pyrix.vector.Vector.scaleVector() -------------------------------*
+
     def scaleVector(self, scalar):
         data = self.vector.data
         for i in range(self.vector.dimensions):
             data[i] *= scalar
         return self
 
+    #*------- pyrix.vector.Vector.crossProduct() ------------------------------*
+
     def crossProduct(self, v2):
-        assert (
-            self.vector.dimensions == v2.vector.dimensions
-        ), "incompaitableTypeException"
-        dims = self.vector.dimensions
-        data = []
-        vector1data = self.vector.data
-        vector2data = v2.vector.data
-        print("Work under Progress :( ")
+        raise NotImplementedError
+
+    #*------- pyrix.vector.Vector.orthogonalityVector() -----------------------*
 
     def orthogonalityVector(self):
         raise NotImplementedError
 
     __repr__ == __str__
 
+#*------- pyrix.vector.unitVector() -------------------------------------------*
 
 def unitVector(dims):
     VectorData = []
@@ -195,6 +236,7 @@ def unitVector(dims):
         VectorData.append(1)
     return Vector(dims=dims, data=VectorData)
 
+#*------- pyrix.vector.zeroVector() -------------------------------------------*
 
 def zeroVector(dims):
     VectorData = []
@@ -202,19 +244,20 @@ def zeroVector(dims):
         VectorData.append(0)
     return Vector(dims=dims, data=VectorData)
 
+#*------- pyrix.vector.randomVector() -----------------------------------------*
 
 def randomVector(scale, type):
     if scale == "small" and type == "int":
         dims = random.randint(1, 10)
         data = []
-        for i in range(dims):
+        for _i in range(dims):
             data.append(random.randint(1, 100))
         s = Vector(dims=dims, data=data)
         return s
     if scale == "large" and type == "int":
         dims = random.randint(10, 100)
         data = []
-        for i in range(dims):
+        for _i in range(dims):
             data.append(random.randint(10, 10000))
         s = Vector(dims=dims, data=data)
         return s
@@ -222,18 +265,19 @@ def randomVector(scale, type):
     if scale == "small" and type == "float":
         dims = random.randint(1, 10)
         data = []
-        for i in range(dims):
+        for _i in range(dims):
             data.append(random.triangular(low=0.0, high=10.0))
         s = Vector(dims=dims, data=data)
         return s
     if scale == "large" and type == "float":
         dims = random.randint(10, 100)
         data = []
-        for i in range(dims):
+        for _i in range(dims):
             data.append(random.triangular(low=0.0, high=1000.0))
         s = Vector(dims=dims, data=data)
         return s
 
+#*------- pyrix.vector.linearVector() -----------------------------------------*
 
 def linearVector(dims, minVal, maxVal):
     assert minVal <= maxVal
@@ -247,6 +291,7 @@ def linearVector(dims, minVal, maxVal):
     linVector = Vector(dims=dims, data=data)
     return linVector
 
+#*------- pyrix.vector.Copy() -------------------------------------------------*
 
 def Copy(AnyObject):
     return copy.deepcopy(AnyObject)
