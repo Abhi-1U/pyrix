@@ -150,12 +150,7 @@ def test_invert(test_Vectorinit):
         pass
 
 
-def test_Normalize(test_Vectorinit):
-    norms = Copy(test_Vectorinit)
-    for i in range(len(test_Vectorinit)):
-        norms[i].vectorNormalize()
-        norms[i].crossProduct(test_Vectorinit[i])
-        assert getattr(norms[i].vector, "classType") == "Vector"
+
 
 def test_add(test_Vectorinit):
     cVector=test_Vectorinit.copy()
