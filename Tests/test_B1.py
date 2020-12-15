@@ -27,7 +27,7 @@ data = [
         [0, 0, 0, 0, 1],
     ],
 ]
-
+popcountvals=[2,4,8,12]
 @pytest.fixture(scope="session")
 def test_BinMatrixinit():
     (rows, cols) = [2, 3, 4, 5], [2, 3, 4, 5]
@@ -152,3 +152,62 @@ def test_getrow(test_BinMatrixinit):
         assert rows[i].matrix.data[0] == test_BinMatrixinit[i].matrix.data[i]
         print(test_BinMatrixinit[i])
 
+def test_and(test_BinMatrixinit):
+    for i in range(len(test_BinMatrixinit)):
+        assert test_BinMatrixinit[i] & test_BinMatrixinit[i] == test_BinMatrixinit[i]
+
+def test_or(test_BinMatrixinit):
+    for i in range(len(test_BinMatrixinit)):
+        assert test_BinMatrixinit[i] |test_BinMatrixinit[i] == test_BinMatrixinit[i]
+
+
+def test_invert(test_BinMatrixinit):
+    rows=[]
+    for i in range(len(test_BinMatrixinit)):
+        rows.append(~test_BinMatrixinit[i])
+    for i in range(len(test_BinMatrixinit)):
+        assert ~rows[i]==test_BinMatrixinit[i]
+
+def test_xor(test_BinMatrixinit):
+    zeromatrices=[]
+    unitmatrices=[]
+    for i in range(len(test_BinMatrixinit)):
+        zeromatrices.append(zeroBinaryMatrix(nrow=i+2,ncol=i+2))
+        unitmatrices.append(unitBinaryMatrix(nrow=i+2,ncol=i+2))
+
+    for i in range(len(test_BinMatrixinit)):
+        assert test_BinMatrixinit[i]^test_BinMatrixinit[i]==zeromatrices[i]
+        assert test_BinMatrixinit[i] ^ ~test_BinMatrixinit[i]==unitmatrices[i]
+
+def test_onescomplement(test_BinMatrixinit):
+    rows=[]
+    for i in range(len(test_BinMatrixinit)):
+        rows.append(test_BinMatrixinit[i].onesComplement())
+    for i in range(len(test_BinMatrixinit)):
+        assert rows[i].onesComplement()==test_BinMatrixinit[i]
+
+def test_twoscomplement(test_BinMatrixinit):
+    pass
+
+def test_exnor(test_BinMatrixinit):
+    zeromatrices=[]
+    unitmatrices=[]
+    for i in range(len(test_BinMatrixinit)):
+        zeromatrices.append(zeroBinaryMatrix(nrow=i+2,ncol=i+2))
+        unitmatrices.append(unitBinaryMatrix(nrow=i+2,ncol=i+2))
+
+    for i in range(len(test_BinMatrixinit)):
+        assert test_BinMatrixinit[i].ExNor(~test_BinMatrixinit[i])==zeromatrices[i]
+        assert test_BinMatrixinit[i].ExNor(test_BinMatrixinit[i])==unitmatrices[i]
+
+def test_popcount(test_BinMatrixinit):
+    for i in range(len(test_BinMatrixinit)):
+        assert test_BinMatrixinit[i].popcount()==popcountvals[i]
+
+def test_Nand(test_BinMatrixinit):
+    for i in range(len(test_BinMatrixinit)):
+        assert test_BinMatrixinit[i].Nand(test_BinMatrixinit[i]) == ~test_BinMatrixinit[i]
+
+def test_Nor(test_BinMatrixinit):
+    for i in range(len(test_BinMatrixinit)):
+        assert test_BinMatrixinit[i].Nor(test_BinMatrixinit[i]) == ~test_BinMatrixinit[i]
