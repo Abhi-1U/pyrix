@@ -738,6 +738,9 @@ class Matrix:
     # *------- pyrix.matrix.Matrix.rowEchleonTransform() ----------------------*
 
     def rowEchleonTransform(self):
+        """
+        Reduces the matrix into row Echleon form.
+        """
         zx = self.copy()
         temp = zx.matrix.data
 
@@ -763,6 +766,9 @@ class Matrix:
     # *------- pyrix.matrix.Matrix.RrowEchleonTransform() ---------------------*
 
     def RrowEchleonTransform(self):
+        """
+        This method attempts to reduce the matrix even further than rowEchleon.
+        """
         z = self.rowEchleonTransform().matrix.data
         for i in range(len(z)):
             if z[i][i] != 1:
@@ -801,6 +807,9 @@ class Matrix:
     # *------- pyrix.matrix.Matrix.vectorMultiplication() --------------------*
 
     def vectorMultiplication(self, v1):
+        """
+        Multiply a vector list with a matrix.
+        """
         if self.matrix.nrow != len(v1):
             raise incompaitableTypeException
         else:
@@ -820,17 +829,21 @@ class Matrix:
     # *------- pyrix.matrix.Matrix.dotProduct() -------------------------------*
 
     def dotProduct(self, m2):
+        """
+        Performs dot product on two matrices.
+        """
         sum = 0
         for row in range(self.matrix.nrow):
             for col in range(self.matrix.ncol):
                 sum += self.matrix.data[row][col] * m2.matrix.data[row][col]
         return sum
 
-    # Matrix Equation Methods
-
     # *------- pyrix.matrix.Matrix.adjointTransform() -------------------------*
 
     def adjointTransform(self):
+        """
+        Returns the adjoint matrix of the self matrix.
+        """
         cofactor = self.getAllCofactors()
         return cofactor.transposeTransform()
 
@@ -936,6 +949,10 @@ class Matrix:
     # *------- pyrix.matrix.Matrix.__matrixsplitter() -------------------------*
 
     def __matrixsplitter(self, matrixdata, exceptionrow, exceptioncol):
+        """
+        Splits the matrix into a smaller matrix excluding the exceptionrow and
+        exceptioncolumn.
+        """
         excludedmatrix = []
         returnmatrix = []
         iterator = 0
@@ -1108,6 +1125,10 @@ class Matrix:
 # *------- pyrix.matrix.listifyMatrix() ---------------------------------------*
 
 def listifyMatrix(MatrixObjectdata):
+    """
+    This function returns a single list of all values in the matrix object's
+    nested list structure.
+    """
     matrixdata = MatrixObjectdata
     listifiedmatrix = []
     for i in range(len(MatrixObjectdata)):
@@ -1118,6 +1139,9 @@ def listifyMatrix(MatrixObjectdata):
 # *------- pyrix.matrix.__nestifyMatrix() -------------------------------------*
 
 def __nestifyMatrix(listeddata, rowcount, colcount):
+    """
+    Performs the inverse function of listifymatrix() method. 
+    """
     clist = listeddata
     nested = []
     for i in range(rowcount):
@@ -1132,7 +1156,7 @@ def __nestifyMatrix(listeddata, rowcount, colcount):
 
 def Copy(AnyObject):
     """
-    Returns A Hard copy of the object
+    Returns A Deep copy of the object
     """
     return copy.deepcopy(AnyObject)
 
@@ -1202,6 +1226,10 @@ def identityMatrix(nrow, ncol):
 # *------- pyrix.matrix.randomMatrix() ----------------------------------------*
 
 def randomMatrix(scale, type):
+    """
+    Generates a pseudo random matrix of a given scale(small,large) and 
+    datatype(float/int).
+    """
     if scale == "small" and type == "int":
         nrow = random.randint(1, 10)
         ncol = random.randint(1, 10)

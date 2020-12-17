@@ -23,6 +23,10 @@ import copy
 #*------- pyrix.util.reDimensionalize() ---------------------------------------*
 
 def reDimensionalize(AnyMatrixObject, nrow, ncol):
+    """
+    This function redimensionalizes the given matrix object to the new row and 
+    column parameters.
+    """
     listifieddata = listifyMatrix(AnyMatrixObject)
     matrixdata = []
     for i in range(nrow):
@@ -39,6 +43,10 @@ def reDimensionalize(AnyMatrixObject, nrow, ncol):
 #*------- pyrix.util.listifyMatrix() ---------------------------------------*
 
 def listifyMatrix(MatrixObject):
+    """
+    This function returns a single list of all values in the matrix object's
+    nested list structure.
+    """
     matrixdata = MatrixObject.matrix.data
     listifiedmatrix = []
     for i in range(MatrixObject.matrix.nrow):
@@ -50,6 +58,9 @@ def listifyMatrix(MatrixObject):
 #*------- pyrix.util.nestifyMatrix() ---------------------------------------*
 
 def nestifyMatrix(listeddata, rowcount, colcount):
+    """
+    Performs the inverse function of listifymatrix() method. 
+    """
     clist = listeddata
     nested = []
     for _i in range(rowcount):
@@ -60,6 +71,9 @@ def nestifyMatrix(listeddata, rowcount, colcount):
 #*------- pyrix.util.flipDimensions() ---------------------------------------*
 
 def flipDimensions(AnyMatrixObject):
+    """
+    Flips the row and column parameters and redimensionalizes the matrix. 
+    """
     newcol = AnyMatrixObject.matrix.nrow
     newrow = AnyMatrixObject.matrix.ncol
     return reDimensionalize(AnyMatrixObject, newrow, newcol)
@@ -67,6 +81,9 @@ def flipDimensions(AnyMatrixObject):
 #*------- pyrix.util.Copy() ---------------------------------------*
 
 def Copy(AnyObject):
+    """
+    returns a deep copy of the matrix object.
+    """
     return copy.deepcopy(AnyObject)
 
 #*------- pyrix.util.JSONEncoder() ---------------------------------------*

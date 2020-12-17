@@ -180,11 +180,17 @@ class Vector:
     #*------- pyrix.vector.Vector.copy() --------------------------------------*
 
     def copy(self):
+        """
+        Returns a deep copy of self.
+        """
         return copy.deepcopy(self)
 
     #*------- pyrix.vector.Vector.dotProduct() --------------------------------*
 
     def dotProduct(self, v2):
+        """
+        Performs dot product with another vector.
+        """
         assert (
             self.vector.dimensions == v2.vector.dimensions
         ), "incompaitableTypeException"
@@ -196,12 +202,18 @@ class Vector:
     #*------- pyrix.vector.Vector.vectorNorm() --------------------------------*
 
     def vectorNorm(self):
+        """
+        Calculates the vector norm.
+        """
         norm = math.sqrt(self.dotProduct(v2=self))
         return norm
 
     #*------- pyrix.vector.Vector.vectorNormalize() ---------------------------*
 
     def vectorNormalize(self):
+        """
+        Normalizes the vector with vector norm value.
+        """
         normValue = self.vectorNorm()
         assert normValue != 0, "Vector normal value 0"
         for i in range(self.vector.dimensions):
@@ -211,6 +223,9 @@ class Vector:
     #*------- pyrix.vector.Vector.scaleVector() -------------------------------*
 
     def scaleVector(self, scalar):
+        """
+        Scales the vector with a scalar value.
+        """
         data = self.vector.data
         for i in range(self.vector.dimensions):
             data[i] *= scalar
@@ -231,6 +246,9 @@ class Vector:
 #*------- pyrix.vector.unitVector() -------------------------------------------*
 
 def unitVector(dims):
+    """
+    Generates a vector with 1 as values of n dimensions.
+    """
     VectorData = []
     for _i in range(dims):
         VectorData.append(1)
@@ -239,6 +257,9 @@ def unitVector(dims):
 #*------- pyrix.vector.zeroVector() -------------------------------------------*
 
 def zeroVector(dims):
+    """
+    Generates a vector with 0 as values of n dimensions.
+    """
     VectorData = []
     for _i in range(dims):
         VectorData.append(0)
@@ -247,6 +268,10 @@ def zeroVector(dims):
 #*------- pyrix.vector.randomVector() -----------------------------------------*
 
 def randomVector(scale, type):
+    """
+    Generates a pseudo random vector of a given scale(small,large) and 
+    datatype(float/int).
+    """
     if scale == "small" and type == "int":
         dims = random.randint(1, 10)
         data = []
@@ -280,6 +305,9 @@ def randomVector(scale, type):
 #*------- pyrix.vector.linearVector() -----------------------------------------*
 
 def linearVector(dims, minVal, maxVal):
+    """
+    generates a linear vector with min val to max val in the appropriate steps.
+    """
     assert minVal <= maxVal
     "Not suitable Range"
     assert dims > 1
@@ -294,4 +322,7 @@ def linearVector(dims, minVal, maxVal):
 #*------- pyrix.vector.Copy() -------------------------------------------------*
 
 def Copy(AnyObject):
+    """
+    Returns a deep copy of the object.
+    """
     return copy.deepcopy(AnyObject)

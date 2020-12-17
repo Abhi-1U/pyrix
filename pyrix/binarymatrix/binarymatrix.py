@@ -136,6 +136,14 @@ class BinaryMatrix(Matrix):
     # *------- BOOLEAN AND ----------------------------------------------------*
 
     def __and__(self, m2):
+        return self.And(m2)
+
+    # *------- pyrix.binarymatrix.BinaryMatrix.And() --------------------------*
+
+    def And(self,m2):
+        """
+        Boolean AND implementation.
+        """
         self.isBinaryMatrix()
         m2.isBinaryMatrix()
         if(self.matrix.binaryMatrix == True and m2.matrix.binaryMatrix == True):
@@ -146,8 +154,8 @@ class BinaryMatrix(Matrix):
                     for j in range(self.matrix.ncol):
                         data[i].append(
                             self.__AndS(self.matrix.data[i][j],
-                                    m2.matrix.data[i][j])
-                            )
+                                        m2.matrix.data[i][j])
+                        )
                 return BinaryMatrix(
                     nrow=self.matrix.nrow,
                     ncol=self.matrix.ncol,
@@ -157,10 +165,17 @@ class BinaryMatrix(Matrix):
                 raise incompaitableTypeException
         else:
             raise binaryMatrixException
-
     # *------- BOOLEAN OR -----------------------------------------------------*
 
     def __or__(self, m2):
+        return self.Or(m2)
+    
+    # *------- pyrix.binarymatrix.BinaryMatrix.Or() ---------------------------*
+
+    def Or(self,m2):
+        """
+        Boolean OR implementation.
+        """
         self.isBinaryMatrix()
         m2.isBinaryMatrix()
         if(self.matrix.binaryMatrix == True and m2.matrix.binaryMatrix == True):
@@ -185,6 +200,14 @@ class BinaryMatrix(Matrix):
     # *------- BOOLEAN XOR ----------------------------------------------------*
 
     def __xor__(self, m2):
+        return self.ExOr(m2)
+
+    # *------- pyrix.binarymatrix.BinaryMatrix.ExOr() -------------------------*
+
+    def ExOr(self,m2):
+        """
+        Boolean EXclusive OR implementation.
+        """
         self.isBinaryMatrix()
         m2.isBinaryMatrix()
         if(self.matrix.binaryMatrix == True and m2.matrix.binaryMatrix == True):
@@ -209,6 +232,14 @@ class BinaryMatrix(Matrix):
     # *------- BOOLEAN INVERT -------------------------------------------------*
 
     def __invert__(self):
+        return self.Not()
+
+    # *------- pyrix.binarymatrix.BinaryMatrix.Not() --------------------------*
+
+    def Not(self):
+        """
+        Boolean NOT(invert) implementation.
+        """
         self.isBinaryMatrix()
 
         if(self.matrix.binaryMatrix == True):
@@ -229,11 +260,17 @@ class BinaryMatrix(Matrix):
     # *------- pyrix.binarymatrix.BinaryMatrix.onesComplement() ---------------*
 
     def onesComplement(self):
+        """
+        Boolean Ones Complement.
+        """
         return self.__invert__()
 
     # *------- pyrix.binarymatrix.BinaryMatrix.twosComplement() ---------------*
 
     def twosComplement(self):
+        """
+        Boolean Twos Complement.
+        """
         binaryinvertedmatrix = self.onesComplement()
         lastrow = binaryinvertedmatrix.matrix.nrow
         lastcol = binaryinvertedmatrix.matrix.ncol
@@ -261,6 +298,9 @@ class BinaryMatrix(Matrix):
     # *------- pyrix.binarymatrix.BinaryMatrix.Nand() -------------------------*
 
     def Nand(self, Bmatrix2):
+        """
+        Boolean NAND implementation.
+        """
         self.isBinaryMatrix()
         Bmatrix2.isBinaryMatrix()
         if(self.matrix.binaryMatrix == True) and (Bmatrix2.matrix.binaryMatrix == True):
@@ -286,6 +326,9 @@ class BinaryMatrix(Matrix):
     # *------- pyrix.binarymatrix.BinaryMatrix.Nor() --------------------------*
 
     def Nor(self, Bmatrix2):
+        """
+        Boolean NOR implementation.
+        """
         self.isBinaryMatrix()
         Bmatrix2.isBinaryMatrix()
         if(self.matrix.binaryMatrix == True and Bmatrix2.matrix.binaryMatrix == True):
@@ -311,6 +354,9 @@ class BinaryMatrix(Matrix):
     # *------- pyrix.binarymatrix.BinaryMatrix.ExNor() ------------------------*
 
     def ExNor(self, Bmatrix2):
+        """
+        Boolean ExNor implementation.
+        """
         self.isBinaryMatrix()
         Bmatrix2.isBinaryMatrix()
         if(self.matrix.binaryMatrix == True and Bmatrix2.matrix.binaryMatrix == True):
@@ -336,6 +382,9 @@ class BinaryMatrix(Matrix):
     # *------- pyrix.binarymatrix.BinaryMatrix.logicalShift() -----------------*
 
     def logicalShift(self, direction, bits):
+        """
+        Logical Shift in the specified direction and count of bits.
+        """
         dataArray = self.__listifyMatrix(self)
         right=["r","R","right","Right","RIGHT"]
         left=["l","L","left","Left","LEFT"]
@@ -352,6 +401,9 @@ class BinaryMatrix(Matrix):
     # *------- pyrix.binarymatrix.BinaryMatrix.circularShift() ----------------*
 
     def circularShift(self, direction, bits):
+        """
+        Circular shift implementation in the specified direction and bits.
+        """
         dataArray = self.__listifyMatrix(self)
         right=["r","R","right","Right","RIGHT"]
         left=["l","L","left","Left","LEFT"]
@@ -371,6 +423,9 @@ class BinaryMatrix(Matrix):
     # *------- pyrix.binarymatrix.BinaryMatrix.arithmeticShift() --------------*
 
     def arithmeticShift(self, direction, bits):
+        """
+        Arithmetic shift implementation in the specified direction and bits.
+        """
         dataArray = self.__listifyMatrix(self)
         right=["r","R","right","Right","RIGHT"]
         left=["l","L","left","Left","LEFT"]
@@ -390,6 +445,9 @@ class BinaryMatrix(Matrix):
     # *------- pyrix.binarymatrix.BinaryMatrix.popcount() ---------------------*
 
     def popcount(self):
+        """
+        popcount will return the count of nonzero elements.
+        """
         popcount = 0
         dataArray = self.__listifyMatrix(self)
         for value in dataArray:
@@ -530,6 +588,10 @@ def identityBinaryMatrix(nrow, ncol):
 # *------- pyrix.binarymatrix.randomBinaryMatrix() ----------------------------*
 
 def randomBinaryMatrix(scale, type):
+    """
+    Generates a pseudo random BinaryMatrix of a given scale(small,large) and 
+    datatype(int).
+    """
     if(scale == "small" and type == "int"):
         nrow = random.randint(1, 10)
         ncol = random.randint(1, 10)
@@ -560,4 +622,7 @@ def randomBinaryMatrix(scale, type):
 # *------- pyrix.binarymatrix.Copy() ------------------------------------------*
 
 def Copy(AnyObject):
+    """
+    Returns A Deep copy of the object
+    """
     return copy.deepcopy(AnyObject)

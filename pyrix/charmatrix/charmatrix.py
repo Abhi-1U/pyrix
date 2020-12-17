@@ -25,6 +25,10 @@ from pyrix.exception import (
 # *------- pyrix.charmatrix.CharMatrix ----------------------------------------*
 
 class CharMatrix(Matrix):
+    """
+    Charactar Matrix is a Matrix of charactars spanned out with some
+    special functionality to easily manage such arrays/matrix of charactars.
+    """
     def __init__(self, nrow=1, ncol=1, data=[[""]]):
         if (len(data) == nrow, len(data[0]) == ncol):
             self.matrix = matrixData(nrow=nrow, ncol=ncol, data=data)
@@ -98,6 +102,9 @@ class CharMatrix(Matrix):
     #*------- pyrix.charmatrix.CharMatrix.copy() ------------------------------*
 
     def copy(self):
+        """
+        Returns A Deep copy of the object
+        """
         return copy.deepcopy(self)
 
     #*------- pyrix.charmatrix.CharMatrix.isSquareMatrix() --------------------*
@@ -158,6 +165,10 @@ class CharMatrix(Matrix):
     #*------- pyrix.charmatrix.CharMatrix.findCharactar() ---------------------*
 
     def findCharactar(self, charactar):
+        """
+        This method will return the given charactars location if it exists else 
+        None.
+        """
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
                 if charactar == self.matrix.data[i][j]:
@@ -166,6 +177,9 @@ class CharMatrix(Matrix):
     #*------- pyrix.charmatrix.CharMatrix.ASCIIvals() -------------------------*
 
     def ASCIIvals(self):
+        """
+        Generates a Matrix object with ASCII values of the current CharMatrix.
+        """
         data = self.copy().matrix.data
         returndata = []
         for i in range(self.matrix.nrow):
@@ -177,6 +191,10 @@ class CharMatrix(Matrix):
 # *------- pyrix.charmatrix.alphaMatrix5x5() ----------------------------------*
 
 def alphaMatrix5x5(offsetchars=[]):
+    """
+    This method will return a matrix with all alphabets repeated once, i/j 
+    considered as a single element and 25 charactars spread out in 5x5 grid.
+    """
     table = []
     alpha = "abcdefghijklmnopqrstuvwxyz"
     if len(offsetchars) != 0:
