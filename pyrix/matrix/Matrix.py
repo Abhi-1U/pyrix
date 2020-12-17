@@ -193,7 +193,18 @@ class Matrix:
             + str(self.matrix.dimensions[1])
         )
         return stringV
+    
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
 
+    def __getattr__(self, name):
+        try:
+            return self.__dict__[name]
+        except KeyError:
+            raise AttributeError(name)
+
+    def __delattr__(self, name):
+        del self.__dict__[name]
     # *------- Basic Operations on Matrices -----------------------------------*
 
     # *------- Add Matrix -----------------------------------------------------*

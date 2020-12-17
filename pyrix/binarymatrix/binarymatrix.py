@@ -76,18 +76,6 @@ class BinaryMatrix(Matrix):
         return stringV
     __repr__ = __str__
 
-    def __setattr__(self, name, value):
-        self.__dict__[name] = value
-
-    def __getattr__(self, name):
-        try:
-            return self.__dict__[name]
-        except KeyError:
-            raise AttributeError(name)
-
-    def __delattr__(self, name):
-        del self.__dict__[name]
-
     # *------- Add BinaryMatrix -----------------------------------------------*
 
     def __add__(self, BinaryMat2):
@@ -110,10 +98,6 @@ class BinaryMatrix(Matrix):
                 sum[i][j]=(self.matrix.data[i][j]-BinaryMat2.matrix.data[i][j])%2
         return sum
 
-    # *------- Multiply BinaryMatrix ------------------------------------------*
-
-    def __mul__(self, BinaryMat2):
-        return super().__mul__(BinaryMat2)
 
     # *------- Left Shift BinaryMatrix ----------------------------------------*
 
@@ -132,6 +116,11 @@ class BinaryMatrix(Matrix):
     # *------- pyrix.binarymatrix.BinaryMatrix.isBinaryMatrix() ---------------*
 
     def isBinaryMatrix(self):
+        """
+        This method checks if the BinaryMatrix or Matrix in question is a
+        Binary Matrix anymore. Works Best for Emulated Binary Mode(EBM).
+        Returns Boolean True or False
+        """
         for i in range(self.matrix.nrow):
             for j in range(self.matrix.ncol):
                 if(self.matrix.data[i][j] == 1):
@@ -343,7 +332,7 @@ class BinaryMatrix(Matrix):
                 raise incompaitableTypeException
         else:
             raise binaryMatrixException
-    
+
     # *------- pyrix.binarymatrix.BinaryMatrix.logicalShift() -----------------*
 
     def logicalShift(self, direction, bits):
