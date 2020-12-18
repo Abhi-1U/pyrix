@@ -103,15 +103,13 @@ class BinaryMatrix(Matrix):
 
     def __lshift__(self, bits):
         if(self.matrix.bitwidth==1):
-            return BinaryMatrix(nrow=self.matrix.nrow,ncol=self.matrix.ncol,
-            data=self.logicalShift(direction="left", bits=bits))
+            return self.logicalShift(direction="left", bits=bits)
 
     # *------- Right Shift BinaryMatrix ---------------------------------------*
 
     def __rshift__(self, bits):
         if(self.matrix.bitwidth==1):
-            return BinaryMatrix(nrow=self.matrix.nrow,ncol=self.matrix.ncol,
-            data=self.logicalShift(direction="Right", bits=bits))
+            return self.logicalShift(direction="Right", bits=bits)
 
     # *------- pyrix.binarymatrix.BinaryMatrix.isBinaryMatrix() ---------------*
 
@@ -396,7 +394,8 @@ class BinaryMatrix(Matrix):
             for _i in range(bits):
                 dataArray.insert(-1, 0)
                 dataArray.pop(0)
-        return dataArray
+        return BinaryMatrix(nrow=self.nrow,
+                            ncol=self.ncol, data=dataArray)
 
     # *------- pyrix.binarymatrix.BinaryMatrix.circularShift() ----------------*
 
@@ -417,8 +416,8 @@ class BinaryMatrix(Matrix):
                 firstelement = dataArray[0]
                 dataArray.insert(-1, firstelement)
                 dataArray.pop(0)
-        setattr(self.matrix, name='data', value=dataArray)
-        return self
+        return BinaryMatrix(nrow=self.nrow,
+        ncol=self.ncol,data=dataArray)
 
     # *------- pyrix.binarymatrix.BinaryMatrix.arithmeticShift() --------------*
 
@@ -439,8 +438,8 @@ class BinaryMatrix(Matrix):
                 LSBvalue = 0
                 dataArray.insert(-1, LSBvalue)
                 dataArray.pop(0)
-        setattr(self.matrix, name='data', value=dataArray)
-        return self
+        return BinaryMatrix(nrow=self.nrow,
+                            ncol=self.ncol, data=dataArray)
 
     # *------- pyrix.binarymatrix.BinaryMatrix.popcount() ---------------------*
 
