@@ -5,8 +5,8 @@ Name        : Pyrix/BinaryMatrix\n
 Author      : Abhi-1U <https://github.com/Abhi-1U>\n
 Description : A Binary matrix manipulation library  \n
 Encoding    : UTF-8\n
-Version     :0.7.17\n
-Build       :0.7.17/18-12-2020
+Version     :0.7.19\n
+Build       :0.7.19/21-12-2020
 """
 
 #*------- Imports -------------------------------------------------------------*
@@ -84,7 +84,7 @@ class BinaryMatrix(Matrix):
         sum = zeroBinaryMatrix(self.matrix.nrow, self.matrix.ncol)
         for i in range(0,self.matrix.nrow):
             for j in range(0,self.matrix.ncol):
-                sum[i][j]=(self.matrix.data[i][j]+BinaryMat2.matrix.data[i][j])%2
+                sum.matrix.data[i][j]=(self.matrix.data[i][j]+BinaryMat2.matrix.data[i][j])%2
         return sum
 
     # *------- Subtract BinaryMatrix ------------------------------------------*
@@ -95,7 +95,7 @@ class BinaryMatrix(Matrix):
         sum = zeroBinaryMatrix(self.matrix.nrow, self.matrix.ncol)
         for i in range(0, self.matrix.nrow):
             for j in range(0, self.matrix.ncol):
-                sum[i][j]=(self.matrix.data[i][j]-BinaryMat2.matrix.data[i][j])%2
+                sum.matrix.data[i][j]=(self.matrix.data[i][j]-BinaryMat2.matrix.data[i][j])%2
         return sum
 
 

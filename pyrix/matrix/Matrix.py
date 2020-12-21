@@ -5,8 +5,8 @@ Name        : Pyrix/Matrix
 Author      : Abhi-1U <https://github.com/Abhi-1U>
 Description : A simple matrix manipulation library
 Encoding    : UTF-8
-Version     :0.7.17
-Build       :0.7.17/18-12-2020
+Version     :0.7.19
+Build       :0.7.19/21-12-2020
 """
 # *------- Imports ------------------------------------------------------------*
 import copy

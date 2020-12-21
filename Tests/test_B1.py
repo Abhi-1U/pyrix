@@ -211,3 +211,17 @@ def test_Nand(test_BinMatrixinit):
 def test_Nor(test_BinMatrixinit):
     for i in range(len(test_BinMatrixinit)):
         assert test_BinMatrixinit[i].Nor(test_BinMatrixinit[i]) == ~test_BinMatrixinit[i]
+
+def test_add(test_BinMatrixinit):
+    zeromatrices=[]
+    for i in range(len(test_BinMatrixinit)):
+        zeromatrices.append(zeroBinaryMatrix(nrow=i+2,ncol=i+2))
+    for i in range(len(test_BinMatrixinit)):
+        assert test_BinMatrixinit[i]+(test_BinMatrixinit[i])==zeromatrices[i]
+
+def test_sub(test_BinMatrixinit):
+    zeromatrices=[]
+    for i in range(len(test_BinMatrixinit)):
+        zeromatrices.append(zeroBinaryMatrix(nrow=i+2,ncol=i+2))
+    for i in range(len(test_BinMatrixinit)):
+        assert test_BinMatrixinit[i]-(test_BinMatrixinit[i])==zeromatrices[i]
