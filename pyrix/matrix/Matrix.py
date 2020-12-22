@@ -205,6 +205,22 @@ class Matrix:
 
     def __delattr__(self, name):
         del self.__dict__[name]
+    
+    def __getitem__(self,key):
+        if(isinstance(key, int)):
+            return self.matrix.data[key]
+        if(isinstance(key,(list,tuple)) and len(key)==2):
+            return self.matrix.data[key[0]][key[1]]
+        else:
+            print("MultiDimensional Matrix in Works")
+    
+    def __setitem__(self,key,value):
+        if(isinstance(key, int)):
+            self.matrix.data[key]=value
+        if(isinstance(key,(list,tuple)) and len(key)==2):
+            self.matrix.data[key[0]][key[1]]=value
+        else:
+            print("MultiDimensional Matrix in Works")
     # *------- Basic Operations on Matrices -----------------------------------*
 
     # *------- Add Matrix -----------------------------------------------------*
